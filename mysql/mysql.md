@@ -16,9 +16,9 @@
     - [SQL RENAME Column](#sql-rename-column)
     - [SQL ALTER DATATYPE](#sql-alter-datatype)
   - [SQL Create Constraints](#sql-create-constraints)
-    - [NOT NULL](#not-null)
+    - [NOT NULL Constraint](#not-null-constraint)
       - [SQL NOT NULL on ALTER TABLE](#sql-not-null-on-alter-table)
-    - [UNIQUE](#unique)
+    - [UNIQUE Constraint](#unique-constraint)
       - [SQL UNIQUE Constraint on ALTER TABLE](#sql-unique-constraint-on-alter-table)
       - [DROP a UNIQUE Constraint](#drop-a-unique-constraint)
     - [PRIMARY KEY Constraint](#primary-key-constraint)
@@ -27,6 +27,12 @@
     - [FOREIGN KEY Constraint](#foreign-key-constraint)
       - [FOREIGN KEY on ALTER TABLE](#foreign-key-on-alter-table)
       - [DROP a FOREIGN KEY Constraint](#drop-a-foreign-key-constraint)
+    - [CHECK Constraint](#check-constraint)
+      - [CHECK on ALTER TABLE](#check-on-alter-table)
+      - [DROP a CHECK Constraint](#drop-a-check-constraint)
+    - [DEFAULT Constraint](#default-constraint)
+      - [DEFAULT on ALTER TABLE](#default-on-alter-table)
+      - [DROP a DEFAULT Constraint](#drop-a-default-constraint)
 
 ## Criar um container MySQL
 
@@ -856,7 +862,7 @@ Query OK, 0 rows affected (0.34 sec)
 
 ### SQL Create Constraints
 
-#### NOT NULL
+#### NOT NULL Constraint
 
 A restrição NOT NULL impõe uma coluna para NÃO aceitar valores NULL.
 
@@ -959,7 +965,7 @@ DROP TABLE Students;
 
 **[:arrow_up: back to top](#índice)**
 
-#### UNIQUE
+#### UNIQUE Constraint
 
 A restrição UNIQUE garante que todos os valores em uma coluna sejam diferentes.
 
@@ -1600,6 +1606,388 @@ Excluindo a tabela
 ```sql
 DROP TABLE Produtos;
 DROP TABLE ItensVenda;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### CHECK Constraint
+
+A restrição CHECK é usada para limitar o intervalo de valores que pode ser colocado em uma coluna.
+
+Criando a tabela "Produtos" com a restrição CHECK
+
+```sql
+CREATE TABLE Produtos (
+    ProdutoID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Preco decimal(10, 2) CHECK (Preco > 0)
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE Produtos;
+```
+
+Inserindo dados na tabela com valores que atendem à restrição CHECK
+
+```sql
+INSERT INTO Produtos (ProdutoID, Nome, Preco)
+VALUES (1, 'Notebook', 2500.00),
+       (2, 'Smartphone', 1200.50),
+       (3, 'Fones de Ouvido', 80.99);
+```
+
+Exibindo os dados da tabela
+
+```sql
+SELECT * FROM Produtos;
+```
+
+A seguinte instrução gerará um erro porque o valor do "Preco" não é maior que zero
+
+```sql
+INSERT INTO Produtos (ProdutoID, Nome, Preco)
+VALUES (4, 'Mouse', 0.00);
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Produtos;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+##### CHECK on ALTER TABLE
+
+Para criar uma restrição CHECK na coluna "Idade" quando a tabela já estiver criada, utilize o seguinte SQL:
+
+Criando a tabela "Jogadores" sem a restrição CHECK inicialmente
+
+```sql
+CREATE TABLE Jogadores (
+    JogadorID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Pontuacao int
+);
+```
+
+Exibindo a estrutura da tabela antes da restrição CHECK
+
+```sql
+DESCRIBE Jogadores;
+```
+
+Inserindo dados na tabela
+
+```sql
+INSERT INTO Jogadores (JogadorID, Nome, Pontuacao)
+VALUES (1, 'Ronaldo', 25),
+       (2, 'Messi', 30),
+       (3, 'Neymar', 15);
+```
+
+Exibindo os dados antes de aplicar a restrição CHECK
+
+```sql
+SELECT * FROM Jogadores;
+```
+
+Adicionando a restrição CHECK à coluna "Pontuacao" usando ALTER TABLE
+
+```sql
+ALTER TABLE Jogadores
+ADD CHECK (Pontuacao >= 0);
+```
+
+Exibindo a estrutura da tabela após a adição da restrição CHECK
+
+```sql
+DESCRIBE Jogadores;
+```
+
+A seguinte instrução gerará um erro porque a restrição CHECK não é atendida
+
+```sql
+INSERT INTO Jogadores (JogadorID, Nome, Pontuacao)
+VALUES (4, 'Mbappe', -5);
+```
+
+Exibindo os dados após a adição da restrição CHECK
+
+```sql
+SELECT * FROM Jogadores;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Jogadores;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+##### DROP a CHECK Constraint
+
+Criando a tabela "ContasBancarias" com uma restrição CHECK
+
+```sql
+CREATE TABLE ContasBancarias (
+    ContaID int PRIMARY KEY,
+    Titular varchar(255) NOT NULL,
+    Saldo decimal(10, 2) CHECK (Saldo >= 0)
+);
+```
+
+Exibindo a estrutura da tabela antes de remover a restrição CHECK
+
+```sql
+DESCRIBE ContasBancarias;
+```
+
+Inserindo dados na tabela
+
+```sql
+INSERT INTO ContasBancarias (ContaID, Titular, Saldo)
+VALUES (1, 'João Silva', 5000.00),
+       (2, 'Maria Santos', 10000.50),
+       (3, 'Carlos Oliveira', 1500.75);
+```
+
+Exibindo os dados antes de remover a restrição CHECK
+
+```sql
+SELECT * FROM ContasBancarias;
+```
+
+Removendo a restrição CHECK à coluna "Saldo" usando ALTER TABLE
+
+```sql
+ALTER TABLE ContasBancarias
+DROP CHECK CHK_Saldo;
+```
+
+Exibindo a estrutura da tabela após remover a restrição CHECK
+
+```sql
+DESCRIBE ContasBancarias;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE ContasBancarias;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### DEFAULT Constraint
+
+A restrição DEFAULT é usada para definir um valor padrão para uma coluna.
+O valor padrão será adicionado a todos os novos registros, se nenhum outro valor for especificado.
+
+Criando a tabela "Clientes" com um valor padrão para a coluna "Cidade"
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Cidade varchar(255) DEFAULT 'Rio de Janeiro'
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE Clientes;
+```
+
+Inserindo dados na tabela sem fornecer um valor para a coluna "Cidade"
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email)
+VALUES (1, 'Ana Silva', 'ana@email.com'),
+       (2, 'Carlos Oliveira', 'carlos@email.com'),
+       (3, 'Mariana Santos', 'mariana@email.com');
+```
+
+Exibindo os dados da tabela
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Inserindo dados na tabela fornecendo um valor específico para a coluna "Cidade"
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Cidade)
+VALUES (4, 'Pedro Pereira', 'pedro@email.com', 'São Paulo');
+```
+
+Exibindo os dados da tabela após a inserção com valor específico para a coluna "Cidade"
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Clientes;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### DEFAULT on ALTER TABLE
+
+Criando a tabela "Clientes" sem a restrição DEFAULT inicialmente
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Estado varchar(255)
+);
+```
+
+Exibindo a estrutura da tabela antes da restrição DEFAULT
+
+```sql
+DESCRIBE Clientes;
+```
+
+Inserindo dados na tabela
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email)
+VALUES (1, 'Ana Silva', 'ana@email.com'),
+       (2, 'Carlos Oliveira', 'carlos@email.com'),
+       (3, 'Mariana Santos', 'mariana@email.com');
+```
+
+Exibindo os dados antes de aplicar a restrição DEFAULT
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Adicionando a restrição DEFAULT à coluna "Estado" usando ALTER TABLE
+
+```sql
+ALTER TABLE Clientes
+ALTER Estado SET DEFAULT 'Rio de Janeiro';
+```
+
+Exibindo a estrutura da tabela após adicionar a restrição DEFAULT
+
+```sql
+DESCRIBE Clientes;
+```
+
+Inserindo dados na tabela sem fornecer um valor para a coluna "Estado"
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email)
+VALUES (4, 'Pedro Pereira', 'pedro@email.com');
+```
+
+Exibindo os dados após a inserção sem fornecer um valor para a coluna "Estado"
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Inserindo dados na tabela fornecendo um valor específico para a coluna "Estado"
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Estado)
+VALUES (5, 'Maria Oliveira', 'maria@email.com', 'São Paulo');
+```
+
+Exibindo os dados após a inserção com valor específico para a coluna "Estado"
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Clientes;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+##### DROP a DEFAULT Constraint
+
+Criando a tabela "Produtos" com uma restrição DEFAULT
+
+```sql
+CREATE TABLE Produtos (
+    ProdutoID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Preco decimal(10, 2) DEFAULT 0.00,
+    Tipo varchar(255) DEFAULT 'Geral'
+);
+```
+
+Exibindo a estrutura da tabela antes de remover a restrição DEFAULT
+
+```sql
+DESCRIBE Produtos;
+```
+
+
+Inserindo dados na tabela sem fornecer um valor para a coluna "Tipo"
+
+```sql
+INSERT INTO Produtos (ProdutoID, Nome, Preco)
+VALUES (1, 'Notebook', 2500.00),
+       (2, 'Smartphone', 1200.50),
+       (3, 'Fones de Ouvido', 80.99);
+```
+
+Exibindo os dados da tabela antes de remover a restrição DEFAULT
+
+```sql
+SELECT * FROM Produtos;
+```
+
+Removendo a restrição DEFAULT à coluna "Tipo" usando ALTER TABLE
+
+```sql
+ALTER TABLE Produtos
+ALTER Tipo DROP DEFAULT;
+```
+
+Exibindo a estrutura da tabela após remover a restrição DEFAULT
+
+```sql
+DESCRIBE Produtos;
+```
+
+Inserindo dados na tabela sem fornecer um valor para a coluna "Tipo" após a remoção
+
+```sql
+INSERT INTO Produtos (ProdutoID, Nome, Preco)
+VALUES (4, 'Mouse', 25.00),
+       (5, 'Teclado', 50.00);
+```
+
+Exibindo os dados da tabela após a inserção sem fornecer um valor para a coluna "Tipo"
+
+```sql
+SELECT * FROM Produtos;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Produtos;
 ```
 
 **[:arrow_up: back to top](#índice)**
