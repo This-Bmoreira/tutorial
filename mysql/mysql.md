@@ -33,6 +33,12 @@
     - [DEFAULT Constraint](#default-constraint)
       - [DEFAULT on ALTER TABLE](#default-on-alter-table)
       - [DROP a DEFAULT Constraint](#drop-a-default-constraint)
+  - [SQL CREATE INDEX Statement](#sql-create-index-statement)
+    - [DROP INDEX Statement](#drop-index-statement)
+  - [SQL Date Data Types](#sql-date-data-types)
+  - [SQL CREATE VIEW Statement](#sql-create-view-statement)
+    - [SQL Updating a View](#sql-updating-a-view)
+    - [SQL Dropping a View](#sql-dropping-a-view)
 
 ## Criar um container MySQL
 
@@ -1988,6 +1994,505 @@ Excluindo a tabela
 
 ```sql
 DROP TABLE Produtos;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### SQL CREATE INDEX Statement
+
+Os índices são usados para recuperar dados do banco de dados mais rapidamente do que de outra forma. Os usuários não podem ver os índices, eles apenas servem para agilizar pesquisas/consultas.
+
+Criando a tabela "Produtos"
+
+```sql
+CREATE TABLE Produtos (
+    ProdutoID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Preco decimal(10, 2),
+    Categoria varchar(100)
+);
+```
+
+Exibindo a estrutura da tabela antes da criação do índice
+
+```sql
+DESCRIBE Produtos;
+```
+
+Inserindo alguns dados na tabela
+
+```sql
+INSERT INTO Produtos (ProdutoID, Nome, Preco, Categoria)
+VALUES (1, 'Notebook', 2500.00, 'Eletrônicos'),
+       (2, 'Smartphone', 1200.50, 'Eletrônicos'),
+       (3, 'Fones de Ouvido', 80.99, 'Acessórios');
+```
+
+Exibindo os dados da tabela antes da criação do índice
+
+```sql
+SELECT * FROM Produtos;
+```
+
+Criando um índice na coluna "Nome" da tabela "Produtos"
+
+```sql
+CREATE INDEX idx_Nome ON Produtos (Nome);
+```
+
+Exibindo a estrutura da tabela após a criação do índice
+
+```sql
+DESCRIBE Produtos;
+```
+
+Agora, vamos criar uma tabela "Clientes" com um índice único na coluna "Cpf"
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Cpf varchar(11) UNIQUE
+);
+```
+
+Exibindo a estrutura da tabela "Clientes" antes da criação do índice único
+
+```sql
+DESCRIBE Clientes;
+```
+
+Inserindo alguns dados na tabela "Clientes"
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Cpf)
+VALUES (1, 'Ana Silva', 'ana@email.com', '12345678901'),
+       (2, 'Carlos Oliveira', 'carlos@email.com', '98765432109'),
+       (3, 'Mariana Santos', 'mariana@email.com', '12398745603');
+```
+
+Exibindo os dados da tabela "Clientes" antes da criação do índice único
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Criando um índice único na coluna "Cpf" da tabela "Clientes"
+
+```sql
+CREATE UNIQUE INDEX idx_Cpf ON Clientes (Cpf);
+```
+
+Exibindo a estrutura da tabela "Clientes" após a criação do índice único
+
+```sql
+DESCRIBE Clientes;
+```
+
+Tente inserir um registro com um Cpf duplicado para ver o efeito do índice único
+A seguinte instrução gerará um erro
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Cpf) VALUES (4, 'Pedro Pereira', 'pedro@email.com', '12345678901');
+```
+
+Excluindo as tabelas
+
+```sql
+DROP TABLE Produtos;
+DROP TABLE Clientes;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+##### DROP INDEX Statement
+
+Criando a tabela "Produtos" com um índice na coluna "Nome"
+
+```sql
+CREATE TABLE Produtos (
+    ProdutoID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Preco decimal(10, 2),
+    Categoria varchar(100)
+);
+```
+
+Exibindo a estrutura da tabela antes da criação do índice
+
+```sql
+DESCRIBE Produtos;
+```
+
+Inserindo alguns dados na tabela
+
+```sql
+INSERT INTO Produtos (ProdutoID, Nome, Preco, Categoria)
+VALUES (1, 'Notebook', 2500.00, 'Eletrônicos'),
+       (2, 'Smartphone', 1200.50, 'Eletrônicos'),
+       (3, 'Fones de Ouvido', 80.99, 'Acessórios');
+```
+
+Exibindo os dados da tabela antes da criação do índice
+
+```sql
+SELECT * FROM Produtos;
+```
+
+Criando um índice na coluna "Nome" da tabela "Produtos"
+
+```sql
+CREATE INDEX idx_Nome ON Produtos (Nome);
+```
+
+Exibindo a estrutura da tabela após a criação do índice
+
+```sql
+DESCRIBE Produtos;
+```
+
+Removendo o índice "idx_Nome" da tabela "Produtos"
+
+```sql
+ALTER TABLE Produtos
+DROP INDEX idx_Nome;
+```
+
+Exibindo a estrutura da tabela após a remoção do índice
+
+```sql
+DESCRIBE Produtos;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Produtos;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### SQL AUTO INCREMENT Field
+
+O incremento automático permite que um número exclusivo seja gerado automaticamente quando um novo registro é inserido em uma tabela.
+
+Criando a tabela "Clientes" com uma chave primária de incremento automático
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int NOT NULL AUTO_INCREMENT,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    PRIMARY KEY (ClienteID)
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE Clientes;
+```
+
+Alterando o valor inicial para a sequência de incremento automático
+
+```sql
+ALTER TABLE Clientes AUTO_INCREMENT=100;
+```
+
+Inserindo novos registros na tabela "Clientes" sem especificar um valor para "ClienteID"
+
+```sql
+INSERT INTO Clientes (Nome, Email)
+VALUES ('Lars Monsen', 'lars@email.com'),
+       ('Eva Hansen', 'eva@email.com'),
+       ('Sven Olsen', 'sven@email.com');
+```
+
+Exibindo os dados da tabela após a inserção
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Inserindo mais um registro sem especificar um valor para "ClienteID"
+
+```sql
+INSERT INTO Clientes (Nome, Email)
+VALUES ('Karen Johansen', 'karen@email.com');
+```
+
+Exibindo os dados após a inserção do novo registro
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Clientes;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### SQL Date Data Types
+
+O MySQL vem com os seguintes tipos de dados para armazenar uma data ou um valor de data/hora no banco de dados:
+
+- DATE  - formato AAAA-MM-DD
+- DATETIME - formato: AAAA-MM-DD HH:MI:SS
+- TIMESTAMP - formato: AAAA-MM-DD HH:MI:SS
+- YEAR - formato AAAA ou AA
+
+Criando a tabela "Eventos" com diferentes tipos de dados para datas e horas
+
+```sql
+CREATE TABLE Eventos (
+    EventoID int PRIMARY KEY,
+    NomeEvento varchar(255) NOT NULL,
+    DataEvento DATE,
+    HoraEvento TIME,
+    DataHoraEvento DATETIME,
+    UltimaAtualizacao TIMESTAMP,
+    AnoEvento YEAR
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE Eventos;
+```
+
+Inserindo alguns registros na tabela
+
+```sql
+INSERT INTO Eventos (EventoID, NomeEvento, DataEvento, HoraEvento, DataHoraEvento, UltimaAtualizacao, AnoEvento)
+VALUES (1, 'Conferência de Tecnologia', '2023-05-15', '15:30:00', '2023-05-15 15:30:00', '2023-05-15 15:30:00', 2023),
+       (2, 'Workshop de Programação', '2023-06-20', '10:00:00', '2023-06-20 10:00:00', '2023-06-20 10:00:00', 2023),
+       (3, 'Apresentação de Produto', '2023-07-10', '18:45:00', '2023-07-10 18:45:00', '2023-07-10 18:45:00', 2023);
+
+```
+
+Exibindo os dados da tabela
+
+```sql
+SELECT * FROM Eventos;
+```
+
+Excluindo a tabela
+
+```sql
+DROP TABLE Eventos;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### SQL CREATE VIEW Statement
+
+Uma visualização contém linhas e colunas, assim como uma tabela real. Os campos em uma visualização são campos de uma ou mais tabelas reais do banco de dados.
+
+Criando uma tabela de clientes
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Status varchar(50) DEFAULT 'Ativo'
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE clientes;
+```
+
+Inserindo alguns registros na tabela de clientes
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Status)
+VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo'),
+       (2, 'Carlos Oliveira', 'carlos@email.com', 'Inativo'),
+       (3, 'Mariana Santos', 'mariana@email.com', 'Ativo');
+```
+
+Selecionando dados da tabela Clientes
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Criando uma view chamada ClientesAtivos
+
+```sql
+CREATE VIEW ClientesAtivos AS
+SELECT ClienteID, Nome, Email
+FROM Clientes
+WHERE Status = 'Ativo';
+```
+
+Selecionando dados da view ClientesAtivos
+
+```sql
+SELECT * FROM ClientesAtivos;
+```
+
+Excluindo a tabela de clientes e a view
+
+```sql
+DROP TABLE Clientes;
+DROP VIEW ClientesAtivos;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+##### SQL Updating a View
+
+Uma visualização pode ser atualizada com a instrução CREATE OR REPLACE VIEW.
+
+Criando uma tabela de clientes
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Status varchar(50) DEFAULT 'Ativo',
+    NivelVIP int DEFAULT 0
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE Clientes;
+```
+
+Inserindo alguns registros na tabela de clientes
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Status, NivelVIP)
+VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo', 2),
+       (2, 'Carlos Oliveira', 'carlos@email.com', 'Inativo', 0),
+       (3, 'Mariana Santos', 'mariana@email.com', 'Ativo', 3);
+```
+
+Selecionando dados da tabela Clientes
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Criando uma view chamada ClientesVIP
+
+```sql
+CREATE VIEW ClientesVIP AS
+SELECT ClienteID, Nome, Email, NivelVIP
+FROM Clientes
+WHERE NivelVIP > 0;
+```
+
+Selecionando dados da view ClientesVIP
+
+```sql
+SELECT * FROM ClientesVIP;
+```
+
+Utilizando CREATE OR REPLACE VIEW para adicionar a coluna "Status" à view
+
+```sql
+CREATE OR REPLACE VIEW ClientesVIP AS
+SELECT ClienteID, Nome, Email, NivelVIP, Status
+FROM Clientes
+WHERE NivelVIP > 0;
+```
+
+Selecionando dados da view ClientesVIP após a modificação
+
+```sql
+SELECT * FROM ClientesVIP;
+```
+
+Excluindo a tabela de clientes e a view
+
+```sql
+DROP TABLE Clientes;
+DROP VIEW ClientesVIP;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+##### SQL Dropping a View
+
+Uma view é excluída com a instrução DROP VIEW.
+
+Criando uma tabela de clientes
+
+```sql
+CREATE TABLE Clientes (
+    ClienteID int PRIMARY KEY,
+    Nome varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Status varchar(50) DEFAULT 'Ativo'
+);
+```
+
+Exibindo a estrutura da tabela
+
+```sql
+DESCRIBE Clientes;
+```
+
+Inserindo alguns registros na tabela de clientes
+
+```sql
+INSERT INTO Clientes (ClienteID, Nome, Email, Status)
+VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo'),
+       (2, 'Carlos Oliveira', 'carlos@email.com', 'Inativo'),
+       (3, 'Mariana Santos', 'mariana@email.com', 'Ativo');
+```
+
+Selecionando dados da tabela Clientes
+
+```sql
+SELECT * FROM Clientes;
+```
+
+Criando uma view chamada ClientesAtivos
+
+```sql
+CREATE VIEW ClientesAtivos AS
+SELECT ClienteID, Nome, Email
+FROM Clientes
+WHERE Status = 'Ativo';
+```
+
+Selecionando dados da view ClientesAtivos
+
+```sql
+SELECT * FROM ClientesAtivos;
+```
+
+Excluindo a view ClientesAtivos
+
+```sql
+DROP VIEW ClientesAtivos;
+```
+
+Tentando selecionar dados da view após a exclusão
+A seguinte instrução gerará um erro
+
+```sql
+SELECT * FROM ClientesAtivos;
+```
+
+Excluindo a tabela de clientes
+
+```sql
+DROP TABLE Clientes;
 ```
 
 **[:arrow_up: back to top](#índice)**
