@@ -884,10 +884,30 @@ CREATE TABLE Employees (
 );
 ```
 
-- Exibindo a estrutura da tabela
+output
+
+```bash
+Query OK, 0 rows affected (1.25 sec)
+```
+
+Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Employees;
+```
+
+output
+
+```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| EmployeeID | int          | NO   | PRI | NULL    |       |
+| LastName   | varchar(255) | NO   |     | NULL    |       |
+| FirstName  | varchar(255) | NO   |     | NULL    |       |
+| Department | varchar(100) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela com valores não nulos
@@ -899,8 +919,28 @@ VALUES (1, 'Silva', 'Ana', 'HR'),
        (3, 'Oliveira', 'Mariana', 'Finance');
 ```
 
+output
+
+```bash
+Query OK, 3 rows affected (0.11 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+```
+
 ```sql
 SELECT * FROM Employees;
+```
+
+output
+
+```bash
++------------+----------+-----------+------------+
+| EmployeeID | LastName | FirstName | Department |
++------------+----------+-----------+------------+
+|          1 | Silva    | Ana       | HR         |
+|          2 | Santos   | Carlos    | IT         |
+|          3 | Oliveira | Mariana   | Finance    |
++------------+----------+-----------+------------+
+3 rows in set (0.00 sec)
 ```
 
 A seguinte instrução gerará um erro porque a coluna "FirstName" não aceita valores nulos
@@ -910,10 +950,22 @@ INSERT INTO Employees (EmployeeID, LastName, FirstName, Department)
  VALUES (4, 'Pereira', NULL, 'Marketing');
 ```
 
+output
+
+```bash
+ERROR 1048 (23000): Column 'FirstName' cannot be null
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Employees;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.38 sec)
 ```
 
 ##### SQL NOT NULL on ALTER TABLE
@@ -929,10 +981,30 @@ CREATE TABLE Students (
 );
 ```
 
+output:
+
+```bash
+Query OK, 0 rows affected (0.60 sec)
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Students;
+```
+
+output:
+
+```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| StudentID | int          | NO   | PRI | NULL    |       |
+| FirstName | varchar(255) | NO   |     | NULL    |       |
+| LastName  | varchar(255) | NO   |     | NULL    |       |
+| Grade     | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -944,29 +1016,76 @@ VALUES (1, 'João', 'Silva', 90),
        (3, 'Carlos', 'Oliveira', 20);
 ```
 
+output:
+
+```bash
+Query OK, 3 rows affected (0.09 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+```
+
 Exibindo os dados antes de aplicar a restrição NOT NULL
 
 ```sql
 SELECT * FROM Students;
 ```
 
+output:
+
+```bash
++-----------+-----------+----------+-------+
+| StudentID | FirstName | LastName | Grade |
++-----------+-----------+----------+-------+
+|         1 | Joo       | Silva    |    90 |
+|         2 | Ana       | Santos   |    85 |
+|         3 | Carlos    | Oliveira |    20 |
++-----------+-----------+----------+-------+
+3 rows in set (0.00 sec)
+```
+
 Adicionando a restrição NOT NULL à coluna "Grade" usando ALTER TABLE
 
 ```sql
 ALTER TABLE Students
-ALTER COLUMN Grade int NOT NULL;
+MODIFY Grade INT NOT NULL;
 ```
 
-Exibindo os dados após aplicar a restrição NOT NULL
+output:
+
+```bash
+Query OK, 0 rows affected (1.74 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+```
+
+Exibindo a estrutura da tabela
 
 ```sql
-SELECT * FROM Students;
+DESCRIBE Students;
+```
+
+output:
+
+```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| StudentID | int          | NO   | PRI | NULL    |       |
+| FirstName | varchar(255) | NO   |     | NULL    |       |
+| LastName  | varchar(255) | NO   |     | NULL    |       |
+| Grade     | int          | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
 
 ```sql
 DROP TABLE Students;
+```
+
+output:
+
+```bash
+Query OK, 0 rows affected (0.41 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -990,6 +1109,11 @@ CREATE TABLE Employees (
 );
 ```
 
+output:
+
+```bash
+```
+
 Criando a tabela "Employees" com uma restrição UNIQUE composta nas colunas "EmployeeID" e "LastName"
 
 ```sql
@@ -1002,11 +1126,26 @@ CREATE TABLE EmployeesWithCompositeUnique (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Employees;
 DESCRIBE EmployeesWithCompositeUnique;
+```
+
+output:
+
+```bash
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela
@@ -1018,11 +1157,21 @@ VALUES (1, 'Silva', 'Ana', 30),
        (3, 'Oliveira', 'Mariana', 28);
 ```
 
+output:
+
+```bash
+```
+
 ```sql
 INSERT INTO EmployeesWithCompositeUnique (EmployeeID, LastName, FirstName, Age)
 VALUES (1, 'Silva', 'Ana', 30),
        (2, 'Santos', 'Carlos', 25),
        (3, 'Oliveira', 'Mariana', 28);
+```
+
+output:
+
+```bash
 ```
 
 Exibindo os dados antes
@@ -1032,11 +1181,26 @@ SELECT * FROM Employees;
 SELECT * FROM EmployeesWithCompositeUnique
 ```
 
+output:
+
+```bash
+```
+
+output:
+
+```bash
+```
+
 Tentativa de inserir um registro com o mesmo valor na coluna "EmployeeID", resultará em erro
 
 ```sql
 INSERT INTO Employees (EmployeeID, LastName, FirstName, Age)
 VALUES (1, 'Pereira', 'João', 22);
+```
+
+output:
+
+```bash
 ```
 
 Tentativa de inserir um registro com a mesma combinação de "EmployeeID" e "LastName", resultará em erro
@@ -1046,11 +1210,21 @@ INSERT INTO EmployeesWithCompositeUnique (EmployeeID, LastName, FirstName, Age)
 VALUES (1, 'Silva', 'João', 22);
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Employees;
 DROP TABLE EmployeesWithCompositeUnique;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1065,13 +1239,22 @@ CREATE TABLE Customers (
     Email varchar(255) UNIQUE,
     Age int
 );
+```
 
+output:
+
+```bash
 ```
 
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Customers;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela
@@ -1083,10 +1266,20 @@ VALUES (1, 'João', 'Silva', 'joao@example.com', 30),
        (3, 'Carlos', 'Oliveira', 'carlos@example.com', 28);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo dados antes de adicionar a restrição UNIQUE
 
 ```sql
 SELECT * FROM Customers;
+```
+
+output:
+
+```bash
 ```
 
 Adicionando a restrição UNIQUE à coluna "CustomerID"
@@ -1096,11 +1289,21 @@ ALTER TABLE Customers
 ADD UNIQUE (CustomerID);
 ```
 
+output:
+
+```bash
+```
+
 Tentativa de adicionar um novo registro com o mesmo valor em "CustomerID", resultará em erro
 
 ```sql
 INSERT INTO Customers (CustomerID, FirstName, LastName, Email, Age)
 VALUES (1, 'Pereira', 'Mariana', 'mariana@example.com', 22);
+```
+
+output:
+
+```bash
 ```
 
 Adicionando a restrição UNIQUE composta nas colunas "CustomerID" e "Email"
@@ -1110,10 +1313,20 @@ ALTER TABLE Customers
 ADD CONSTRAINT UC_Customers UNIQUE (CustomerID, Email);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Customers;
+```
+
+output:
+
+```bash
 ```
 
 Tentativa de adicionar um novo registro com o mesmo valor em "CustomerID" ou "Email", resultará em erro
@@ -1123,16 +1336,31 @@ INSERT INTO Customers (CustomerID, FirstName, LastName, Email, Age)
 VALUES (4, 'Fernando', 'Pereira', 'joao@example.com', 35);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo dados após adicionar as restrições UNIQUE
 
 ```sql
 SELECT * FROM Customers;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Customers;
+```
+
+output:
+
+```bash
 ```
 
 ##### DROP a UNIQUE Constraint
@@ -1148,10 +1376,20 @@ CREATE TABLE Students (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Students;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela
@@ -1163,10 +1401,20 @@ VALUES (1, 'João', 'Silva', 20),
        (3, 'Carlos', 'Oliveira', 25);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo dados antes de remover a restrição UNIQUE
 
 ```sql
 SELECT * FROM Students;
+```
+
+output:
+
+```bash
 ```
 
 Removendo a restrição UNIQUE da coluna "StudentID"
@@ -1177,10 +1425,20 @@ ALTER TABLE Students
 DROP INDEX StudentID;
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Students;
+```
+
+output:
+
+```bash
 ```
 
 Tentativa de adicionar um novo registro com o mesmo valor em "StudentID", não resultará em erro
@@ -1190,16 +1448,31 @@ INSERT INTO Students (StudentID, FirstName, LastName, Age)
 VALUES (1, 'Sabrina', 'Silva', 20),
 ```
 
+output:
+
+```bash
+```
+
 Exibindo dados após remover a restrição UNIQUE
 
 ```sql
 SELECT * FROM Students;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Students;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1222,10 +1495,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserir dados na tabela "Clientes"
@@ -1238,16 +1521,31 @@ VALUES
     (3, 'Carlos Souza', 'carlos@email.com', '555-123-4567');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo dados
 
 ```sql
 SELECT * FROM Clientes;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1267,10 +1565,20 @@ CREATE TABLE Produtos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "Produtos"
@@ -1283,10 +1591,20 @@ VALUES
     (3, 'Livro', 'Literatura', 12.50);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo dados
 
 ```sql
 SELECT * FROM Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Agora, adicionar uma PRIMARY KEY à coluna "ProdutoID" usando ALTER TABLE
@@ -1296,16 +1614,31 @@ ALTER TABLE Produtos
 ADD PRIMARY KEY (ProdutoID);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Produtos;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1323,10 +1656,20 @@ CREATE TABLE Funcionarios (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Funcionarios;
+```
+
+output:
+
+```bash
 ```
 
 ```sql
@@ -1343,11 +1686,21 @@ Exibindo dados
 SELECT * FROM Funcionarios;
 ```
 
+output:
+
+```bash
+```
+
 Agora, remover a PRIMARY KEY da coluna "FuncionarioID" usando ALTER TABLE
 
 ```sql
 ALTER TABLE Persons
 DROP PRIMARY KEY; 
+```
+
+output:
+
+```bash
 ```
 
 Exibindo a estrutura da tabela após remover a PRIMARY KEY
@@ -1356,10 +1709,20 @@ Exibindo a estrutura da tabela após remover a PRIMARY KEY
 DESCRIBE Funcionarios;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Funcionarios;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1379,10 +1742,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "Clientes"
@@ -1395,10 +1768,20 @@ VALUES
     (3, 'Pettersen', 'Kari', 20);
 ```
 
+output:
+
+```bash
+```
+
 Exibir dados na tabela "Clientes"
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Criar a tabela "Pedidos" com uma chave estrangeira referenciando "Clientes"
@@ -1412,10 +1795,20 @@ CREATE TABLE Pedidos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Pedidos;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "Pedidos"
@@ -1429,10 +1822,20 @@ VALUES
     (4, 24562, 1); -- Ola Hansen fez um pedido
 ```
 
+output:
+
+```bash
+```
+
 Exibir dados na tabela "Pedidos"
 
 ```sql
 SELECT * FROM Pedidos;
+```
+
+output:
+
+```bash
 ```
 
 Excluindo a tabela
@@ -1440,6 +1843,11 @@ Excluindo a tabela
 ```sql
 DROP TABLE Pedidos;
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1457,10 +1865,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "Clientes"
@@ -1473,6 +1891,11 @@ VALUES
     (3, 'Carlos Souza', 'carlos@email.com', '555-123-4567');
 ```
 
+output:
+
+```bash
+```
+
 Criar a tabela "Vendas" sem chave estrangeira
 
 ```sql
@@ -1483,10 +1906,20 @@ CREATE TABLE Vendas (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Vendas;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "Vendas"
@@ -1499,10 +1932,20 @@ VALUES
     (3, 75.25, 3);  -- Venda de Carlos Souza
 ```
 
+output:
+
+```bash
+```
+
 Exibir dados na tabela "Vendas" antes de adicionar a FOREIGN KEY
 
 ```sql
 SELECT * FROM Vendas;
+```
+
+output:
+
+```bash
 ```
 
 Agora, adicionar uma FOREIGN KEY à coluna "ClienteID" usando ALTER TABLE
@@ -1512,10 +1955,20 @@ ALTER TABLE Vendas
 ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Vendas;
+```
+
+output:
+
+```bash
 ```
 
 Excluindo a tabela
@@ -1523,6 +1976,11 @@ Excluindo a tabela
 ```sql
 DROP TABLE Clientes;
 DROP TABLE Vendas;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1539,10 +1997,20 @@ CREATE TABLE Produtos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "Produtos"
@@ -1553,6 +2021,11 @@ VALUES
     (1, 'Camiseta', 19.99),
     (2, 'Notebook', 899.99),
     (3, 'Livro', 12.50);
+```
+
+output:
+
+```bash
 ```
 
 Criar a tabela "ItensVenda" com chave estrangeira referenciando "Produtos"
@@ -1566,10 +2039,20 @@ CREATE TABLE ItensVenda (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE ItensVenda;
+```
+
+output:
+
+```bash
 ```
 
 Inserir alguns dados na tabela "ItensVenda"
@@ -1582,10 +2065,20 @@ VALUES
     (3, 5, 3); -- 5 Livros vendidos
 ```
 
+output:
+
+```bash
+```
+
 Exibir dados na tabela "ItensVenda" antes de remover a FOREIGN KEY
 
 ```sql
 SELECT * FROM ItensVenda;
+```
+
+output:
+
+```bash
 ```
 
 Agora, remover a FOREIGN KEY usando ALTER TABLE
@@ -1595,10 +2088,20 @@ ALTER TABLE ItensVenda
 DROP FOREIGN KEY;
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE ItensVenda;
+```
+
+output:
+
+```bash
 ```
 
 Exibir dados na tabela "ItensVenda" após remover a FOREIGN KEY
@@ -1607,11 +2110,21 @@ Exibir dados na tabela "ItensVenda" após remover a FOREIGN KEY
 SELECT * FROM ItensVenda;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Produtos;
 DROP TABLE ItensVenda;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1630,10 +2143,20 @@ CREATE TABLE Produtos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela com valores que atendem à restrição CHECK
@@ -1645,10 +2168,20 @@ VALUES (1, 'Notebook', 2500.00),
        (3, 'Fones de Ouvido', 80.99);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela
 
 ```sql
 SELECT * FROM Produtos;
+```
+
+output:
+
+```bash
 ```
 
 A seguinte instrução gerará um erro porque o valor do "Preco" não é maior que zero
@@ -1658,10 +2191,20 @@ INSERT INTO Produtos (ProdutoID, Nome, Preco)
 VALUES (4, 'Mouse', 0.00);
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1680,10 +2223,20 @@ CREATE TABLE Jogadores (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela antes da restrição CHECK
 
 ```sql
 DESCRIBE Jogadores;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela
@@ -1695,10 +2248,20 @@ VALUES (1, 'Ronaldo', 25),
        (3, 'Neymar', 15);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados antes de aplicar a restrição CHECK
 
 ```sql
 SELECT * FROM Jogadores;
+```
+
+output:
+
+```bash
 ```
 
 Adicionando a restrição CHECK à coluna "Pontuacao" usando ALTER TABLE
@@ -1708,10 +2271,20 @@ ALTER TABLE Jogadores
 ADD CHECK (Pontuacao >= 0);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após a adição da restrição CHECK
 
 ```sql
 DESCRIBE Jogadores;
+```
+
+output:
+
+```bash
 ```
 
 A seguinte instrução gerará um erro porque a restrição CHECK não é atendida
@@ -1721,16 +2294,31 @@ INSERT INTO Jogadores (JogadorID, Nome, Pontuacao)
 VALUES (4, 'Mbappe', -5);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados após a adição da restrição CHECK
 
 ```sql
 SELECT * FROM Jogadores;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Jogadores;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1747,10 +2335,20 @@ CREATE TABLE ContasBancarias (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela antes de remover a restrição CHECK
 
 ```sql
 DESCRIBE ContasBancarias;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela
@@ -1762,10 +2360,20 @@ VALUES (1, 'João Silva', 5000.00),
        (3, 'Carlos Oliveira', 1500.75);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados antes de remover a restrição CHECK
 
 ```sql
 SELECT * FROM ContasBancarias;
+```
+
+output:
+
+```bash
 ```
 
 Removendo a restrição CHECK à coluna "Saldo" usando ALTER TABLE
@@ -1775,16 +2383,31 @@ ALTER TABLE ContasBancarias
 DROP CHECK CHK_Saldo;
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após remover a restrição CHECK
 
 ```sql
 DESCRIBE ContasBancarias;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE ContasBancarias;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1805,10 +2428,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Cidade"
@@ -1820,10 +2453,20 @@ VALUES (1, 'Ana Silva', 'ana@email.com'),
        (3, 'Mariana Santos', 'mariana@email.com');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela fornecendo um valor específico para a coluna "Cidade"
@@ -1833,16 +2476,31 @@ INSERT INTO Clientes (ClienteID, Nome, Email, Cidade)
 VALUES (4, 'Pedro Pereira', 'pedro@email.com', 'São Paulo');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela após a inserção com valor específico para a coluna "Cidade"
 
 ```sql
 SELECT * FROM Clientes;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1860,10 +2518,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela antes da restrição DEFAULT
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela
@@ -1875,10 +2543,20 @@ VALUES (1, 'Ana Silva', 'ana@email.com'),
        (3, 'Mariana Santos', 'mariana@email.com');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados antes de aplicar a restrição DEFAULT
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Adicionando a restrição DEFAULT à coluna "Estado" usando ALTER TABLE
@@ -1888,10 +2566,20 @@ ALTER TABLE Clientes
 ALTER Estado SET DEFAULT 'Rio de Janeiro';
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após adicionar a restrição DEFAULT
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Estado"
@@ -1901,10 +2589,20 @@ INSERT INTO Clientes (ClienteID, Nome, Email)
 VALUES (4, 'Pedro Pereira', 'pedro@email.com');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados após a inserção sem fornecer um valor para a coluna "Estado"
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela fornecendo um valor específico para a coluna "Estado"
@@ -1914,16 +2612,31 @@ INSERT INTO Clientes (ClienteID, Nome, Email, Estado)
 VALUES (5, 'Maria Oliveira', 'maria@email.com', 'São Paulo');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados após a inserção com valor específico para a coluna "Estado"
 
 ```sql
 SELECT * FROM Clientes;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1941,12 +2654,21 @@ CREATE TABLE Produtos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela antes de remover a restrição DEFAULT
 
 ```sql
 DESCRIBE Produtos;
 ```
 
+output:
+
+```bash
+```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Tipo"
 
@@ -1957,10 +2679,20 @@ VALUES (1, 'Notebook', 2500.00),
        (3, 'Fones de Ouvido', 80.99);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela antes de remover a restrição DEFAULT
 
 ```sql
 SELECT * FROM Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Removendo a restrição DEFAULT à coluna "Tipo" usando ALTER TABLE
@@ -1970,10 +2702,20 @@ ALTER TABLE Produtos
 ALTER Tipo DROP DEFAULT;
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após remover a restrição DEFAULT
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Tipo" após a remoção
@@ -1984,16 +2726,31 @@ VALUES (4, 'Mouse', 25.00),
        (5, 'Teclado', 50.00);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela após a inserção sem fornecer um valor para a coluna "Tipo"
 
 ```sql
 SELECT * FROM Produtos;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2013,10 +2770,20 @@ CREATE TABLE Produtos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela antes da criação do índice
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns dados na tabela
@@ -2028,10 +2795,20 @@ VALUES (1, 'Notebook', 2500.00, 'Eletrônicos'),
        (3, 'Fones de Ouvido', 80.99, 'Acessórios');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela antes da criação do índice
 
 ```sql
 SELECT * FROM Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Criando um índice na coluna "Nome" da tabela "Produtos"
@@ -2040,10 +2817,20 @@ Criando um índice na coluna "Nome" da tabela "Produtos"
 CREATE INDEX idx_Nome ON Produtos (Nome);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após a criação do índice
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Agora, vamos criar uma tabela "Clientes" com um índice único na coluna "Cpf"
@@ -2057,10 +2844,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela "Clientes" antes da criação do índice único
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns dados na tabela "Clientes"
@@ -2072,10 +2869,20 @@ VALUES (1, 'Ana Silva', 'ana@email.com', '12345678901'),
        (3, 'Mariana Santos', 'mariana@email.com', '12398745603');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela "Clientes" antes da criação do índice único
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Criando um índice único na coluna "Cpf" da tabela "Clientes"
@@ -2084,10 +2891,20 @@ Criando um índice único na coluna "Cpf" da tabela "Clientes"
 CREATE UNIQUE INDEX idx_Cpf ON Clientes (Cpf);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela "Clientes" após a criação do índice único
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Tente inserir um registro com um Cpf duplicado para ver o efeito do índice único
@@ -2097,11 +2914,21 @@ A seguinte instrução gerará um erro
 INSERT INTO Clientes (ClienteID, Nome, Email, Cpf) VALUES (4, 'Pedro Pereira', 'pedro@email.com', '12345678901');
 ```
 
+output:
+
+```bash
+```
+
 Excluindo as tabelas
 
 ```sql
 DROP TABLE Produtos;
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2119,10 +2946,20 @@ CREATE TABLE Produtos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela antes da criação do índice
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns dados na tabela
@@ -2134,10 +2971,20 @@ VALUES (1, 'Notebook', 2500.00, 'Eletrônicos'),
        (3, 'Fones de Ouvido', 80.99, 'Acessórios');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela antes da criação do índice
 
 ```sql
 SELECT * FROM Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Criando um índice na coluna "Nome" da tabela "Produtos"
@@ -2146,10 +2993,20 @@ Criando um índice na coluna "Nome" da tabela "Produtos"
 CREATE INDEX idx_Nome ON Produtos (Nome);
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após a criação do índice
 
 ```sql
 DESCRIBE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 Removendo o índice "idx_Nome" da tabela "Produtos"
@@ -2159,16 +3016,31 @@ ALTER TABLE Produtos
 DROP INDEX idx_Nome;
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela após a remoção do índice
 
 ```sql
 DESCRIBE Produtos;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Produtos;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2188,16 +3060,31 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
 ```
 
+output:
+
+```bash
+```
+
 Alterando o valor inicial para a sequência de incremento automático
 
 ```sql
 ALTER TABLE Clientes AUTO_INCREMENT=100;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo novos registros na tabela "Clientes" sem especificar um valor para "ClienteID"
@@ -2209,10 +3096,20 @@ VALUES ('Lars Monsen', 'lars@email.com'),
        ('Sven Olsen', 'sven@email.com');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados da tabela após a inserção
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo mais um registro sem especificar um valor para "ClienteID"
@@ -2222,16 +3119,31 @@ INSERT INTO Clientes (Nome, Email)
 VALUES ('Karen Johansen', 'karen@email.com');
 ```
 
+output:
+
+```bash
+```
+
 Exibindo os dados após a inserção do novo registro
 
 ```sql
 SELECT * FROM Clientes;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2259,10 +3171,20 @@ CREATE TABLE Eventos (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Eventos;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns registros na tabela
@@ -2272,7 +3194,11 @@ INSERT INTO Eventos (EventoID, NomeEvento, DataEvento, HoraEvento, DataHoraEvent
 VALUES (1, 'Conferência de Tecnologia', '2023-05-15', '15:30:00', '2023-05-15 15:30:00', '2023-05-15 15:30:00', 2023),
        (2, 'Workshop de Programação', '2023-06-20', '10:00:00', '2023-06-20 10:00:00', '2023-06-20 10:00:00', 2023),
        (3, 'Apresentação de Produto', '2023-07-10', '18:45:00', '2023-07-10 18:45:00', '2023-07-10 18:45:00', 2023);
+```
 
+output:
+
+```bash
 ```
 
 Exibindo os dados da tabela
@@ -2281,10 +3207,20 @@ Exibindo os dados da tabela
 SELECT * FROM Eventos;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela
 
 ```sql
 DROP TABLE Eventos;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2304,10 +3240,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns registros na tabela de clientes
@@ -2319,10 +3265,20 @@ VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo'),
        (3, 'Mariana Santos', 'mariana@email.com', 'Ativo');
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da tabela Clientes
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Criando uma view chamada ClientesAtivos
@@ -2334,10 +3290,20 @@ FROM Clientes
 WHERE Status = 'Ativo';
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da view ClientesAtivos
 
 ```sql
 SELECT * FROM ClientesAtivos;
+```
+
+output:
+
+```bash
 ```
 
 Excluindo a tabela de clientes e a view
@@ -2345,6 +3311,11 @@ Excluindo a tabela de clientes e a view
 ```sql
 DROP TABLE Clientes;
 DROP VIEW ClientesAtivos;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2365,10 +3336,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns registros na tabela de clientes
@@ -2380,10 +3361,20 @@ VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo', 2),
        (3, 'Mariana Santos', 'mariana@email.com', 'Ativo', 3);
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da tabela Clientes
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Criando uma view chamada ClientesVIP
@@ -2395,10 +3386,20 @@ FROM Clientes
 WHERE NivelVIP > 0;
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da view ClientesVIP
 
 ```sql
 SELECT * FROM ClientesVIP;
+```
+
+output:
+
+```bash
 ```
 
 Utilizando CREATE OR REPLACE VIEW para adicionar a coluna "Status" à view
@@ -2410,10 +3411,20 @@ FROM Clientes
 WHERE NivelVIP > 0;
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da view ClientesVIP após a modificação
 
 ```sql
 SELECT * FROM ClientesVIP;
+```
+
+output:
+
+```bash
 ```
 
 Excluindo a tabela de clientes e a view
@@ -2421,6 +3432,11 @@ Excluindo a tabela de clientes e a view
 ```sql
 DROP TABLE Clientes;
 DROP VIEW ClientesVIP;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2440,10 +3456,20 @@ CREATE TABLE Clientes (
 );
 ```
 
+output:
+
+```bash
+```
+
 Exibindo a estrutura da tabela
 
 ```sql
 DESCRIBE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Inserindo alguns registros na tabela de clientes
@@ -2455,10 +3481,20 @@ VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo'),
        (3, 'Mariana Santos', 'mariana@email.com', 'Ativo');
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da tabela Clientes
 
 ```sql
 SELECT * FROM Clientes;
+```
+
+output:
+
+```bash
 ```
 
 Criando uma view chamada ClientesAtivos
@@ -2470,16 +3506,31 @@ FROM Clientes
 WHERE Status = 'Ativo';
 ```
 
+output:
+
+```bash
+```
+
 Selecionando dados da view ClientesAtivos
 
 ```sql
 SELECT * FROM ClientesAtivos;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a view ClientesAtivos
 
 ```sql
 DROP VIEW ClientesAtivos;
+```
+
+output:
+
+```bash
 ```
 
 Tentando selecionar dados da view após a exclusão
@@ -2489,10 +3540,20 @@ A seguinte instrução gerará um erro
 SELECT * FROM ClientesAtivos;
 ```
 
+output:
+
+```bash
+```
+
 Excluindo a tabela de clientes
 
 ```sql
 DROP TABLE Clientes;
+```
+
+output:
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
