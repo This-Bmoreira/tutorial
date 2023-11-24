@@ -1112,6 +1112,7 @@ CREATE TABLE Employees (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.04 sec)
 ```
 
 Criando a tabela "Employees" com uma restrição UNIQUE composta nas colunas "EmployeeID" e "LastName"
@@ -1129,6 +1130,7 @@ CREATE TABLE EmployeesWithCompositeUnique (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.61 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1141,11 +1143,29 @@ DESCRIBE EmployeesWithCompositeUnique;
 output:
 
 ```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| EmployeeID | int          | NO   | PRI | NULL    |       |
+| LastName   | varchar(255) | NO   |     | NULL    |       |
+| FirstName  | varchar(255) | YES  |     | NULL    |       |
+| Age        | int          | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 output:
 
 ```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| EmployeeID | int          | NO   | PRI | NULL    |       |
+| LastName   | varchar(255) | NO   | PRI | NULL    |       |
+| FirstName  | varchar(255) | YES  |     | NULL    |       |
+| Age        | int          | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -1160,6 +1180,8 @@ VALUES (1, 'Silva', 'Ana', 30),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 ```sql
@@ -1172,23 +1194,41 @@ VALUES (1, 'Silva', 'Ana', 30),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.22 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados antes
 
 ```sql
 SELECT * FROM Employees;
-SELECT * FROM EmployeesWithCompositeUnique
+SELECT * FROM EmployeesWithCompositeUnique;
 ```
 
 output:
 
 ```bash
++------------+----------+-----------+------+
+| EmployeeID | LastName | FirstName | Age  |
++------------+----------+-----------+------+
+|          1 | Silva    | Ana       |   30 |
+|          2 | Santos   | Carlos    |   25 |
+|          3 | Oliveira | Mariana   |   28 |
++------------+----------+-----------+------+
+3 rows in set (0.00 sec)
 ```
 
 output:
 
 ```bash
++------------+----------+-----------+------+
+| EmployeeID | LastName | FirstName | Age  |
++------------+----------+-----------+------+
+|          1 | Silva    | Ana       |   30 |
+|          2 | Santos   | Carlos    |   25 |
+|          3 | Oliveira | Mariana   |   28 |
++------------+----------+-----------+------+
+3 rows in set (0.00 sec)
 ```
 
 Tentativa de inserir um registro com o mesmo valor na coluna "EmployeeID", resultará em erro
@@ -1201,6 +1241,7 @@ VALUES (1, 'Pereira', 'João', 22);
 output:
 
 ```bash
+ERROR 1062 (23000): Duplicate entry '1' for key 'Employees.EmployeeID'
 ```
 
 Tentativa de inserir um registro com a mesma combinação de "EmployeeID" e "LastName", resultará em erro
@@ -1213,6 +1254,7 @@ VALUES (1, 'Silva', 'João', 22);
 output:
 
 ```bash
+ERROR 1062 (23000): Duplicate entry '1-Silva' for key 'EmployeesWithCompositeUnique.UC_Employees'
 ```
 
 Excluindo a tabela
@@ -1225,6 +1267,7 @@ DROP TABLE EmployeesWithCompositeUnique;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.37 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1244,6 +1287,7 @@ CREATE TABLE Customers (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.62 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1255,6 +1299,16 @@ DESCRIBE Customers;
 output:
 
 ```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| CustomerID | int          | NO   |     | NULL    |       |
+| FirstName  | varchar(255) | NO   |     | NULL    |       |
+| LastName   | varchar(255) | NO   |     | NULL    |       |
+| Email      | varchar(255) | YES  | UNI | NULL    |       |
+| Age        | int          | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -1269,6 +1323,8 @@ VALUES (1, 'João', 'Silva', 'joao@example.com', 30),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.17 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo dados antes de adicionar a restrição UNIQUE
@@ -1280,6 +1336,14 @@ SELECT * FROM Customers;
 output:
 
 ```bash
++------------+-----------+----------+--------------------+------+
+| CustomerID | FirstName | LastName | Email              | Age  |
++------------+-----------+----------+--------------------+------+
+|          1 | Joo       | Silva    | joao@example.com   |   30 |
+|          2 | Ana       | Santos   | ana@example.com    |   25 |
+|          3 | Carlos    | Oliveira | carlos@example.com |   28 |
++------------+-----------+----------+--------------------+------+
+3 rows in set (0.00 sec)
 ```
 
 Adicionando a restrição UNIQUE à coluna "CustomerID"
@@ -1292,6 +1356,8 @@ ADD UNIQUE (CustomerID);
 output:
 
 ```bash
+Query OK, 0 rows affected (2.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Tentativa de adicionar um novo registro com o mesmo valor em "CustomerID", resultará em erro
@@ -1304,6 +1370,7 @@ VALUES (1, 'Pereira', 'Mariana', 'mariana@example.com', 22);
 output:
 
 ```bash
+ERROR 1062 (23000): Duplicate entry '1' for key 'Customers.CustomerID'
 ```
 
 Adicionando a restrição UNIQUE composta nas colunas "CustomerID" e "Email"
@@ -1316,6 +1383,8 @@ ADD CONSTRAINT UC_Customers UNIQUE (CustomerID, Email);
 output:
 
 ```bash
+Query OK, 0 rows affected (0.50 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela
@@ -1327,6 +1396,16 @@ DESCRIBE Customers;
 output:
 
 ```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| CustomerID | int          | NO   | PRI | NULL    |       |
+| FirstName  | varchar(255) | NO   |     | NULL    |       |
+| LastName   | varchar(255) | NO   |     | NULL    |       |
+| Email      | varchar(255) | YES  | UNI | NULL    |       |
+| Age        | int          | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
 ```
 
 Tentativa de adicionar um novo registro com o mesmo valor em "CustomerID" ou "Email", resultará em erro
@@ -1339,6 +1418,7 @@ VALUES (4, 'Fernando', 'Pereira', 'joao@example.com', 35);
 output:
 
 ```bash
+ERROR 1062 (23000): Duplicate entry 'joao@example.com' for key 'Customers.Email'
 ```
 
 Exibindo dados após adicionar as restrições UNIQUE
@@ -1350,6 +1430,14 @@ SELECT * FROM Customers;
 output:
 
 ```bash
++------------+-----------+----------+--------------------+------+
+| CustomerID | FirstName | LastName | Email              | Age  |
++------------+-----------+----------+--------------------+------+
+|          1 | Joo       | Silva    | joao@example.com   |   30 |
+|          2 | Ana       | Santos   | ana@example.com    |   25 |
+|          3 | Carlos    | Oliveira | carlos@example.com |   28 |
++------------+-----------+----------+--------------------+------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -1361,6 +1449,7 @@ DROP TABLE Customers;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.43 sec)
 ```
 
 ##### DROP a UNIQUE Constraint
@@ -1379,6 +1468,7 @@ CREATE TABLE Students (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.49 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1390,6 +1480,15 @@ DESCRIBE Students;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| StudentID | int          | NO   | PRI | NULL    |       |
+| FirstName | varchar(255) | NO   |     | NULL    |       |
+| LastName  | varchar(255) | NO   |     | NULL    |       |
+| Age       | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -1404,6 +1503,8 @@ VALUES (1, 'João', 'Silva', 20),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.14 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo dados antes de remover a restrição UNIQUE
@@ -1415,6 +1516,14 @@ SELECT * FROM Students;
 output:
 
 ```bash
++-----------+-----------+----------+------+
+| StudentID | FirstName | LastName | Age  |
++-----------+-----------+----------+------+
+|         1 | Joo       | Silva    |   20 |
+|         2 | Ana       | Santos   |   22 |
+|         3 | Carlos    | Oliveira |   25 |
++-----------+-----------+----------+------+
+3 rows in set (0.00 sec)
 ```
 
 Removendo a restrição UNIQUE da coluna "StudentID"
@@ -1428,6 +1537,8 @@ DROP INDEX StudentID;
 output:
 
 ```bash
+Query OK, 3 rows affected (1.78 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela
@@ -1439,18 +1550,28 @@ DESCRIBE Students;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| StudentID | int          | NO   |     | NULL    |       |
+| FirstName | varchar(255) | NO   |     | NULL    |       |
+| LastName  | varchar(255) | NO   |     | NULL    |       |
+| Age       | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Tentativa de adicionar um novo registro com o mesmo valor em "StudentID", não resultará em erro
 
 ```sql
 INSERT INTO Students (StudentID, FirstName, LastName, Age)
-VALUES (1, 'Sabrina', 'Silva', 20),
+VALUES (1, 'Sabrina', 'Silva', 20);
 ```
 
 output:
 
 ```bash
+Query OK, 1 row affected (0.11 sec)
 ```
 
 Exibindo dados após remover a restrição UNIQUE
@@ -1462,6 +1583,15 @@ SELECT * FROM Students;
 output:
 
 ```bash
++-----------+-----------+----------+------+
+| StudentID | FirstName | LastName | Age  |
++-----------+-----------+----------+------+
+|         1 | Joo       | Silva    |   20 |
+|         2 | Ana       | Santos   |   22 |
+|         3 | Carlos    | Oliveira |   25 |
+|         1 | Sabrina   | Silva    |   20 |
++-----------+-----------+----------+------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -1473,6 +1603,7 @@ DROP TABLE Students;
 output:
 
 ```bash
+DROP TABLE Students;
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1498,6 +1629,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.16 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1509,6 +1641,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | YES  | UNI | NULL    |       |
+| Telefone  | varchar(20)  | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
 ```
 
 Inserir dados na tabela "Clientes"
@@ -1524,6 +1665,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.12 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo dados
@@ -1535,6 +1678,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+----------------+------------------+--------------+
+| ClienteID | Nome           | Email            | Telefone     |
++-----------+----------------+------------------+--------------+
+|         1 | Joo Silva      | joao@email.com   | 123-456-7890 |
+|         2 | Maria Oliveira | maria@email.com  | 987-654-3210 |
+|         3 | Carlos Souza   | carlos@email.com | 555-123-4567 |
++-----------+----------------+------------------+--------------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -1546,6 +1697,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.42 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1568,6 +1720,7 @@ CREATE TABLE Produtos (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.05 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1579,6 +1732,15 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | YES  |     | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Categoria | varchar(50)   | YES  |     | NULL    |       |
+| Preco     | decimal(10,2) | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
 ```
 
 Inserir alguns dados na tabela "Produtos"
@@ -1594,6 +1756,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo dados
@@ -1605,6 +1769,14 @@ SELECT * FROM Produtos;
 output:
 
 ```bash
++-----------+----------+------------+--------+
+| ProdutoID | Nome     | Categoria  | Preco  |
++-----------+----------+------------+--------+
+|         1 | Camiseta | Roupas     |  19.99 |
+|         2 | Notebook | Eletrnicos | 899.99 |
+|         3 | Livro    | Literatura |  12.50 |
++-----------+----------+------------+--------+
+3 rows in set (0.00 sec)
 ```
 
 Agora, adicionar uma PRIMARY KEY à coluna "ProdutoID" usando ALTER TABLE
@@ -1617,6 +1789,8 @@ ADD PRIMARY KEY (ProdutoID);
 output:
 
 ```bash
+Query OK, 0 rows affected (1.89 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela
@@ -1628,6 +1802,15 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | NO   | PRI | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Categoria | varchar(50)   | YES  |     | NULL    |       |
+| Preco     | decimal(10,2) | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -1639,6 +1822,7 @@ DROP TABLE Produtos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.50 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1659,6 +1843,7 @@ CREATE TABLE Funcionarios (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.66 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1670,6 +1855,15 @@ DESCRIBE Funcionarios;
 output:
 
 ```bash
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| FuncionarioID | int           | NO   | PRI | NULL    |       |
+| Nome          | varchar(255)  | NO   |     | NULL    |       |
+| Cargo         | varchar(50)   | YES  |     | NULL    |       |
+| Salario       | decimal(10,2) | NO   |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 ```sql
@@ -1678,6 +1872,13 @@ VALUES
     (1, 'Ana Silva', 'Analista de Marketing', 5000.00),
     (2, 'Pedro Oliveira', 'Desenvolvedor Web', 7000.00),
     (3, 'Mariana Santos', 'Gerente de Projetos', 9000.00);
+```
+
+output:
+
+```bash
+Query OK, 3 rows affected (0.12 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo dados
@@ -1689,18 +1890,28 @@ SELECT * FROM Funcionarios;
 output:
 
 ```bash
++---------------+----------------+-----------------------+---------+
+| FuncionarioID | Nome           | Cargo                 | Salario |
++---------------+----------------+-----------------------+---------+
+|             1 | Ana Silva      | Analista de Marketing | 5000.00 |
+|             2 | Pedro Oliveira | Desenvolvedor Web     | 7000.00 |
+|             3 | Mariana Santos | Gerente de Projetos   | 9000.00 |
++---------------+----------------+-----------------------+---------+
+3 rows in set (0.00 sec)
 ```
 
 Agora, remover a PRIMARY KEY da coluna "FuncionarioID" usando ALTER TABLE
 
 ```sql
-ALTER TABLE Persons
+ALTER TABLE Funcionarios
 DROP PRIMARY KEY; 
 ```
 
 output:
 
 ```bash
+Query OK, 3 rows affected (1.65 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após remover a PRIMARY KEY
@@ -1712,6 +1923,15 @@ DESCRIBE Funcionarios;
 output:
 
 ```bash
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| FuncionarioID | int           | NO   |     | NULL    |       |
+| Nome          | varchar(255)  | NO   |     | NULL    |       |
+| Cargo         | varchar(50)   | YES  |     | NULL    |       |
+| Salario       | decimal(10,2) | NO   |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -1723,6 +1943,7 @@ DROP TABLE Funcionarios;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.76 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1745,6 +1966,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.59 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1756,6 +1978,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| PersonID  | int          | NO   | PRI | NULL    |       |
+| LastName  | varchar(255) | NO   |     | NULL    |       |
+| FirstName | varchar(255) | NO   |     | NULL    |       |
+| Age       | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados na tabela "Clientes"
@@ -1771,6 +2002,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.09 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibir dados na tabela "Clientes"
@@ -1782,6 +2015,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++----------+-----------+-----------+------+
+| PersonID | LastName  | FirstName | Age  |
++----------+-----------+-----------+------+
+|        1 | Hansen    | Ola       |   30 |
+|        2 | Svendson  | Tove      |   23 |
+|        3 | Pettersen | Kari      |   20 |
++----------+-----------+-----------+------+
+3 rows in set (0.00 sec)
 ```
 
 Criar a tabela "Pedidos" com uma chave estrangeira referenciando "Clientes"
@@ -1798,6 +2039,7 @@ CREATE TABLE Pedidos (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.10 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1809,6 +2051,14 @@ DESCRIBE Pedidos;
 output:
 
 ```bash
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| OrderID     | int  | NO   | PRI | NULL    |       |
+| OrderNumber | int  | YES  |     | NULL    |       |
+| PersonID    | int  | YES  | MUL | NULL    |       |
++-------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados na tabela "Pedidos"
@@ -1825,6 +2075,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 4 rows affected (0.09 sec)
+Records: 4  Duplicates: 0  Warnings: 0
 ```
 
 Exibir dados na tabela "Pedidos"
@@ -1836,6 +2088,15 @@ SELECT * FROM Pedidos;
 output:
 
 ```bash
++---------+-------------+----------+
+| OrderID | OrderNumber | PersonID |
++---------+-------------+----------+
+|       1 |       77895 |        3 |
+|       2 |       44678 |        3 |
+|       3 |       22456 |        2 |
+|       4 |       24562 |        1 |
++---------+-------------+----------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -1848,6 +2109,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.92 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1868,6 +2130,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.54 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1879,6 +2142,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | YES  | UNI | NULL    |       |
+| Telefone  | varchar(20)  | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados na tabela "Clientes"
@@ -1894,6 +2166,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.09 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Criar a tabela "Vendas" sem chave estrangeira
@@ -1909,6 +2183,7 @@ CREATE TABLE Vendas (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.58 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -1920,6 +2195,14 @@ DESCRIBE Vendas;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| VendaID   | int           | NO   | PRI | NULL    |       |
+| Valor     | decimal(10,2) | NO   |     | NULL    |       |
+| ClienteID | int           | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados na tabela "Vendas"
@@ -1935,6 +2218,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibir dados na tabela "Vendas" antes de adicionar a FOREIGN KEY
@@ -1946,6 +2231,14 @@ SELECT * FROM Vendas;
 output:
 
 ```bash
++---------+--------+-----------+
+| VendaID | Valor  | ClienteID |
++---------+--------+-----------+
+|       1 | 100.00 |         1 |
+|       2 | 150.50 |         2 |
+|       3 |  75.25 |         3 |
++---------+--------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 Agora, adicionar uma FOREIGN KEY à coluna "ClienteID" usando ALTER TABLE
@@ -1958,6 +2251,8 @@ ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID);
 output:
 
 ```bash
+Query OK, 3 rows affected (2.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela
@@ -1969,18 +2264,27 @@ DESCRIBE Vendas;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| VendaID   | int           | NO   | PRI | NULL    |       |
+| Valor     | decimal(10,2) | NO   |     | NULL    |       |
+| ClienteID | int           | YES  | MUL | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
 
 ```sql
-DROP TABLE Clientes;
 DROP TABLE Vendas;
+DROP TABLE Clientes;
 ```
 
 output:
 
 ```bash
+Query OK, 0 rows affected (0.49 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2000,6 +2304,7 @@ CREATE TABLE Produtos (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.88 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -2011,6 +2316,14 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | NO   | PRI | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Preco     | decimal(10,2) | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados na tabela "Produtos"
@@ -2026,6 +2339,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.12 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Criar a tabela "ItensVenda" com chave estrangeira referenciando "Produtos"
@@ -2042,17 +2357,30 @@ CREATE TABLE ItensVenda (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.62 sec)
 ```
 
-Exibindo a estrutura da tabela
+Exibir a definição da tabela "ItensVenda" para encontrar o nome da chave estrangeira
 
 ```sql
-DESCRIBE ItensVenda;
+SHOW CREATE TABLE ItensVenda;
 ```
 
 output:
 
 ```bash
++------------+--------------------------------------------------------------------------------+
+| Table      | Create 
++------------+--------------------------------------------------------------------------------+
+| ItensVenda | CREATE TABLE `ItensVenda` (
+  `ItemID` int NOT NULL,
+  `Quantidade` int NOT NULL,
+  `ProdutoID` int DEFAULT NULL,
+  PRIMARY KEY (`ItemID`),
+  KEY `ProdutoID` (`ProdutoID`),
+  CONSTRAINT `ItensVenda_ibfk_1` FOREIGN KEY (`ProdutoID`) REFERENCES `Produtos` (`ProdutoID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++------------+---------------------------------------------------------------------------------+
 ```
 
 Inserir alguns dados na tabela "ItensVenda"
@@ -2068,6 +2396,8 @@ VALUES
 output:
 
 ```bash
+Query OK, 3 rows affected (0.12 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibir dados na tabela "ItensVenda" antes de remover a FOREIGN KEY
@@ -2079,18 +2409,28 @@ SELECT * FROM ItensVenda;
 output:
 
 ```bash
++--------+------------+-----------+
+| ItemID | Quantidade | ProdutoID |
++--------+------------+-----------+
+|      1 |          3 |         1 |
+|      2 |          1 |         2 |
+|      3 |          5 |         3 |
++--------+------------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 Agora, remover a FOREIGN KEY usando ALTER TABLE
 
 ```sql
 ALTER TABLE ItensVenda
-DROP FOREIGN KEY;
+DROP FOREIGN KEY ItensVenda_ibfk_1;
 ```
 
 output:
 
 ```bash
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela
@@ -2102,6 +2442,19 @@ DESCRIBE ItensVenda;
 output:
 
 ```bash
++------------+--------------------------------------------------------+
+| Table      | Create  |
++------------+--------------------------------------------------------+
+| ItensVenda | CREATE TABLE `ItensVenda` (
+  `ItemID` int NOT NULL,
+  `Quantidade` int NOT NULL,
+  `ProdutoID` int DEFAULT NULL,
+  PRIMARY KEY (`ItemID`),
+  KEY `ProdutoID` (`ProdutoID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++------------+---------------------------------------------------------+
+1 row in set (0.00 sec)
+
 ```
 
 Exibir dados na tabela "ItensVenda" após remover a FOREIGN KEY
@@ -2113,6 +2466,15 @@ SELECT * FROM ItensVenda;
 output:
 
 ```bash
+mysql> SELECT * FROM ItensVenda;
++--------+------------+-----------+
+| ItemID | Quantidade | ProdutoID |
++--------+------------+-----------+
+|      1 |          3 |         1 |
+|      2 |          1 |         2 |
+|      3 |          5 |         3 |
++--------+------------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -2125,6 +2487,8 @@ DROP TABLE ItensVenda;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.38 sec)
+Query OK, 0 rows affected (0.44 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
