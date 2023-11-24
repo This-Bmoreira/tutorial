@@ -2436,7 +2436,7 @@ Records: 0  Duplicates: 0  Warnings: 0
 Exibindo a estrutura da tabela
 
 ```sql
-DESCRIBE ItensVenda;
+SHOW CREATE TABLE ItensVenda;
 ```
 
 output:
@@ -2510,17 +2510,30 @@ CREATE TABLE Produtos (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.61 sec)
 ```
 
 Exibindo a estrutura da tabela
 
 ```sql
-DESCRIBE Produtos;
+SHOW CREATE TABLE Produtos;
 ```
 
 output:
 
 ```bash
++----------+-------------------------------------------------------+
+| Table    | Create  |
++----------+-------------------------------------------------------+
+| Produtos | CREATE TABLE `Produtos` (
+  `ProdutoID` int NOT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Preco` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`ProdutoID`),
+  CONSTRAINT `Produtos_chk_1` CHECK ((`Preco` > 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+-------------------------------------------------------+
+1 row in set (0.00 sec)
 ```
 
 Inserindo dados na tabela com valores que atendem à restrição CHECK
@@ -2535,6 +2548,8 @@ VALUES (1, 'Notebook', 2500.00),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.14 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela
@@ -2546,6 +2561,14 @@ SELECT * FROM Produtos;
 output:
 
 ```bash
++-----------+-----------------+---------+
+| ProdutoID | Nome            | Preco   |
++-----------+-----------------+---------+
+|         1 | Notebook        | 2500.00 |
+|         2 | Smartphone      | 1200.50 |
+|         3 | Fones de Ouvido |   80.99 |
++-----------+-----------------+---------+
+3 rows in set (0.00 sec)
 ```
 
 A seguinte instrução gerará um erro porque o valor do "Preco" não é maior que zero
@@ -2558,6 +2581,7 @@ VALUES (4, 'Mouse', 0.00);
 output:
 
 ```bash
+ERROR 3819 (HY000): Check constraint 'Produtos_chk_1' is violated.
 ```
 
 Excluindo a tabela
@@ -2569,6 +2593,7 @@ DROP TABLE Produtos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.38 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2590,6 +2615,7 @@ CREATE TABLE Jogadores (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.61 sec)
 ```
 
 Exibindo a estrutura da tabela antes da restrição CHECK
@@ -2601,6 +2627,14 @@ DESCRIBE Jogadores;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| JogadorID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Pontuacao | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -2615,6 +2649,8 @@ VALUES (1, 'Ronaldo', 25),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados antes de aplicar a restrição CHECK
@@ -2626,6 +2662,14 @@ SELECT * FROM Jogadores;
 output:
 
 ```bash
++-----------+---------+-----------+
+| JogadorID | Nome    | Pontuacao |
++-----------+---------+-----------+
+|         1 | Ronaldo |        25 |
+|         2 | Messi   |        30 |
+|         3 | Neymar  |        15 |
++-----------+---------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 Adicionando a restrição CHECK à coluna "Pontuacao" usando ALTER TABLE
@@ -2638,17 +2682,32 @@ ADD CHECK (Pontuacao >= 0);
 output:
 
 ```bash
+Query OK, 3 rows affected (1.66 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após a adição da restrição CHECK
 
 ```sql
-DESCRIBE Jogadores;
+SHOW CREATE TABLE Jogadores;
 ```
 
 output:
 
 ```bash
++-----------+---------------------------------------------------------+
+| Table     | Create 
++-----------+---------------------------------------------------------+
+| Jogadores | CREATE TABLE `Jogadores` (
+  `JogadorID` int NOT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Pontuacao` int DEFAULT NULL,
+  PRIMARY KEY (`JogadorID`),
+  CONSTRAINT `Jogadores_chk_1` CHECK ((`Pontuacao` >= 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------+--------------------------------------------------------+
+1 row in set (0.00 sec)
+
 ```
 
 A seguinte instrução gerará um erro porque a restrição CHECK não é atendida
@@ -2661,6 +2720,7 @@ VALUES (4, 'Mbappe', -5);
 output:
 
 ```bash
+ERROR 3819 (HY000): Check constraint 'Jogadores_chk_1' is violated.
 ```
 
 Exibindo os dados após a adição da restrição CHECK
@@ -2672,6 +2732,14 @@ SELECT * FROM Jogadores;
 output:
 
 ```bash
++-----------+---------+-----------+
+| JogadorID | Nome    | Pontuacao |
++-----------+---------+-----------+
+|         1 | Ronaldo |        25 |
+|         2 | Messi   |        30 |
+|         3 | Neymar  |        15 |
++-----------+---------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -2683,6 +2751,7 @@ DROP TABLE Jogadores;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.50 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2702,17 +2771,30 @@ CREATE TABLE ContasBancarias (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.51 sec)
 ```
 
 Exibindo a estrutura da tabela antes de remover a restrição CHECK
 
 ```sql
-DESCRIBE ContasBancarias;
+SHOW CREATE TABLE ContasBancarias;
 ```
 
 output:
 
 ```bash
++-----------------+--------------------------------------------------+
+| Table           | Create 
++-----------------+--------------------------------------------------+
+| ContasBancarias | CREATE TABLE `ContasBancarias` (
+  `ContaID` int NOT NULL,
+  `Titular` varchar(255) NOT NULL,
+  `Saldo` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`ContaID`),
+  CONSTRAINT `ContasBancarias_chk_1` CHECK ((`Saldo` >= 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------------+-------------------------------------------------+
+1 row in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -2727,6 +2809,8 @@ VALUES (1, 'João Silva', 5000.00),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.09 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados antes de remover a restrição CHECK
@@ -2738,29 +2822,52 @@ SELECT * FROM ContasBancarias;
 output:
 
 ```bash
++---------+-----------------+----------+
+| ContaID | Titular         | Saldo    |
++---------+-----------------+----------+
+|       1 | Joo Silva       |  5000.00 |
+|       2 | Maria Santos    | 10000.50 |
+|       3 | Carlos Oliveira |  1500.75 |
++---------+-----------------+----------+
+3 rows in set (0.00 sec)
 ```
 
 Removendo a restrição CHECK à coluna "Saldo" usando ALTER TABLE
 
 ```sql
 ALTER TABLE ContasBancarias
-DROP CHECK CHK_Saldo;
+DROP CHECK ContasBancarias_chk_1;
 ```
 
 output:
 
 ```bash
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após remover a restrição CHECK
 
 ```sql
-DESCRIBE ContasBancarias;
+SHOW CREATE TABLE ContasBancarias;
 ```
 
 output:
 
 ```bash
+mysql> SHOW CREATE TABLE ContasBancarias;
++-----------------+-------------------------------------------------+
+| Table           | Create  |
++-----------------+--------------------------------------------------+
+| ContasBancarias | CREATE TABLE `ContasBancarias` (
+  `ContaID` int NOT NULL,
+  `Titular` varchar(255) NOT NULL,
+  `Saldo` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`ContaID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------------+-------------------------------------------------+
+1 row in set (0.00 sec)
+
 ```
 
 Excluindo a tabela
@@ -2772,6 +2879,7 @@ DROP TABLE ContasBancarias;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.40 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2795,6 +2903,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.61 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -2806,6 +2915,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+----------------+-------+
+| Field     | Type         | Null | Key | Default        | Extra |
++-----------+--------------+------+-----+----------------+-------+
+| ClienteID | int          | NO   | PRI | NULL           |       |
+| Nome      | varchar(255) | NO   |     | NULL           |       |
+| Email     | varchar(255) | NO   |     | NULL           |       |
+| Cidade    | varchar(255) | YES  |     | Rio de Janeiro |       |
++-----------+--------------+------+-----+----------------+-------+
+4 rows in set (0.01 sec)
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Cidade"
@@ -2820,6 +2938,8 @@ VALUES (1, 'Ana Silva', 'ana@email.com'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela
@@ -2831,6 +2951,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+----------------+
+| ClienteID | Nome            | Email             | Cidade         |
++-----------+-----------------+-------------------+----------------+
+|         1 | Ana Silva       | ana@email.com     | Rio de Janeiro |
+|         2 | Carlos Oliveira | carlos@email.com  | Rio de Janeiro |
+|         3 | Mariana Santos  | mariana@email.com | Rio de Janeiro |
++-----------+-----------------+-------------------+----------------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela fornecendo um valor específico para a coluna "Cidade"
@@ -2843,6 +2971,7 @@ VALUES (4, 'Pedro Pereira', 'pedro@email.com', 'São Paulo');
 output:
 
 ```bash
+Query OK, 1 row affected (0.10 sec)
 ```
 
 Exibindo os dados da tabela após a inserção com valor específico para a coluna "Cidade"
@@ -2854,6 +2983,15 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+----------------+
+| ClienteID | Nome            | Email             | Cidade         |
++-----------+-----------------+-------------------+----------------+
+|         1 | Ana Silva       | ana@email.com     | Rio de Janeiro |
+|         2 | Carlos Oliveira | carlos@email.com  | Rio de Janeiro |
+|         3 | Mariana Santos  | mariana@email.com | Rio de Janeiro |
+|         4 | Pedro Pereira   | pedro@email.com   | So Paulo       |
++-----------+-----------------+-------------------+----------------+
+4 rows in set (0.01 sec)
 ```
 
 Excluindo a tabela
@@ -2865,6 +3003,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.84 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2885,6 +3024,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.49 sec)
 ```
 
 Exibindo a estrutura da tabela antes da restrição DEFAULT
@@ -2896,6 +3036,16 @@ DESCRIBE Clientes;
 output:
 
 ```bash
+ DESCRIBE Clientes;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | NO   |     | NULL    |       |
+| Estado    | varchar(255) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela
@@ -2910,6 +3060,8 @@ VALUES (1, 'Ana Silva', 'ana@email.com'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.42 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados antes de aplicar a restrição DEFAULT
@@ -2921,6 +3073,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+--------+
+| ClienteID | Nome            | Email             | Estado |
++-----------+-----------------+-------------------+--------+
+|         1 | Ana Silva       | ana@email.com     | NULL   |
+|         2 | Carlos Oliveira | carlos@email.com  | NULL   |
+|         3 | Mariana Santos  | mariana@email.com | NULL   |
++-----------+-----------------+-------------------+--------+
+3 rows in set (0.00 sec)
 ```
 
 Adicionando a restrição DEFAULT à coluna "Estado" usando ALTER TABLE
@@ -2933,6 +3093,8 @@ ALTER Estado SET DEFAULT 'Rio de Janeiro';
 output:
 
 ```bash
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após adicionar a restrição DEFAULT
@@ -2944,6 +3106,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+----------------+-------+
+| Field     | Type         | Null | Key | Default        | Extra |
++-----------+--------------+------+-----+----------------+-------+
+| ClienteID | int          | NO   | PRI | NULL           |       |
+| Nome      | varchar(255) | NO   |     | NULL           |       |
+| Email     | varchar(255) | NO   |     | NULL           |       |
+| Estado    | varchar(255) | YES  |     | Rio de Janeiro |       |
++-----------+--------------+------+-----+----------------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Estado"
@@ -2956,6 +3127,7 @@ VALUES (4, 'Pedro Pereira', 'pedro@email.com');
 output:
 
 ```bash
+Query OK, 1 row affected (0.13 sec)
 ```
 
 Exibindo os dados após a inserção sem fornecer um valor para a coluna "Estado"
@@ -2967,6 +3139,15 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+----------------+
+| ClienteID | Nome            | Email             | Estado         |
++-----------+-----------------+-------------------+----------------+
+|         1 | Ana Silva       | ana@email.com     | NULL           |
+|         2 | Carlos Oliveira | carlos@email.com  | NULL           |
+|         3 | Mariana Santos  | mariana@email.com | NULL           |
+|         4 | Pedro Pereira   | pedro@email.com   | Rio de Janeiro |
++-----------+-----------------+-------------------+----------------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela fornecendo um valor específico para a coluna "Estado"
@@ -2979,6 +3160,7 @@ VALUES (5, 'Maria Oliveira', 'maria@email.com', 'São Paulo');
 output:
 
 ```bash
+Query OK, 1 row affected (0.10 sec)
 ```
 
 Exibindo os dados após a inserção com valor específico para a coluna "Estado"
@@ -2990,6 +3172,16 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+----------------+
+| ClienteID | Nome            | Email             | Estado         |
++-----------+-----------------+-------------------+----------------+
+|         1 | Ana Silva       | ana@email.com     | NULL           |
+|         2 | Carlos Oliveira | carlos@email.com  | NULL           |
+|         3 | Mariana Santos  | mariana@email.com | NULL           |
+|         4 | Pedro Pereira   | pedro@email.com   | Rio de Janeiro |
+|         5 | Maria Oliveira  | maria@email.com   | So Paulo       |
++-----------+-----------------+-------------------+----------------+
+5 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -3001,6 +3193,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.44 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -3021,6 +3214,7 @@ CREATE TABLE Produtos (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.48 sec)
 ```
 
 Exibindo a estrutura da tabela antes de remover a restrição DEFAULT
@@ -3032,6 +3226,15 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | NO   | PRI | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Preco     | decimal(10,2) | YES  |     | 0.00    |       |
+| Tipo      | varchar(255)  | YES  |     | Geral   |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Tipo"
@@ -3046,6 +3249,8 @@ VALUES (1, 'Notebook', 2500.00),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela antes de remover a restrição DEFAULT
@@ -3057,6 +3262,14 @@ SELECT * FROM Produtos;
 output:
 
 ```bash
++-----------+-----------------+---------+-------+
+| ProdutoID | Nome            | Preco   | Tipo  |
++-----------+-----------------+---------+-------+
+|         1 | Notebook        | 2500.00 | Geral |
+|         2 | Smartphone      | 1200.50 | Geral |
+|         3 | Fones de Ouvido |   80.99 | Geral |
++-----------+-----------------+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Removendo a restrição DEFAULT à coluna "Tipo" usando ALTER TABLE
@@ -3069,6 +3282,8 @@ ALTER Tipo DROP DEFAULT;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após remover a restrição DEFAULT
@@ -3080,6 +3295,15 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | NO   | PRI | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Preco     | decimal(10,2) | YES  |     | 0.00    |       |
+| Tipo      | varchar(255)  | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo dados na tabela sem fornecer um valor para a coluna "Tipo" após a remoção
@@ -3093,6 +3317,7 @@ VALUES (4, 'Mouse', 25.00),
 output:
 
 ```bash
+ERROR 1364 (HY000): Field 'Tipo' doesn't have a default value
 ```
 
 Exibindo os dados da tabela após a inserção sem fornecer um valor para a coluna "Tipo"
@@ -3104,6 +3329,14 @@ SELECT * FROM Produtos;
 output:
 
 ```bash
++-----------+-----------------+---------+-------+
+| ProdutoID | Nome            | Preco   | Tipo  |
++-----------+-----------------+---------+-------+
+|         1 | Notebook        | 2500.00 | Geral |
+|         2 | Smartphone      | 1200.50 | Geral |
+|         3 | Fones de Ouvido |   80.99 | Geral |
++-----------+-----------------+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -3115,6 +3348,7 @@ DROP TABLE Produtos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.57 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -3137,6 +3371,7 @@ CREATE TABLE Produtos (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.10 sec)
 ```
 
 Exibindo a estrutura da tabela antes da criação do índice
@@ -3148,6 +3383,15 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | NO   | PRI | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Preco     | decimal(10,2) | YES  |     | NULL    |       |
+| Categoria | varchar(100)  | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela
@@ -3162,6 +3406,8 @@ VALUES (1, 'Notebook', 2500.00, 'Eletrônicos'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.11 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela antes da criação do índice
@@ -3173,6 +3419,14 @@ SELECT * FROM Produtos;
 output:
 
 ```bash
++-----------+-----------------+---------+------------+
+| ProdutoID | Nome            | Preco   | Categoria  |
++-----------+-----------------+---------+------------+
+|         1 | Notebook        | 2500.00 | Eletrnicos |
+|         2 | Smartphone      | 1200.50 | Eletrnicos |
+|         3 | Fones de Ouvido |   80.99 | Acessrios  |
++-----------+-----------------+---------+------------+
+3 rows in set (0.00 sec)
 ```
 
 Criando um índice na coluna "Nome" da tabela "Produtos"
@@ -3184,17 +3438,32 @@ CREATE INDEX idx_Nome ON Produtos (Nome);
 output:
 
 ```bash
+Query OK, 0 rows affected (0.69 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após a criação do índice
 
 ```sql
-DESCRIBE Produtos;
+SHOW CREATE TABLE Produtos;
 ```
 
 output:
 
 ```bash
++----------+----------------------------------------------------------+
+| Table    | Create 
++----------+----------------------------------------------------------+
+| Produtos | CREATE TABLE `Produtos` (
+  `ProdutoID` int NOT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Preco` decimal(10,2) DEFAULT NULL,
+  `Categoria` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ProdutoID`),
+  KEY `idx_Nome` (`Nome`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+---------------------------------------------------------+
+1 row in set (0.00 sec)
 ```
 
 Agora, vamos criar uma tabela "Clientes" com um índice único na coluna "Cpf"
@@ -3211,6 +3480,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.70 sec)
 ```
 
 Exibindo a estrutura da tabela "Clientes" antes da criação do índice único
@@ -3222,6 +3492,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | NO   |     | NULL    |       |
+| Cpf       | varchar(11)  | YES  | UNI | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela "Clientes"
@@ -3236,6 +3515,8 @@ VALUES (1, 'Ana Silva', 'ana@email.com', '12345678901'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.11 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela "Clientes" antes da criação do índice único
@@ -3247,6 +3528,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+-------------+
+| ClienteID | Nome            | Email             | Cpf         |
++-----------+-----------------+-------------------+-------------+
+|         1 | Ana Silva       | ana@email.com     | 12345678901 |
+|         2 | Carlos Oliveira | carlos@email.com  | 98765432109 |
+|         3 | Mariana Santos  | mariana@email.com | 12398745603 |
++-----------+-----------------+-------------------+-------------+
+3 rows in set (0.00 sec)
 ```
 
 Criando um índice único na coluna "Cpf" da tabela "Clientes"
@@ -3258,17 +3547,34 @@ CREATE UNIQUE INDEX idx_Cpf ON Clientes (Cpf);
 output:
 
 ```bash
+Query OK, 0 rows affected, 1 warning (0.44 sec)
+Records: 0  Duplicates: 0  Warnings: 1
 ```
 
 Exibindo a estrutura da tabela "Clientes" após a criação do índice único
 
 ```sql
-DESCRIBE Clientes;
+SHOW CREATE TABLE Clientes;
 ```
 
 output:
 
 ```bash
++----------+-------------------------------------------------------+
+| Table    | Create 
++----------+-------------------------------------------------------+
+| Clientes | CREATE TABLE `Clientes` (
+  `ClienteID` int NOT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `Cpf` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`ClienteID`),
+  UNIQUE KEY `Cpf` (`Cpf`),
+  UNIQUE KEY `idx_Cpf` (`Cpf`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+-------------------------------------------------------+
+1 row in set (0.00 sec)
+
 ```
 
 Tente inserir um registro com um Cpf duplicado para ver o efeito do índice único
@@ -3281,6 +3587,7 @@ INSERT INTO Clientes (ClienteID, Nome, Email, Cpf) VALUES (4, 'Pedro Pereira', '
 output:
 
 ```bash
+ERROR 1062 (23000): Duplicate entry '12345678901' for key 'Clientes.Cpf'
 ```
 
 Excluindo as tabelas
@@ -3293,6 +3600,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.59 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
