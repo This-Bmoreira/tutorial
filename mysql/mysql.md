@@ -3574,7 +3574,6 @@ output:
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
 +----------+-------------------------------------------------------+
 1 row in set (0.00 sec)
-
 ```
 
 Tente inserir um registro com um Cpf duplicado para ver o efeito do índice único
@@ -3621,6 +3620,7 @@ CREATE TABLE Produtos (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.29 sec)
 ```
 
 Exibindo a estrutura da tabela antes da criação do índice
@@ -3632,6 +3632,15 @@ DESCRIBE Produtos;
 output:
 
 ```bash
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| ProdutoID | int           | NO   | PRI | NULL    |       |
+| Nome      | varchar(255)  | NO   |     | NULL    |       |
+| Preco     | decimal(10,2) | YES  |     | NULL    |       |
+| Categoria | varchar(100)  | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
 ```
 
 Inserindo alguns dados na tabela
@@ -3646,6 +3655,8 @@ VALUES (1, 'Notebook', 2500.00, 'Eletrônicos'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela antes da criação do índice
@@ -3657,6 +3668,14 @@ SELECT * FROM Produtos;
 output:
 
 ```bash
++-----------+-----------------+---------+------------+
+| ProdutoID | Nome            | Preco   | Categoria  |
++-----------+-----------------+---------+------------+
+|         1 | Notebook        | 2500.00 | Eletrnicos |
+|         2 | Smartphone      | 1200.50 | Eletrnicos |
+|         3 | Fones de Ouvido |   80.99 | Acessrios  |
++-----------+-----------------+---------+------------+
+3 rows in set (0.00 sec)
 ```
 
 Criando um índice na coluna "Nome" da tabela "Produtos"
@@ -3668,17 +3687,32 @@ CREATE INDEX idx_Nome ON Produtos (Nome);
 output:
 
 ```bash
+Query OK, 0 rows affected (0.78 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após a criação do índice
 
 ```sql
-DESCRIBE Produtos;
+SHOW CREATE TABLE Produtos;
 ```
 
 output:
 
 ```bash
++----------+------------------------------------------------------+
+| Table    | Create 
++----------+------------------------------------------------------+
+| Produtos | CREATE TABLE `Produtos` (
+  `ProdutoID` int NOT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Preco` decimal(10,2) DEFAULT NULL,
+  `Categoria` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ProdutoID`),
+  KEY `idx_Nome` (`Nome`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+-------------------------------------------------------+
+1 row in set (0.00 sec)
 ```
 
 Removendo o índice "idx_Nome" da tabela "Produtos"
@@ -3691,17 +3725,31 @@ DROP INDEX idx_Nome;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo a estrutura da tabela após a remoção do índice
 
 ```sql
-DESCRIBE Produtos;
+SHOW CREATE TABLE Produtos;
 ```
 
 output:
 
 ```bash
++----------+--------------------------------------------------------+
+| Table    | Create 
++----------+--------------------------------------------------------+
+| Produtos | CREATE TABLE `Produtos` (
+  `ProdutoID` int NOT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Preco` decimal(10,2) DEFAULT NULL,
+  `Categoria` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ProdutoID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+-------------------------------------------------------+
+1 row in set (0.01 sec)
 ```
 
 Excluindo a tabela
@@ -3713,6 +3761,7 @@ DROP TABLE Produtos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.83 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -3735,6 +3784,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.61 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -3746,6 +3796,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
+ DESCRIBE Clientes;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| ClienteID | int          | NO   | PRI | NULL    | auto_increment |
+| Nome      | varchar(255) | NO   |     | NULL    |                |
+| Email     | varchar(255) | NO   |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
 ```
 
 Alterando o valor inicial para a sequência de incremento automático
@@ -3757,6 +3816,8 @@ ALTER TABLE Clientes AUTO_INCREMENT=100;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Inserindo novos registros na tabela "Clientes" sem especificar um valor para "ClienteID"
@@ -3771,6 +3832,8 @@ VALUES ('Lars Monsen', 'lars@email.com'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.11 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela após a inserção
@@ -3782,6 +3845,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-------------+----------------+
+| ClienteID | Nome        | Email          |
++-----------+-------------+----------------+
+|       100 | Lars Monsen | lars@email.com |
+|       101 | Eva Hansen  | eva@email.com  |
+|       102 | Sven Olsen  | sven@email.com |
++-----------+-------------+----------------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo mais um registro sem especificar um valor para "ClienteID"
@@ -3794,6 +3865,7 @@ VALUES ('Karen Johansen', 'karen@email.com');
 output:
 
 ```bash
+Query OK, 1 row affected (0.08 sec)
 ```
 
 Exibindo os dados após a inserção do novo registro
@@ -3805,6 +3877,15 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+----------------+-----------------+
+| ClienteID | Nome           | Email           |
++-----------+----------------+-----------------+
+|       100 | Lars Monsen    | lars@email.com  |
+|       101 | Eva Hansen     | eva@email.com   |
+|       102 | Sven Olsen     | sven@email.com  |
+|       103 | Karen Johansen | karen@email.com |
++-----------+----------------+-----------------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -3816,6 +3897,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.44 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -3846,6 +3928,7 @@ CREATE TABLE Eventos (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.01 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -3857,6 +3940,18 @@ DESCRIBE Eventos;
 output:
 
 ```bash
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| EventoID          | int          | NO   | PRI | NULL    |       |
+| NomeEvento        | varchar(255) | NO   |     | NULL    |       |
+| DataEvento        | date         | YES  |     | NULL    |       |
+| HoraEvento        | time         | YES  |     | NULL    |       |
+| DataHoraEvento    | datetime     | YES  |     | NULL    |       |
+| UltimaAtualizacao | timestamp    | YES  |     | NULL    |       |
+| AnoEvento         | year         | YES  |     | NULL    |       |
++-------------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
 ```
 
 Inserindo alguns registros na tabela
@@ -3871,6 +3966,8 @@ VALUES (1, 'Conferência de Tecnologia', '2023-05-15', '15:30:00', '2023-05-15 1
 output:
 
 ```bash
+Query OK, 3 rows affected (0.09 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Exibindo os dados da tabela
@@ -3882,6 +3979,14 @@ SELECT * FROM Eventos;
 output:
 
 ```bash
++----------+--------------------------+------------+------------+---------------------+---------------------+-----------+
+| EventoID | NomeEvento               | DataEvento | HoraEvento | DataHoraEvento      | UltimaAtualizacao   | AnoEvento |
++----------+--------------------------+------------+------------+---------------------+---------------------+-----------+
+|        1 | Conferncia de Tecnologia | 2023-05-15 | 15:30:00   | 2023-05-15 15:30:00 | 2023-05-15 15:30:00 |      2023 |
+|        2 | Workshop de Programao    | 2023-06-20 | 10:00:00   | 2023-06-20 10:00:00 | 2023-06-20 10:00:00 |      2023 |
+|        3 | Apresentao de Produto    | 2023-07-10 | 18:45:00   | 2023-07-10 18:45:00 | 2023-07-10 18:45:00 |      2023 |
++----------+--------------------------+------------+------------+---------------------+---------------------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela
@@ -3893,6 +3998,7 @@ DROP TABLE Eventos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.32 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -3915,17 +4021,26 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (1.20 sec)
 ```
 
 Exibindo a estrutura da tabela
 
 ```sql
-DESCRIBE clientes;
+DESCRIBE Clientes;
 ```
 
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | NO   |     | NULL    |       |
+| Status    | varchar(50)  | YES  |     | Ativo   |       |
++-----------+--------------+------+-----+---------+-------+
 ```
 
 Inserindo alguns registros na tabela de clientes
@@ -3940,6 +4055,8 @@ VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Selecionando dados da tabela Clientes
@@ -3951,6 +4068,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+---------+
+| ClienteID | Nome            | Email             | Status  |
++-----------+-----------------+-------------------+---------+
+|         1 | Ana Silva       | ana@email.com     | Ativo   |
+|         2 | Carlos Oliveira | carlos@email.com  | Inativo |
+|         3 | Mariana Santos  | mariana@email.com | Ativo   |
++-----------+-----------------+-------------------+---------+
+3 rows in set (0.00 sec)
 ```
 
 Criando uma view chamada ClientesAtivos
@@ -3965,6 +4090,7 @@ WHERE Status = 'Ativo';
 output:
 
 ```bash
+Query OK, 0 rows affected (0.18 sec)
 ```
 
 Selecionando dados da view ClientesAtivos
@@ -3976,6 +4102,13 @@ SELECT * FROM ClientesAtivos;
 output:
 
 ```bash
++-----------+----------------+-------------------+
+| ClienteID | Nome           | Email             |
++-----------+----------------+-------------------+
+|         1 | Ana Silva      | ana@email.com     |
+|         3 | Mariana Santos | mariana@email.com |
++-----------+----------------+-------------------+
+2 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela de clientes e a view
@@ -3988,6 +4121,7 @@ DROP VIEW ClientesAtivos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.41 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -4011,6 +4145,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.56 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -4022,6 +4157,16 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | NO   |     | NULL    |       |
+| Status    | varchar(50)  | YES  |     | Ativo   |       |
+| NivelVIP  | int          | YES  |     | 0       |       |
++-----------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
 ```
 
 Inserindo alguns registros na tabela de clientes
@@ -4036,6 +4181,8 @@ VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo', 2),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Selecionando dados da tabela Clientes
@@ -4047,6 +4194,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+---------+----------+
+| ClienteID | Nome            | Email             | Status  | NivelVIP |
++-----------+-----------------+-------------------+---------+----------+
+|         1 | Ana Silva       | ana@email.com     | Ativo   |        2 |
+|         2 | Carlos Oliveira | carlos@email.com  | Inativo |        0 |
+|         3 | Mariana Santos  | mariana@email.com | Ativo   |        3 |
++-----------+-----------------+-------------------+---------+----------+
+3 rows in set (0.00 sec)
 ```
 
 Criando uma view chamada ClientesVIP
@@ -4061,6 +4216,7 @@ WHERE NivelVIP > 0;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.18 sec)
 ```
 
 Selecionando dados da view ClientesVIP
@@ -4072,6 +4228,13 @@ SELECT * FROM ClientesVIP;
 output:
 
 ```bash
++-----------+----------------+-------------------+----------+
+| ClienteID | Nome           | Email             | NivelVIP |
++-----------+----------------+-------------------+----------+
+|         1 | Ana Silva      | ana@email.com     |        2 |
+|         3 | Mariana Santos | mariana@email.com |        3 |
++-----------+----------------+-------------------+----------+
+2 rows in set (0.00 sec)
 ```
 
 Utilizando CREATE OR REPLACE VIEW para adicionar a coluna "Status" à view
@@ -4086,7 +4249,9 @@ WHERE NivelVIP > 0;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.18 sec)
 ```
+
 
 Selecionando dados da view ClientesVIP após a modificação
 
@@ -4097,6 +4262,13 @@ SELECT * FROM ClientesVIP;
 output:
 
 ```bash
++-----------+----------------+-------------------+----------+--------+
+| ClienteID | Nome           | Email             | NivelVIP | Status |
++-----------+----------------+-------------------+----------+--------+
+|         1 | Ana Silva      | ana@email.com     |        2 | Ativo  |
+|         3 | Mariana Santos | mariana@email.com |        3 | Ativo  |
++-----------+----------------+-------------------+----------+--------+
+2 rows in set (0.01 sec)
 ```
 
 Excluindo a tabela de clientes e a view
@@ -4109,6 +4281,8 @@ DROP VIEW ClientesVIP;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.47 sec)
+Query OK, 0 rows affected (0.17 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -4131,6 +4305,7 @@ CREATE TABLE Clientes (
 output:
 
 ```bash
+Query OK, 0 rows affected (0.91 sec)
 ```
 
 Exibindo a estrutura da tabela
@@ -4142,6 +4317,15 @@ DESCRIBE Clientes;
 output:
 
 ```bash
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ClienteID | int          | NO   | PRI | NULL    |       |
+| Nome      | varchar(255) | NO   |     | NULL    |       |
+| Email     | varchar(255) | NO   |     | NULL    |       |
+| Status    | varchar(50)  | YES  |     | Ativo   |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
 ```
 
 Inserindo alguns registros na tabela de clientes
@@ -4156,6 +4340,8 @@ VALUES (1, 'Ana Silva', 'ana@email.com', 'Ativo'),
 output:
 
 ```bash
+Query OK, 3 rows affected (0.11 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ```
 
 Selecionando dados da tabela Clientes
@@ -4167,6 +4353,14 @@ SELECT * FROM Clientes;
 output:
 
 ```bash
++-----------+-----------------+-------------------+---------+
+| ClienteID | Nome            | Email             | Status  |
++-----------+-----------------+-------------------+---------+
+|         1 | Ana Silva       | ana@email.com     | Ativo   |
+|         2 | Carlos Oliveira | carlos@email.com  | Inativo |
+|         3 | Mariana Santos  | mariana@email.com | Ativo   |
++-----------+-----------------+-------------------+---------+
+3 rows in set (0.00 sec)
 ```
 
 Criando uma view chamada ClientesAtivos
@@ -4181,6 +4375,7 @@ WHERE Status = 'Ativo';
 output:
 
 ```bash
+Query OK, 0 rows affected (0.23 sec)
 ```
 
 Selecionando dados da view ClientesAtivos
@@ -4192,6 +4387,13 @@ SELECT * FROM ClientesAtivos;
 output:
 
 ```bash
++-----------+----------------+-------------------+
+| ClienteID | Nome           | Email             |
++-----------+----------------+-------------------+
+|         1 | Ana Silva      | ana@email.com     |
+|         3 | Mariana Santos | mariana@email.com |
++-----------+----------------+-------------------+
+2 rows in set (0.01 sec)
 ```
 
 Excluindo a view ClientesAtivos
@@ -4203,6 +4405,7 @@ DROP VIEW ClientesAtivos;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.14 sec)
 ```
 
 Tentando selecionar dados da view após a exclusão
@@ -4215,6 +4418,7 @@ SELECT * FROM ClientesAtivos;
 output:
 
 ```bash
+ERROR 1146 (42S02): Table 'TUTORIAL.ClientesAtivos' doesn't exist
 ```
 
 Excluindo a tabela de clientes
@@ -4226,6 +4430,7 @@ DROP TABLE Clientes;
 output:
 
 ```bash
+Query OK, 0 rows affected (0.38 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
