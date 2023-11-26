@@ -1,6 +1,50 @@
 # índice
 
 - [Criar um container MySQL](#criar-um-container-mysql)
+- [SQL Básico](#sql-básico)
+  - [SQL SELECT Statement](#sql-select-statement)
+  - [SQL SELECT DISTINCT Statement](#sql-select-distinct-statement)
+  - [SQL WHERE Clause](#sql-where-clause)
+  - [SQL ORDER BY](#sql-order-by)
+- [Operadores Lógicos](#operadores-lógicos)
+  - [SQL AND Operator](#sql-and-operator)
+  - [SQL OR Operator](#sql-or-operator)
+  - [NOT Operator](#not-operator)
+- [Manipulação de Dados](#manipulação-de-dados)
+  - [SQL INSERT INTO Statement](#sql-insert-into-statement)
+  - [NULL](#null)
+  - [SQL UPDATE Statement](#sql-update-statement)
+  - [SQL DELETE Statement](#sql-delete-statement)
+- [Consultas Avançadas](#consultas-avançadas)
+  - [SQL SELECT TOP Clause](#sql-select-top-clause)
+  - [SQL MIN() and MAX() Functions](#sql-min-and-max-functions)
+  - [SQL COUNT() Function](#sql-count-function)
+  - [SQL SUM() Function](#sql-sum-function)
+  - [SQL AVG() Function](#sql-avg-function)
+- [Operadores de Comparação](#operadores-de-comparação)
+  - [SQL LIKE Operator](#sql-like-operator)
+  - [SQL Wildcard Characters](#sql-wildcard-characters)
+  - [SQL IN Operator](#sql-in-operator)
+  - [SQL BETWEEN Operator](#sql-between-operator)
+- [Tabelas e Joins](#tabelas-e-joins)
+  - [SQL Aliases](#sql-aliases)
+  - [SQL JOIN](#sql-join)
+  - [INNER JOIN](#inner-join)
+  - [SQL LEFT JOIN Keyword](#sql-left-join-keyword)
+  - [SQL RIGHT JOIN Keyword](#sql-right-join-keyword)
+  - [FULL OUTER JOIN Syntax](#FULL-OUTER-JOIN-Syntax)
+  - [SQL Self Join](#sql-self-join)
+  - [SQL FULL OUTER JOIN Keyword](#sql-full-outer-join-keyword)
+- [Agrupamento e Funções Avançadas](#agrupamento-e-funções-avançadas)
+  - [SQL UNION Operator](#sql-union-operator)
+  - [SQL GROUP BY Statement](#sql-group-by-statement)
+  - [SQL HAVING Clause](#sql-having-clause)
+  - [SQL EXISTS Operator](#sql-exists-operator)
+  - [SQL ANY and ALL Operators](#sql-any-and-all-operators)
+  - [SQL SELECT INTO Statement](#sql-select-into-statement)
+  - [SQL INSERT INTO SELECT Statement](#sql-insert-into-select-statement)
+  - [SQL CASE Expression](#sql-case-expression)
+  - [SQL IFNULL(), ISNULL(), COALESCE(), and NVL() Functions](#sql-ifnull-isnull-coalesce-and-nvl-functions)
 - [SQL Database](#sql-database)
   - [SQL CREATE DB](#sql-create-db)
   - [SQL SHOW DATABASES](#sql-show-databases)
@@ -64,6 +108,178 @@ Quando solicitado, digite sua senha
 ```bash
 password: sua_senha_root
 ```
+
+**[:arrow_up: back to top](#índice)**
+
+## SQL Básico
+
+### SQL SELECT Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL SELECT DISTINCT Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL WHERE Clause
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL ORDER BY
+
+**[:arrow_up: back to top](#índice)**
+
+## Operadores Lógicos
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL AND Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL OR Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### NOT Operator
+
+**[:arrow_up: back to top](#índice)**
+
+## Manipulação de Dados
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL UPDATE Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL DELETE Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### NULL
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL INSERT INTO Statement
+
+**[:arrow_up: back to top](#índice)**
+
+## Consultas Avançadas
+
+### SQL SELECT TOP Clause
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL MIN() and MAX() Functions
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL COUNT() Function
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL SUM() Function
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL AVG() Function
+
+**[:arrow_up: back to top](#índice)**
+
+## Operadores de Comparação
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL BETWEEN Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL LIKE Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL Wildcard Characters
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL IN Operator
+
+**[:arrow_up: back to top](#índice)**
+
+## Tabelas e Joins
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL Aliases
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL JOIN
+
+**[:arrow_up: back to top](#índice)**
+
+### INNER JOIN
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL LEFT JOIN Keyword
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL RIGHT JOIN Keyword
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL Self Join
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL FULL OUTER JOIN Keyword
+
+**[:arrow_up: back to top](#índice)**
+
+## Agrupamento e Funções Avançadas
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL UNION Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL GROUP BY Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL HAVING Clause
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL EXISTS Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL ANY Operator
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL ANY and ALL Operators
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL SELECT INTO Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL INSERT INTO SELECT Statement
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL CASE Expression
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL IFNULL(), ISNULL(), COALESCE(), and NVL() Functions
 
 **[:arrow_up: back to top](#índice)**
 
@@ -3353,7 +3569,7 @@ Query OK, 0 rows affected (0.57 sec)
 
 **[:arrow_up: back to top](#índice)**
 
-#### SQL CREATE INDEX Statement
+### SQL CREATE INDEX Statement
 
 Os índices são usados para recuperar dados do banco de dados mais rapidamente do que de outra forma. Os usuários não podem ver os índices, eles apenas servem para agilizar pesquisas/consultas.
 
@@ -4251,7 +4467,6 @@ output:
 ```bash
 Query OK, 0 rows affected (0.18 sec)
 ```
-
 
 Selecionando dados da view ClientesVIP após a modificação
 
