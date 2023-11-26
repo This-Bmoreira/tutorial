@@ -4,8 +4,14 @@
 - [SQL Básico](#sql-básico)
   - [SQL SELECT Statement](#sql-select-statement)
   - [SQL SELECT DISTINCT Statement](#sql-select-distinct-statement)
+    - [Count Distinct](#count-distinct)
   - [SQL WHERE Clause](#sql-where-clause)
   - [SQL ORDER BY](#sql-order-by)
+    - [DESC](#desc)
+    - [Order Alphabetically](#order-alphabetically)
+    - [Alphabetically DESC](#alphabetically-desc)
+    - [ORDER BY Several Columns](#order-by-several-columns)
+    - [Using Both ASC and DESC](#using-both-asc-and-desc)
 - [Operadores Lógicos](#operadores-lógicos)
   - [SQL AND Operator](#sql-and-operator)
   - [SQL OR Operator](#sql-or-operator)
@@ -115,17 +121,519 @@ password: sua_senha_root
 
 ### SQL SELECT Statement
 
+A instrução SELECT é usada para selecionar dados de um banco de dados.
+
+Criando a tabela Products (apenas para fins de exemplo, você pode já ter uma tabela semelhante)
+
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(255),
+    Category VARCHAR(50),
+    Price DECIMAL(10, 2),
+    StockQuantity INT
+);
+```
+
+```sql
+DESCRIBE Products;
+```
+
+Inserindo alguns dados na tabela Products
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Category, Price, StockQuantity)
+VALUES
+    (1, 'Laptop', 'Electronics', 1200.00, 50),
+    (2, 'Smartphone', 'Electronics', 800.00, 100),
+    (3, 'Desk Chair', 'Furniture', 150.00, 30),
+    (4, 'Coffee Maker', 'Appliances', 50.00, 75),
+    (5, 'Running Shoes', 'Sports', 80.00, 200);
+```
+
+Selecionando o nome e o preço dos produtos da categoria 'Electronics'
+
+```sql
+SELECT ProductName, Price
+FROM Products
+WHERE Category = 'Electronics';
+```
+
+Selecionando todas as colunas da tabela Products
+
+```sql
+SELECT *
+FROM Products;
+```
+
+```sql
+DROP TABLE Products;
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ### SQL SELECT DISTINCT Statement
+
+A instrução SELECT DISTINCT é usada para retornar apenas valores distintos (diferentes).
+
+Criando a tabela Customers
+
+```sql
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(255),
+    ContactName VARCHAR(255),
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(50)
+);
+```
+
+```sql
+DESCRIBE Customers;
+```
+
+Inserindo alguns dados na tabela Customers
+
+```sql
+INSERT INTO Customers (CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES
+  (1, 'Alfreds Futterkiste', 'Maria Anders', 'Obere Str. 57', 'Berlin', '12209', 'Germany'),
+  (2, 'Ana Trujillo Emparedados y helados', 'Ana Trujillo', 'Avda. de la Constitución 2222', 'México D.F.', '05021', 'Mexico'),
+  (3, 'Antonio Moreno Taquería', 'Antonio Moreno', 'Mataderos 2312', 'México D.F.', '05023', 'Mexico'),
+  (4, 'Around the Horn', 'Thomas Hardy', '120 Hanover Sq.', 'London', 'WA1 1DP', 'UK'),
+  (5, 'Berglunds snabbköp', 'Christina Berglund', 'Berguvsvägen 8', 'Luleå', 'S-958 22', 'Sweden');
+```
+
+```sql
+SELECT DISTINCT Country
+FROM Customers;
+```
+
+Excluindo a tabela Customers
+
+```sql
+DROP TABLE Customers;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### Count Distinct
+
+Criando a tabela Orders
+
+```sql
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    ShipCountry VARCHAR(50)
+);
+```
+
+```sql
+DESCRIBE Orders;
+```
+
+Inserindo alguns dados na tabela Orders
+
+```sql
+INSERT INTO Orders (OrderID, CustomerID, OrderDate, ShipCountry)
+VALUES
+    (1, 1, '2023-01-15', 'Germany'),
+    (2, 2, '2023-02-20', 'Mexico'),
+    (3, 3, '2023-03-25', 'Mexico'),
+    (4, 4, '2023-04-10', 'UK'),
+    (5, 5, '2023-05-05', 'Sweden'),
+    (6, 1, '2023-06-15', 'Germany'),
+    (7, 2, '2023-07-20', 'Mexico');
+```
+
+Contando o número de países distintos na tabela Orders
+Esta consulta é compatível com a maioria dos bancos de dados, incluindo MS Access
+
+```sql
+SELECT COUNT(DISTINCT ShipCountry) AS DistinctCountries
+FROM Orders;
+```
+
+Excluindo a tabela Orders (apenas para fins de exemplo)
+
+```sql
+DROP TABLE Orders;
+```
 
 **[:arrow_up: back to top](#índice)**
 
 ### SQL WHERE Clause
 
+A cláusula WHERE é usada para filtrar registros. É usado para extrair apenas os registros que atendem a uma condição especificada.
+
+Criando a tabela User
+
+```sql
+CREATE TABLE User (
+    ID INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Idade INT,
+    Salario DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE User;
+```
+
+Inserindo alguns dados na tabela
+
+```sql
+INSERT INTO User (ID, Nome, Idade, Salario) VALUES
+(1, 'Alice', 25, 50000.00),
+(2, 'Bob', 35, 75000.00),
+(3, 'Charlie', 28, 60000.00),
+(4, 'David', 40, 90000.00),
+(5, 'Eva', 22, 45000.00),
+(6, 'Frank', 30, 70000.00);
+```
+
+Selecionando Pessoas com Idade Superior a 30:
+
+```sql
+SELECT * FROM User
+WHERE Idade > 30;
+```
+
+Selecionando Pessoas com Salário Menor ou Igual a 60000:
+
+```sql
+SELECT * FROM User
+WHERE Salario <= 60000;
+```
+
+Selecionando Pessoas com Nomes que Não São "Eva":
+
+```sql
+SELECT * FROM User
+WHERE Nome <> 'Eva';
+```
+
+Selecionando Pessoas com Idades Entre 25 e 35:
+
+```sql
+SELECT * FROM User
+WHERE Idade BETWEEN 25 AND 35;
+```
+
+Selecionando Pessoas com Nomes que Começam com "A":
+
+```sql
+SELECT * FROM User
+WHERE Nome LIKE 'A%';
+```
+
+Selecionando Pessoas com IDs 1, 3 e 5:
+
+```sql
+SELECT * FROM User
+WHERE ID IN (1, 3, 5);
+```
+
+```sql
+DROP TABLE User;
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ### SQL ORDER BY
+
+A palavra-chave ORDER BY é usada para classificar o conjunto de resultados em ordem crescente ou decrescente.
+
+Criando a tabela Products
+
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Products;
+```
+
+Inserindo alguns dados na tabela Products
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES
+    (1, 'Product A', 19.99),
+    (2, 'Product B', 29.99),
+    (3, 'Product C', 14.99),
+    (4, 'Product D', 39.99),
+    (5, 'Product E', 9.99);
+```
+
+Criando a tabela Orders
+
+```sql
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    ShipCountry VARCHAR(50)
+);
+```
+
+```sql
+DESCRIBE Orders;
+```
+
+Adicionando a coluna ProductID à tabela Orders
+
+```sql
+ALTER TABLE Orders
+ADD ProductID INT;
+```
+
+Inserindo alguns dados na tabela Orders
+
+```sql
+INSERT INTO Orders (OrderID, CustomerID, OrderDate, ShipCountry, ProductID)
+VALUES
+    (1, 1, '2023-01-15', 'Germany', 2),
+    (2, 2, '2023-02-20', 'Mexico', 4),
+    (3, 3, '2023-03-25', 'Mexico', 1),
+    (4, 4, '2023-04-10', 'UK', 3),
+    (5, 5, '2023-05-05', 'Sweden', 5),
+    (6, 1, '2023-06-15', 'Germany', 2),
+    (7, 2, '2023-07-20', 'Mexico', 4);
+```
+
+Selecionando os pedidos ordenados por OrderDate
+
+```sql
+SELECT *
+FROM Orders
+ORDER BY OrderDate;
+```
+
+```sql
+DROP TABLE Orders;
+DROP TABLE Products;
+```
+
+#### DESC
+
+Criando a tabela Products
+
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Products;
+```
+
+Inserindo alguns dados na tabela Products
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES
+    (1, 'Product A', 19.99),
+    (2, 'Product B', 29.99),
+    (3, 'Product C', 14.99),
+    (4, 'Product D', 39.99),
+    (5, 'Product E', 9.99);
+```
+
+Selecionando os produtos ordenados por preço do mais alto para o mais baixo
+
+```sql
+SELECT *
+FROM Products
+ORDER BY Price DESC;
+```
+
+```sql
+DROP TABLE Products
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### Order Alphabetically
+
+Para valores de string, a palavra-chave ORDER BY será ordenada em ordem alfabética:.
+
+Criando a tabela Products
+
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Products;
+```
+
+Inserindo alguns dados na tabela Products
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES
+    (1, 'Product A', 19.99),
+    (2, 'Product B', 29.99),
+    (3, 'Product C', 14.99),
+    (4, 'Product D', 39.99),
+    (5, 'Product E', 9.99);
+```
+
+Selecionando os produtos ordenados alfabeticamente por nome
+
+```sql
+SELECT *
+FROM Products
+ORDER BY ProductName;
+```
+
+```sql
+DROP TABLE Products
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### Alphabetically DESC
+
+Criando a tabela Products
+
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Products;
+```
+
+Inserindo alguns dados na tabela Products
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES
+    (1, 'Product C', 19.99),
+    (2, 'Product A', 29.99),
+    (3, 'Product E', 14.99),
+    (4, 'Product B', 39.99),
+    (5, 'Product D', 9.99);
+```
+
+Selecionando os produtos ordenados alfabeticamente pelo nome em ordem reversa
+
+```sql
+SELECT *
+FROM Products
+ORDER BY ProductName DESC;
+```
+
+```sql
+DROP TABLE Products
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### ORDER BY Several Columns
+
+Criando a tabela Customers
+
+```sql
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(50),
+    Country VARCHAR(50)
+);
+```
+
+```SQL
+DESCRIBE Customers;
+```
+
+Inserindo alguns dados na tabela Customers
+
+```sql
+INSERT INTO Customers (CustomerID, CustomerName, Country)
+VALUES
+    (1, 'Customer C', 'Brazil'),
+    (2, 'Customer A', 'USA'),
+    (3, 'Customer E', 'Canada'),
+    (4, 'Customer B', 'USA'),
+    (5, 'Customer D', 'Brazil');
+```
+
+Selecionando os clientes ordenados alfabeticamente pelo nome em ordem reversa e, em caso de empate, pelo país
+
+```sql
+SELECT *
+FROM Customers
+ORDER BY CustomerName DESC, Country DESC;
+```
+
+```sql
+DROP TABLE Customers;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### Using Both ASC and DESC
+
+Criando a tabela Customers
+
+```sql
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(50),
+    Country VARCHAR(50)
+);
+```
+
+```SQL
+DESCRIBE Customers;
+```
+
+Inserindo alguns dados na tabela Customers
+
+```sql
+INSERT INTO Customers (CustomerID, CustomerName, Country)
+VALUES
+    (1, 'Customer C', 'Brazil'),
+    (2, 'Customer A', 'USA'),
+    (3, 'Customer E', 'Canada'),
+    (4, 'Customer B', 'USA'),
+    (5, 'Customer D', 'Brazil');
+```
+
+Selecionando os clientes ordenados pelo país em ordem ascendente e, em caso de empate, pelo nome do cliente em ordem descendente
+
+```sql
+SELECT *
+FROM Customers
+ORDER BY Country ASC, CustomerName DESC;
+```
+
+```sql
+DROP TABLE Customers;
+```
+
 
 **[:arrow_up: back to top](#índice)**
 
