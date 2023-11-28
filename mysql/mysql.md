@@ -634,7 +634,6 @@ ORDER BY Country ASC, CustomerName DESC;
 DROP TABLE Customers;
 ```
 
-
 **[:arrow_up: back to top](#índice)**
 
 ## Operadores Lógicos
@@ -643,33 +642,370 @@ DROP TABLE Customers;
 
 ### SQL AND Operator
 
+O operador AND é usado para filtrar registros com base em mais de uma condição, como se você desejasse retornar todos os clientes da Espanha que começam com a letra 'G':
+
+```sql
+CREATE TABLE Customers (
+    IDCliente INT PRIMARY KEY,
+    CustomerName VARCHAR(50),
+    Country VARCHAR(50)
+);
+```
+
+```SQL
+DESCRIBE Customers;
+```
+
+```sql
+INSERT INTO Customers (IDCliente, CustomerName, Country)
+VALUES
+(1, 'Gustavo', 'Spain'),
+(2, 'Ana', 'Spain'),
+(3, 'George', 'Germany'),
+(4, 'Gabriel', 'Spain'),
+(5, 'Grace', 'Italy');
+```
+
+```sql
+SELECT *
+FROM Customers
+WHERE Country = 'Spain' AND CustomerName LIKE 'G%';
+```
+
+```sql
+DROP TABLE Customers;
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ### SQL OR Operator
+
+O operador OR é usado para filtrar registros com base em mais de uma condição, como se você deseja retornar todos os clientes da Alemanha, mas também os da Espanha:
+
+Criando uma tabela de Produtos
+
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Category VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```SQL
+DESCRIBE Products;
+```
+
+Inserindo alguns dados na tabela de Produtos
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Category, Price)
+VALUES
+(1, 'Laptop', 'Electronics', 1200.00),
+(2, 'Desk Chair', 'Furniture', 150.00),
+(3, 'Coffee Maker', 'Appliances', 50.00),
+(4, 'Running Shoes', 'Sports', 80.00),
+(5, 'Desk Lamp', 'Furniture', 30.00);
+```
+
+Consulta para selecionar produtos da categoria 'Electronics' com preço superior a $100 ou produtos da categoria 'Furniture'
+
+```sql
+SELECT *
+FROM Products
+WHERE (Category = 'Electronics' AND Price > 100.00) OR Category = 'Furniture';
+```
+
+Excluindo a tabela de Produtos após a conclusão da consulta
+
+```sql
+DROP TABLE Products;
+```
 
 **[:arrow_up: back to top](#índice)**
 
 ### NOT Operator
 
+O operador NOT é usado em combinação com outros operadores para fornecer o resultado oposto, também chamado de resultado negativo.
+
+Criando uma tabela de Funcionários
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    Department VARCHAR(50),
+    Salary DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Employees;
+```
+
+Inserindo alguns dados na tabela de Funcionários
+
+```sql
+INSERT INTO Employees (EmployeeID, EmployeeName, Department, Salary)
+VALUES
+(1, 'Alice', 'HR', 50000.00),
+(2, 'Bob', 'IT', 60000.00),
+(3, 'Charlie', 'Finance', 70000.00),
+(4, 'David', 'Marketing', 55000.00),
+(5, 'Eva', 'IT', 62000.00);
+```
+
+Exemplo com NOT LIKE: Selecionar funcionários cujo nome não começa com a letra 'A'
+
+```sql
+SELECT *
+FROM Employees
+WHERE EmployeeName NOT LIKE 'A%';
+```
+
+Exemplo com NOT BETWEEN: Selecionar funcionários cujo ID não está entre 2 e 4
+
+```sql
+SELECT *
+FROM Employees
+WHERE EmployeeID NOT BETWEEN 2 AND 4;
+```
+
+Exemplo com NOT IN: Selecionar funcionários que não são do departamento 'IT' ou 'HR'
+
+```sql
+SELECT *
+FROM Employees
+WHERE Department NOT IN ('IT', 'HR');
+```
+
+Exemplo com NOT Greater Than: Selecionar funcionários com salário não superior a $60000
+
+```sql
+SELECT *
+FROM Employees
+WHERE NOT Salary > 60000.00;
+-- Ou usando a notação !>
+-- SELECT *
+-- FROM Employees
+-- WHERE Salary !> 60000.00;
+```
+
+Exemplo com NOT Less Than: Selecionar funcionários com salário não inferior a $60000
+
+```sql
+SELECT *
+FROM Employees
+WHERE NOT Salary < 60000.00;
+-- Ou usando a notação !<
+-- SELECT *
+-- FROM Employees
+-- WHERE Salary !< 60000.00;
+```
+
+Excluindo a tabela de Funcionários após a conclusão dos exemplos
+
+```sql
+DROP TABLE Employees;
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ## Manipulação de Dados
 
-**[:arrow_up: back to top](#índice)**
+### SQL INSERT INTO Statement
 
-### SQL UPDATE Statement
+A instrução INSERT INTO é usada para inserir novos registros em uma tabela.
 
-**[:arrow_up: back to top](#índice)**
+Criando uma tabela de Produtos
 
-### SQL DELETE Statement
+```sql
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Category VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Products;
+```
+
+Exemplo de INSERT INTO especificando nomes de colunas e valores
+
+```sql
+INSERT INTO Products (ProductID, ProductName, Category, Price)
+VALUES (1, 'Laptop', 'Electronics', 1200.00);
+```
+
+Ou, usando a segunda forma, inserindo valores para todas as colunas sem especificar os nomes das colunas
+
+```sql
+INSERT INTO Products
+VALUES (2, 'Desk Chair', 'Furniture', 150.00);
+```
+
+```sql
+DROP TABLE Products
+```
 
 **[:arrow_up: back to top](#índice)**
 
 ### NULL
 
+Um campo com valor NULL é um campo sem valor.
+
+Se um campo de uma tabela for opcional, é possível inserir um novo registro ou atualizar um registro sem adicionar um valor a este campo. Então, o campo será salvo com valor NULL.
+
+Criando uma tabela de Pedidos
+
+```SQL
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerName VARCHAR(50),
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2)
+);
+```
+
+```SQL
+DESCRIBE Orders;
+```
+
+Inserindo alguns dados na tabela de Pedidos, incluindo valores NULL
+
+```SQL
+INSERT INTO Orders (OrderID, CustomerName, OrderDate, TotalAmount)
+VALUES
+(1, 'Alice', '2023-01-15', 100.00),
+(2, 'Bob', NULL, 150.00),
+(3, 'Charlie', '2023-02-20', NULL),
+(4, 'David', '2023-03-10', 200.00),
+(5, 'Eva', NULL, NULL);
+```
+
+Exemplo de como testar valores NULL usando IS NULL
+Seleciona pedidos onde a data do pedido é desconhecida (NULL)
+
+```SQL
+
+SELECT *
+FROM Orders
+WHERE OrderDate IS NULL;
+```
+
+Exemplo de como testar valores NÃO NULL usando IS NOT NULL
+Seleciona pedidos onde o valor total do pedido é conhecido (NÃO NULL)
+
+```SQL
+SELECT *
+FROM Orders
+WHERE TotalAmount IS NOT NULL;
+```
+
+```SQL
+DROP TABLE Orders;
+```
+
 **[:arrow_up: back to top](#índice)**
 
-### SQL INSERT INTO Statement
+### SQL UPDATE Statement
+
+A instrução UPDATE é usada para modificar os registros existentes em uma tabela.
+
+Criando uma tabela de Estoque
+
+```sql
+CREATE TABLE Inventory (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    QuantityInStock INT
+);
+```
+
+```sql
+DESCRIBE Inventory
+```
+
+Inserindo alguns dados na tabela de Estoque
+
+```sql
+INSERT INTO Inventory (ProductID, ProductName, QuantityInStock)
+VALUES
+(1, 'Laptop', 50),
+(2, 'Desk Chair', 30),
+(3, 'Coffee Maker', 20),
+(4, 'Running Shoes', 40),
+(5, 'Desk Lamp', 25);
+```
+
+Exemplo de como atualizar a quantidade em estoque para um produto específico
+
+```sql
+UPDATE Inventory
+SET QuantityInStock = 60
+WHERE ProductName = 'Laptop';
+```
+
+Exemplo de como decrementar a quantidade em estoque para produtos com quantidade superior a 30
+
+```sql
+UPDATE Inventory
+SET QuantityInStock = QuantityInStock - 10
+WHERE QuantityInStock > 30;
+```
+
+```sql
+DROP TABLE Inventory;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+### SQL DELETE Statement
+
+A instrução DELETE é usada para excluir registros existentes em uma tabela.
+
+Criando uma tabela de Clientes
+
+```SQL
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(50),
+    Country VARCHAR(50)
+);
+```
+
+Inserindo alguns dados na tabela de Clientes
+
+```SQL
+INSERT INTO Customers (CustomerID, CustomerName, Country)
+VALUES
+(1, 'Alice', 'USA'),
+(2, 'Bob', 'Canada'),
+(3, 'Charlie', 'UK'),
+(4, 'David', 'Australia'),
+(5, 'Eva', 'Germany');
+```
+
+Exemplo de como excluir um cliente específico da tabela
+
+```SQL
+DELETE FROM Customers
+WHERE CustomerID = 2;
+```
+
+Exemplo de como excluir todos os clientes de um país específico da tabela
+
+```SQL
+DELETE FROM Customers
+WHERE Country = 'UK';
+```
+
+```SQL
+DROP TABLE Customers;
+```
 
 **[:arrow_up: back to top](#índice)**
 
