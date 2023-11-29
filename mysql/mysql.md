@@ -23,6 +23,9 @@
   - [SQL DELETE Statement](#sql-delete-statement)
 - [Consultas Avançadas](#consultas-avançadas)
   - [SQL SELECT TOP Clause](#sql-select-top-clause)
+    - [LIMIT](#limit)
+    - [ADD a WHERE CLAUSE](#add-a-where-clause)
+    - [ADD the ORDER BY Keyword](#add-the-order-by-keyword)
   - [SQL MIN() and MAX() Functions](#sql-min-and-max-functions)
   - [SQL COUNT() Function](#sql-count-function)
   - [SQL SUM() Function](#sql-sum-function)
@@ -1013,9 +1016,227 @@ DROP TABLE Customers;
 
 ### SQL SELECT TOP Clause
 
+A cláusula SELECT TOP é usada para especificar o número de registros a serem retornados.
+
+A cláusula SELECT TOP é útil em tabelas grandes com milhares de registros. O retorno de um grande número de registros pode afetar o desempenho.
+
+Criar uma tabela fictícia de pedidos
+
+```sql
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    ProductName VARCHAR(50)
+);
+```
+
+```sql
+DESCRIBE Orders
+```
+
+Inserir alguns dados fictícios
+
+```sql
+INSERT INTO Orders (OrderID, CustomerID, OrderDate, ProductName)
+VALUES
+    (1, 101, '2023-11-01', 'Product A'),
+    (2, 102, '2023-11-02', 'Product B'),
+    (3, 103, '2023-11-03', 'Product C'),
+    (4, 104, '2023-11-04', 'Product D'),
+    (5, 105, '2023-11-05', 'Product E');
+```
+
+Selecionar os três pedidos mais recentes
+
+```sql
+SELECT TOP 3 * FROM Orders
+ORDER BY OrderDate DESC;
+```
+
+```SQL
+DROP TABLE Orders;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### LIMIT
+
+Criar uma tabela fictícia de clientes
+
+```SQL
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100)
+);
+```
+
+```sql
+DESCRIBE Customers
+```
+
+Inserir alguns dados fictícios
+
+```SQL
+INSERT INTO Customers (CustomerID, FirstName, LastName, Email)
+VALUES
+    (1, 'John', 'Doe', 'john.doe@example.com'),
+    (2, 'Jane', 'Smith', 'jane.smith@example.com'),
+    (3, 'Bob', 'Johnson', 'bob.johnson@example.com'),
+    (4, 'Alice', 'Williams', 'alice.williams@example.com'),
+    (5, 'Charlie', 'Brown', 'charlie.brown@example.com');
+```
+
+Selecionar os três primeiros clientes
+
+```SQL
+SELECT * FROM Customers
+LIMIT 3;
+```
+
+```SQL
+DROP TABLE Customers;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### ADD a WHERE CLAUSE
+
+Criar uma tabela fictícia de clientes
+
+```SQL
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    Country VARCHAR(50)
+);
+```
+
+```sql
+DESCRIBE Customers
+```
+
+Inserir alguns dados fictícios
+
+```SQL
+INSERT INTO Customers (CustomerID, FirstName, LastName, Email, Country)
+VALUES
+    (1, 'Hans', 'Müller', 'hans.mueller@example.com', 'Germany'),
+    (2, 'Maria', 'Schmidt', 'maria.schmidt@example.com', 'Austria'),
+    (3, 'Günther', 'Fischer', 'guenther.fischer@example.com', 'Germany'),
+    (4, 'Sophie', 'Weber', 'sophie.weber@example.com', 'Germany'),
+    (5, 'Matthias', 'Koch', 'matthias.koch@example.com', 'Switzerland');
+```
+
+Selecionar os três primeiros clientes da Alemanha
+
+```SQL
+SELECT * FROM Customers
+WHERE Country = 'Germany'
+LIMIT 3;
+```
+
+```sql
+DROP TABLE Customers;
+```
+
+**[:arrow_up: back to top](#índice)**
+
+#### ADD the ORDER BY Keyword
+
+Criar uma tabela fictícia de clientes
+
+```SQL
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    Email VARCHAR(100),
+    Country VARCHAR(50)
+);
+```
+
+```sql
+DESCRIBE Customers
+```
+
+Inserir alguns dados fictícios
+
+```SQL
+INSERT INTO Customers (CustomerID, CustomerName, Email, Country)
+VALUES
+    (1, 'John Doe', 'john.doe@example.com', 'USA'),
+    (2, 'Jane Smith', 'jane.smith@example.com', 'Canada'),
+    (3, 'Bob Johnson', 'bob.johnson@example.com', 'UK'),
+    (4, 'Alice Williams', 'alice.williams@example.com', 'Australia'),
+    (5, 'Charlie Brown', 'charlie.brown@example.com', 'Germany');
+```
+
+Selecionar os três clientes mais recentes
+
+```SQL
+SELECT * FROM Customers
+ORDER BY CustomerID DESC
+LIMIT 3;
+```
+
+```sql
+DROP TABLE Customers;
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ### SQL MIN() and MAX() Functions
+
+A função MIN() retorna o menor valor da coluna selecionada.
+A função MAX() retorna o maior valor da coluna selecionada.
+
+Criar uma tabela fictícia de produtos
+
+```SQL
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Products
+```
+
+Inserir alguns dados fictícios
+
+```SQL
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES
+    (1, 'Product A', 19.99),
+    (2, 'Product B', 29.99),
+    (3, 'Product C', 14.99),
+    (4, 'Product D', 39.99),
+    (5, 'Product E', 24.99);
+```
+
+Encontrar o menor preço
+
+```SQL
+SELECT MIN(Price) AS LowestPrice
+FROM Products;
+```
+
+Encontrar o maior preço
+
+```SQL
+SELECT MAX(Price) AS HighestPrice
+FROM Products;
+```
+
+```SQL
+DROP TABLE Products
+```
 
 **[:arrow_up: back to top](#índice)**
 
