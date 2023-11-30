@@ -27,6 +27,8 @@
     - [ADD a WHERE CLAUSE](#add-a-where-clause)
     - [ADD the ORDER BY Keyword](#add-the-order-by-keyword)
   - [SQL MIN() and MAX() Functions](#sql-min-and-max-functions)
+    - [ADD a WHERE CLAUSE](#add-a-where-clause)
+    - [Ignore Duplicates](#add-the-order-by-keyword)
   - [SQL COUNT() Function](#sql-count-function)
   - [SQL SUM() Function](#sql-sum-function)
   - [SQL AVG() Function](#sql-avg-function)
@@ -1242,9 +1244,102 @@ DROP TABLE Products
 
 ### SQL COUNT() Function
 
+A função COUNT() retorna o número de linhas que correspondem a um critério especificado.
+
+Crie uma tabela de exemplo chamada Produtos
+
+```sql
+CREATE TABLE Produtos (
+    IDProduto INT PRIMARY KEY,
+    NomeProduto VARCHAR(255),
+    Preco DECIMAL(10, 2)
+);
+```
+
+```sql
+DESCRIBE Produtos;
+```
+
+Insira alguns dados de exemplo
+
+```sql
+INSERT INTO Produtos (IDProduto, NomeProduto, Preco)
+VALUES
+    (1, 'Produto A', 15.99),
+    (2, 'Produto B', 25.50),
+    (3, 'Produto C', 19.99),
+    (4, 'Produto D', 25.50),
+    (5, 'Produto E', 30.00);
+```
+
+Encontre o número total de produtos na tabela Produtos
+
+```sql
+SELECT COUNT(*) AS TotalProdutos
+FROM Produtos;
+```
+
+Encontre o número de produtos onde o preço é maior que 20
+
+```sql
+SELECT COUNT(IDProduto) AS ProdutosCaros
+FROM Produtos
+WHERE Preco > 20;
+```
+
+Quantos preços diferentes existem na tabela Produtos
+
+```sql
+SELECT COUNT(DISTINCT Preco) AS PrecosUnicos
+FROM Produtos;
+```
+
+```SQL
+DROP TABLE Produtos;
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ### SQL SUM() Function
+
+A função SUM() retorna a soma total de uma coluna numérica.
+Tabela de preços dos OrderDetails
+
+```sql
+
+CREATE TABLE OrderDetails (
+    OrderID INT,
+    ProductName VARCHAR(50),
+    Quantity INT
+);
+```
+
+```sql
+DESCRIBE OrderDetails;
+```
+
+Inserir alguns dados de exemplo
+
+```sql
+INSERT INTO OrderDetails (OrderID, ProductName, Quantity)
+VALUES 
+    (1, 'ProductA', 10),
+    (1, 'ProductB', 5),
+    (2, 'ProductA', 8),
+    (2, 'ProductC', 12),
+    (3, 'ProductB', 7);
+```
+
+Retornar a soma de todas as quantidades na tabela OrderDetails
+
+```sql
+SELECT SUM(Quantity) AS TotalQuantity
+FROM OrderDetails;
+```
+
+```sql
+drop table OrderDetails;
+```
 
 **[:arrow_up: back to top](#índice)**
 
