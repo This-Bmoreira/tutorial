@@ -140,8 +140,27 @@ CREATE TABLE Products (
 );
 ```
 
+outlook:
+
+```bash
+Query OK, 0 rows affected (0.54 sec)
+```
+
 ```sql
 DESCRIBE Products;
+```
+
+```bash
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| ProductID     | int           | NO   | PRI | NULL    |       |
+| ProductName   | varchar(255)  | YES  |     | NULL    |       |
+| Category      | varchar(50)   | YES  |     | NULL    |       |
+| Price         | decimal(10,2) | YES  |     | NULL    |       |
+| StockQuantity | int           | YES  |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Products
@@ -156,12 +175,27 @@ VALUES
     (5, 'Running Shoes', 'Sports', 80.00, 200);
 ```
 
+```bash
+Query OK, 5 rows affected (0.13 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Selecionando o nome e o preço dos produtos da categoria 'Electronics'
 
 ```sql
 SELECT ProductName, Price
 FROM Products
 WHERE Category = 'Electronics';
+```
+
+```bash
++-------------+---------+
+| ProductName | Price   |
++-------------+---------+
+| Laptop      | 1200.00 |
+| Smartphone  |  800.00 |
++-------------+---------+
+2 rows in set (0.00 sec)
 ```
 
 Selecionando todas as colunas da tabela Products
@@ -171,8 +205,25 @@ SELECT *
 FROM Products;
 ```
 
+```bash
++-----------+---------------+-------------+---------+---------------+
+| ProductID | ProductName   | Category    | Price   | StockQuantity |
++-----------+---------------+-------------+---------+---------------+
+|         1 | Laptop        | Electronics | 1200.00 |            50 |
+|         2 | Smartphone    | Electronics |  800.00 |           100 |
+|         3 | Desk Chair    | Furniture   |  150.00 |            30 |
+|         4 | Coffee Maker  | Appliances  |   50.00 |            75 |
+|         5 | Running Shoes | Sports      |   80.00 |           200 |
++-----------+---------------+-------------+---------+---------------+
+5 rows in set (0.00 sec)
+```
+
 ```sql
 DROP TABLE Products;
+```
+
+```bash
+Query OK, 0 rows affected (0.37 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -195,8 +246,27 @@ CREATE TABLE Customers (
 );
 ```
 
+```bash
+Query OK, 0 rows affected (0.47 sec)
+```
+
 ```sql
 DESCRIBE Customers;
+```
+
+```bash
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| CustomerID   | int          | NO   | PRI | NULL    |       |
+| CustomerName | varchar(255) | YES  |     | NULL    |       |
+| ContactName  | varchar(255) | YES  |     | NULL    |       |
+| Address      | varchar(255) | YES  |     | NULL    |       |
+| City         | varchar(100) | YES  |     | NULL    |       |
+| PostalCode   | varchar(20)  | YES  |     | NULL    |       |
+| Country      | varchar(50)  | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Customers
@@ -211,15 +281,36 @@ VALUES
   (5, 'Berglunds snabbköp', 'Christina Berglund', 'Berguvsvägen 8', 'Luleå', 'S-958 22', 'Sweden');
 ```
 
+```bash
+Query OK, 5 rows affected (0.13 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 ```sql
 SELECT DISTINCT Country
 FROM Customers;
+```
+
+```bash
++---------+
+| Country |
++---------+
+| Germany |
+| Mexico  |
+| UK      |
+| Sweden  |
++---------+
+4 rows in set (0.00 sec)
 ```
 
 Excluindo a tabela Customers
 
 ```sql
 DROP TABLE Customers;
+```
+
+```bash
+Query OK, 0 rows affected (0.37 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -237,8 +328,24 @@ CREATE TABLE Orders (
 );
 ```
 
+```bash
+Query OK, 0 rows affected (1.03 sec)
+```
+
 ```sql
 DESCRIBE Orders;
+```
+
+```bash
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| OrderID     | int         | NO   | PRI | NULL    |       |
+| CustomerID  | int         | YES  |     | NULL    |       |
+| OrderDate   | date        | YES  |     | NULL    |       |
+| ShipCountry | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Orders
@@ -255,6 +362,11 @@ VALUES
     (7, 2, '2023-07-20', 'Mexico');
 ```
 
+```bash
+Query OK, 7 rows affected (0.07 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+```
+
 Contando o número de países distintos na tabela Orders
 Esta consulta é compatível com a maioria dos bancos de dados, incluindo MS Access
 
@@ -263,10 +375,23 @@ SELECT COUNT(DISTINCT ShipCountry) AS DistinctCountries
 FROM Orders;
 ```
 
+```bash
++-------------------+
+| DistinctCountries |
++-------------------+
+|                 4 |
++-------------------+
+1 row in set (0.00 sec)
+```
+
 Excluindo a tabela Orders (apenas para fins de exemplo)
 
 ```sql
 DROP TABLE Orders;
+```
+
+```bash
+Query OK, 0 rows affected (0.73 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -286,8 +411,28 @@ CREATE TABLE User (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.52 sec)
+```
+
 ```sql
 DESCRIBE User;
+```
+
+output
+
+```bash
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| ID      | int           | NO   | PRI | NULL    |       |
+| Nome    | varchar(50)   | YES  |     | NULL    |       |
+| Idade   | int           | YES  |     | NULL    |       |
+| Salario | decimal(10,2) | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela
@@ -302,11 +447,30 @@ INSERT INTO User (ID, Nome, Idade, Salario) VALUES
 (6, 'Frank', 30, 70000.00);
 ```
 
+output
+
+```bash
+Query OK, 6 rows affected (0.12 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+```
+
 Selecionando Pessoas com Idade Superior a 30:
 
 ```sql
 SELECT * FROM User
 WHERE Idade > 30;
+```
+
+output
+
+```bash
++----+-------+-------+----------+
+| ID | Nome  | Idade | Salario  |
++----+-------+-------+----------+
+|  2 | Bob   |    35 | 75000.00 |
+|  4 | David |    40 | 90000.00 |
++----+-------+-------+----------+
+2 rows in set (0.00 sec)
 ```
 
 Selecionando Pessoas com Salário Menor ou Igual a 60000:
@@ -316,11 +480,39 @@ SELECT * FROM User
 WHERE Salario <= 60000;
 ```
 
+output
+
+```bash
++----+---------+-------+----------+
+| ID | Nome    | Idade | Salario  |
++----+---------+-------+----------+
+|  1 | Alice   |    25 | 50000.00 |
+|  3 | Charlie |    28 | 60000.00 |
+|  5 | Eva     |    22 | 45000.00 |
++----+---------+-------+----------+
+3 rows in set (0.00 sec)
+```
+
 Selecionando Pessoas com Nomes que Não São "Eva":
 
 ```sql
 SELECT * FROM User
 WHERE Nome <> 'Eva';
+```
+
+output
+
+```bash
++----+---------+-------+----------+
+| ID | Nome    | Idade | Salario  |
++----+---------+-------+----------+
+|  1 | Alice   |    25 | 50000.00 |
+|  2 | Bob     |    35 | 75000.00 |
+|  3 | Charlie |    28 | 60000.00 |
+|  4 | David   |    40 | 90000.00 |
+|  6 | Frank   |    30 | 70000.00 |
++----+---------+-------+----------+
+5 rows in set (0.00 sec)
 ```
 
 Selecionando Pessoas com Idades Entre 25 e 35:
@@ -330,11 +522,36 @@ SELECT * FROM User
 WHERE Idade BETWEEN 25 AND 35;
 ```
 
+output
+
+```bash
++----+---------+-------+----------+
+| ID | Nome    | Idade | Salario  |
++----+---------+-------+----------+
+|  1 | Alice   |    25 | 50000.00 |
+|  2 | Bob     |    35 | 75000.00 |
+|  3 | Charlie |    28 | 60000.00 |
+|  6 | Frank   |    30 | 70000.00 |
++----+---------+-------+----------+
+4 rows in set (0.00 sec)
+```
+
 Selecionando Pessoas com Nomes que Começam com "A":
 
 ```sql
 SELECT * FROM User
 WHERE Nome LIKE 'A%';
+```
+
+output
+
+```bash
++----+-------+-------+----------+
+| ID | Nome  | Idade | Salario  |
++----+-------+-------+----------+
+|  1 | Alice |    25 | 50000.00 |
++----+-------+-------+----------+
+1 row in set (0.00 sec)
 ```
 
 Selecionando Pessoas com IDs 1, 3 e 5:
@@ -344,8 +561,27 @@ SELECT * FROM User
 WHERE ID IN (1, 3, 5);
 ```
 
+output
+
+```bash
++----+---------+-------+----------+
+| ID | Nome    | Idade | Salario  |
++----+---------+-------+----------+
+|  1 | Alice   |    25 | 50000.00 |
+|  3 | Charlie |    28 | 60000.00 |
+|  5 | Eva     |    22 | 45000.00 |
++----+---------+-------+----------+
+3 rows in set (0.00 sec)
+```
+
 ```sql
 DROP TABLE User;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (1.33 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -364,8 +600,27 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.47 sec)
+```
+
 ```sql
 DESCRIBE Products;
+```
+
+output
+
+```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Products
@@ -380,6 +635,13 @@ VALUES
     (5, 'Product E', 9.99);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Criando a tabela Orders
 
 ```sql
@@ -391,8 +653,28 @@ CREATE TABLE Orders (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.72 sec)
+```
+
 ```sql
 DESCRIBE Orders;
+```
+
+output
+
+```bash
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| OrderID     | int         | NO   | PRI | NULL    |       |
+| CustomerID  | int         | YES  |     | NULL    |       |
+| OrderDate   | date        | YES  |     | NULL    |       |
+| ShipCountry | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Adicionando a coluna ProductID à tabela Orders
@@ -400,6 +682,13 @@ Adicionando a coluna ProductID à tabela Orders
 ```sql
 ALTER TABLE Orders
 ADD ProductID INT;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.34 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 Inserindo alguns dados na tabela Orders
@@ -416,6 +705,13 @@ VALUES
     (7, 2, '2023-07-20', 'Mexico', 4);
 ```
 
+output
+
+```bash
+Query OK, 7 rows affected (0.15 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+```
+
 Selecionando os pedidos ordenados por OrderDate
 
 ```sql
@@ -424,9 +720,32 @@ FROM Orders
 ORDER BY OrderDate;
 ```
 
+output
+
+```bash
++---------+------------+------------+-------------+-----------+
+| OrderID | CustomerID | OrderDate  | ShipCountry | ProductID |
++---------+------------+------------+-------------+-----------+
+|       1 |          1 | 2023-01-15 | Germany     |         2 |
+|       2 |          2 | 2023-02-20 | Mexico      |         4 |
+|       3 |          3 | 2023-03-25 | Mexico      |         1 |
+|       4 |          4 | 2023-04-10 | UK          |         3 |
+|       5 |          5 | 2023-05-05 | Sweden      |         5 |
+|       6 |          1 | 2023-06-15 | Germany     |         2 |
+|       7 |          2 | 2023-07-20 | Mexico      |         4 |
++---------+------------+------------+-------------+-----------+
+7 rows in set (0.00 sec)
+```
+
 ```sql
 DROP TABLE Orders;
 DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.50 sec)
 ```
 
 #### DESC
@@ -441,8 +760,27 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.60 sec)
+```
+
 ```sql
 DESCRIBE Products;
+```
+
+output
+
+```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Products
@@ -457,6 +795,13 @@ VALUES
     (5, 'Product E', 9.99);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.12 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Selecionando os produtos ordenados por preço do mais alto para o mais baixo
 
 ```sql
@@ -465,8 +810,29 @@ FROM Products
 ORDER BY Price DESC;
 ```
 
+output
+
+```bash
++-----------+-------------+-------+
+| ProductID | ProductName | Price |
++-----------+-------------+-------+
+|         4 | Product D   | 39.99 |
+|         2 | Product B   | 29.99 |
+|         1 | Product A   | 19.99 |
+|         3 | Product C   | 14.99 |
+|         5 | Product E   |  9.99 |
++-----------+-------------+-------+
+5 rows in set (0.00 sec)
+```
+
 ```sql
-DROP TABLE Products
+DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.43 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -485,8 +851,27 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.64 sec)
+```
+
 ```sql
 DESCRIBE Products;
+```
+
+output
+
+```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Products
@@ -501,6 +886,13 @@ VALUES
     (5, 'Product E', 9.99);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Selecionando os produtos ordenados alfabeticamente por nome
 
 ```sql
@@ -509,8 +901,29 @@ FROM Products
 ORDER BY ProductName;
 ```
 
+output
+
+```bash
++-----------+-------------+-------+
+| ProductID | ProductName | Price |
++-----------+-------------+-------+
+|         1 | Product A   | 19.99 |
+|         2 | Product B   | 29.99 |
+|         3 | Product C   | 14.99 |
+|         4 | Product D   | 39.99 |
+|         5 | Product E   |  9.99 |
++-----------+-------------+-------+
+5 rows in set (0.00 sec)
+```
+
 ```sql
-DROP TABLE Products
+DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.43 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -527,8 +940,27 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (1.33 sec)
+```
+
 ```sql
 DESCRIBE Products;
+```
+
+output
+
+```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Products
@@ -543,6 +975,13 @@ VALUES
     (5, 'Product D', 9.99);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.14 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Selecionando os produtos ordenados alfabeticamente pelo nome em ordem reversa
 
 ```sql
@@ -551,8 +990,29 @@ FROM Products
 ORDER BY ProductName DESC;
 ```
 
+output
+
+```bash
++-----------+-------------+-------+
+| ProductID | ProductName | Price |
++-----------+-------------+-------+
+|         3 | Product E   | 14.99 |
+|         5 | Product D   |  9.99 |
+|         1 | Product C   | 19.99 |
+|         4 | Product B   | 39.99 |
+|         2 | Product A   | 29.99 |
++-----------+-------------+-------+
+5 rows in set (0.00 sec)
+```
+
 ```sql
-DROP TABLE Products
+DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.67 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -569,8 +1029,27 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.99 sec)
+```
+
 ```SQL
 DESCRIBE Customers;
+```
+
+output
+
+```bash
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| CustomerID   | int         | NO   | PRI | NULL    |       |
+| CustomerName | varchar(50) | YES  |     | NULL    |       |
+| Country      | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Customers
@@ -585,6 +1064,13 @@ VALUES
     (5, 'Customer D', 'Brazil');
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.16 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Selecionando os clientes ordenados alfabeticamente pelo nome em ordem reversa e, em caso de empate, pelo país
 
 ```sql
@@ -593,8 +1079,29 @@ FROM Customers
 ORDER BY CustomerName DESC, Country DESC;
 ```
 
+output
+
+```bash
++------------+--------------+---------+
+| CustomerID | CustomerName | Country |
++------------+--------------+---------+
+|          3 | Customer E   | Canada  |
+|          5 | Customer D   | Brazil  |
+|          1 | Customer C   | Brazil  |
+|          4 | Customer B   | USA     |
+|          2 | Customer A   | USA     |
++------------+--------------+---------+
+5 rows in set (0.00 sec)
+```
+
 ```sql
 DROP TABLE Customers;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.32 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -611,8 +1118,27 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.76 sec)
+```
+
 ```SQL
 DESCRIBE Customers;
+```
+
+output
+
+```bash
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| CustomerID   | int         | NO   | PRI | NULL    |       |
+| CustomerName | varchar(50) | YES  |     | NULL    |       |
+| Country      | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela Customers
@@ -627,6 +1153,13 @@ VALUES
     (5, 'Customer D', 'Brazil');
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.08 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Selecionando os clientes ordenados pelo país em ordem ascendente e, em caso de empate, pelo nome do cliente em ordem descendente
 
 ```sql
@@ -635,8 +1168,29 @@ FROM Customers
 ORDER BY Country ASC, CustomerName DESC;
 ```
 
+output
+
+```bash
++------------+--------------+---------+
+| CustomerID | CustomerName | Country |
++------------+--------------+---------+
+|          5 | Customer D   | Brazil  |
+|          1 | Customer C   | Brazil  |
+|          3 | Customer E   | Canada  |
+|          4 | Customer B   | USA     |
+|          2 | Customer A   | USA     |
++------------+--------------+---------+
+5 rows in set (0.00 sec)
+```
+
 ```sql
 DROP TABLE Customers;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.69 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -657,8 +1211,27 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.88 sec)
+```
+
 ```SQL
 DESCRIBE Customers;
+```
+
+output
+
+```bash
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| IDCliente    | int         | NO   | PRI | NULL    |       |
+| CustomerName | varchar(50) | YES  |     | NULL    |       |
+| Country      | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 ```sql
@@ -671,14 +1244,39 @@ VALUES
 (5, 'Grace', 'Italy');
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.20 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 ```sql
 SELECT *
 FROM Customers
 WHERE Country = 'Spain' AND CustomerName LIKE 'G%';
 ```
 
+output
+
+```bash
++-----------+--------------+---------+
+| IDCliente | CustomerName | Country |
++-----------+--------------+---------+
+|         1 | Gustavo      | Spain   |
+|         4 | Gabriel      | Spain   |
++-----------+--------------+---------+
+2 rows in set (0.00 sec)
+```
+
 ```sql
 DROP TABLE Customers;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.70 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -698,8 +1296,28 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.93 sec)
+```
+
 ```SQL
 DESCRIBE Products;
+```
+
+output
+
+```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Category    | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
 ```
 
 Inserindo alguns dados na tabela de Produtos
@@ -714,6 +1332,13 @@ VALUES
 (5, 'Desk Lamp', 'Furniture', 30.00);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.21 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Consulta para selecionar produtos da categoria 'Electronics' com preço superior a $100 ou produtos da categoria 'Furniture'
 
 ```sql
@@ -722,10 +1347,29 @@ FROM Products
 WHERE (Category = 'Electronics' AND Price > 100.00) OR Category = 'Furniture';
 ```
 
+output
+
+```bash
++-----------+-------------+-------------+---------+
+| ProductID | ProductName | Category    | Price   |
++-----------+-------------+-------------+---------+
+|         1 | Laptop      | Electronics | 1200.00 |
+|         2 | Desk Chair  | Furniture   |  150.00 |
+|         5 | Desk Lamp   | Furniture   |   30.00 |
++-----------+-------------+-------------+---------+
+3 rows in set (0.00 sec)
+```
+
 Excluindo a tabela de Produtos após a conclusão da consulta
 
 ```sql
 DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.71 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -745,8 +1389,28 @@ CREATE TABLE Employees (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.67 sec)
+```
+
 ```sql
 DESCRIBE Employees;
+```
+
+output
+
+```bash
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| EmployeeID   | int           | NO   | PRI | NULL    |       |
+| EmployeeName | varchar(50)   | YES  |     | NULL    |       |
+| Department   | varchar(50)   | YES  |     | NULL    |       |
+| Salary       | decimal(10,2) | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela de Funcionários
@@ -761,12 +1425,33 @@ VALUES
 (5, 'Eva', 'IT', 62000.00);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.25 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Exemplo com NOT LIKE: Selecionar funcionários cujo nome não começa com a letra 'A'
 
 ```sql
 SELECT *
 FROM Employees
 WHERE EmployeeName NOT LIKE 'A%';
+```
+
+output
+
+```bash
++------------+--------------+------------+----------+
+| EmployeeID | EmployeeName | Department | Salary   |
++------------+--------------+------------+----------+
+|          2 | Bob          | IT         | 60000.00 |
+|          3 | Charlie      | Finance    | 70000.00 |
+|          4 | David        | Marketing  | 55000.00 |
+|          5 | Eva          | IT         | 62000.00 |
++------------+--------------+------------+----------+
+4 rows in set (0.00 sec)
 ```
 
 Exemplo com NOT BETWEEN: Selecionar funcionários cujo ID não está entre 2 e 4
@@ -777,12 +1462,36 @@ FROM Employees
 WHERE EmployeeID NOT BETWEEN 2 AND 4;
 ```
 
+output
+
+```bash
++------------+--------------+------------+----------+
+| EmployeeID | EmployeeName | Department | Salary   |
++------------+--------------+------------+----------+
+|          1 | Alice        | HR         | 50000.00 |
+|          5 | Eva          | IT         | 62000.00 |
++------------+--------------+------------+----------+
+2 rows in set (0.00 sec)
+```
+
 Exemplo com NOT IN: Selecionar funcionários que não são do departamento 'IT' ou 'HR'
 
 ```sql
 SELECT *
 FROM Employees
 WHERE Department NOT IN ('IT', 'HR');
+```
+
+output
+
+```bash
++------------+--------------+------------+----------+
+| EmployeeID | EmployeeName | Department | Salary   |
++------------+--------------+------------+----------+
+|          3 | Charlie      | Finance    | 70000.00 |
+|          4 | David        | Marketing  | 55000.00 |
++------------+--------------+------------+----------+
+2 rows in set (0.00 sec)
 ```
 
 Exemplo com NOT Greater Than: Selecionar funcionários com salário não superior a $60000
@@ -797,6 +1506,19 @@ WHERE NOT Salary > 60000.00;
 -- WHERE Salary !> 60000.00;
 ```
 
+output
+
+```bash
++------------+--------------+------------+----------+
+| EmployeeID | EmployeeName | Department | Salary   |
++------------+--------------+------------+----------+
+|          1 | Alice        | HR         | 50000.00 |
+|          2 | Bob          | IT         | 60000.00 |
+|          4 | David        | Marketing  | 55000.00 |
++------------+--------------+------------+----------+
+3 rows in set (0.00 sec)
+```
+
 Exemplo com NOT Less Than: Selecionar funcionários com salário não inferior a $60000
 
 ```sql
@@ -809,10 +1531,29 @@ WHERE NOT Salary < 60000.00;
 -- WHERE Salary !< 60000.00;
 ```
 
+output
+
+```bash
++------------+--------------+------------+----------+
+| EmployeeID | EmployeeName | Department | Salary   |
++------------+--------------+------------+----------+
+|          2 | Bob          | IT         | 60000.00 |
+|          3 | Charlie      | Finance    | 70000.00 |
+|          5 | Eva          | IT         | 62000.00 |
++------------+--------------+------------+----------+
+3 rows in set (0.00 sec)
+```
+
 Excluindo a tabela de Funcionários após a conclusão dos exemplos
 
 ```sql
 DROP TABLE Employees;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.33 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -834,8 +1575,28 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.48 sec)
+```
+
 ```sql
 DESCRIBE Products;
+```
+
+output
+
+```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Category    | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Exemplo de INSERT INTO especificando nomes de colunas e valores
@@ -845,6 +1606,12 @@ INSERT INTO Products (ProductID, ProductName, Category, Price)
 VALUES (1, 'Laptop', 'Electronics', 1200.00);
 ```
 
+output
+
+```bash
+Query OK, 1 row affected (0.10 sec)
+```
+
 Ou, usando a segunda forma, inserindo valores para todas as colunas sem especificar os nomes das colunas
 
 ```sql
@@ -852,8 +1619,20 @@ INSERT INTO Products
 VALUES (2, 'Desk Chair', 'Furniture', 150.00);
 ```
 
+output
+
+```bash
+Query OK, 1 row affected (0.15 sec)
+```
+
 ```sql
-DROP TABLE Products
+DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.75 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -875,8 +1654,28 @@ CREATE TABLE Orders (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (1.04 sec)
+```
+
 ```SQL
 DESCRIBE Orders;
+```
+
+output
+
+```bash
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| OrderID      | int           | NO   | PRI | NULL    |       |
+| CustomerName | varchar(50)   | YES  |     | NULL    |       |
+| OrderDate    | date          | YES  |     | NULL    |       |
+| TotalAmount  | decimal(10,2) | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela de Pedidos, incluindo valores NULL
@@ -891,14 +1690,32 @@ VALUES
 (5, 'Eva', NULL, NULL);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.08 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Exemplo de como testar valores NULL usando IS NULL
 Seleciona pedidos onde a data do pedido é desconhecida (NULL)
 
 ```SQL
-
 SELECT *
 FROM Orders
 WHERE OrderDate IS NULL;
+```
+
+output
+
+```bash
++---------+--------------+-----------+-------------+
+| OrderID | CustomerName | OrderDate | TotalAmount |
++---------+--------------+-----------+-------------+
+|       2 | Bob          | NULL      |      150.00 |
+|       5 | Eva          | NULL      |        NULL |
++---------+--------------+-----------+-------------+
+2 rows in set (0.00 sec)
 ```
 
 Exemplo de como testar valores NÃO NULL usando IS NOT NULL
@@ -910,8 +1727,27 @@ FROM Orders
 WHERE TotalAmount IS NOT NULL;
 ```
 
+output
+
+```bash
++---------+--------------+------------+-------------+
+| OrderID | CustomerName | OrderDate  | TotalAmount |
++---------+--------------+------------+-------------+
+|       1 | Alice        | 2023-01-15 |      100.00 |
+|       2 | Bob          | NULL       |      150.00 |
+|       4 | David        | 2023-03-10 |      200.00 |
++---------+--------------+------------+-------------+
+3 rows in set (0.00 sec)
+```
+
 ```SQL
 DROP TABLE Orders;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.39 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -930,8 +1766,27 @@ CREATE TABLE Inventory (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (0.50 sec)
+```
+
 ```sql
-DESCRIBE Inventory
+DESCRIBE Inventory;
+```
+
+output
+
+```bash
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| ProductID       | int         | NO   | PRI | NULL    |       |
+| ProductName     | varchar(50) | YES  |     | NULL    |       |
+| QuantityInStock | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserindo alguns dados na tabela de Estoque
@@ -946,12 +1801,26 @@ VALUES
 (5, 'Desk Lamp', 25);
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.18 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Exemplo de como atualizar a quantidade em estoque para um produto específico
 
 ```sql
 UPDATE Inventory
 SET QuantityInStock = 60
 WHERE ProductName = 'Laptop';
+```
+
+output
+
+```bash
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
 ```
 
 Exemplo de como decrementar a quantidade em estoque para produtos com quantidade superior a 30
@@ -962,8 +1831,21 @@ SET QuantityInStock = QuantityInStock - 10
 WHERE QuantityInStock > 30;
 ```
 
+output
+
+```bash
+Query OK, 2 rows affected (0.07 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+```
+
 ```sql
 DROP TABLE Inventory;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.34 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -982,6 +1864,12 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+Query OK, 0 rows affected (1.11 sec)
+```
+
 Inserindo alguns dados na tabela de Clientes
 
 ```SQL
@@ -994,11 +1882,24 @@ VALUES
 (5, 'Eva', 'Germany');
 ```
 
+output
+
+```bash
+Query OK, 5 rows affected (0.22 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
 Exemplo de como excluir um cliente específico da tabela
 
 ```SQL
 DELETE FROM Customers
 WHERE CustomerID = 2;
+```
+
+output
+
+```bash
+Query OK, 1 row affected (0.11 sec)
 ```
 
 Exemplo de como excluir todos os clientes de um país específico da tabela
@@ -1008,8 +1909,35 @@ DELETE FROM Customers
 WHERE Country = 'UK';
 ```
 
+output
+
+```bash
+Query OK, 1 row affected (0.10 sec)
+```
+
+```SQL
+select * from Customers;
+```
+
+```bash
++------------+--------------+-----------+
+| CustomerID | CustomerName | Country   |
++------------+--------------+-----------+
+|          1 | Alice        | USA       |
+|          4 | David        | Australia |
+|          5 | Eva          | Germany   |
++------------+--------------+-----------+
+3 rows in set (0.00 sec)
+```
+
 ```SQL
 DROP TABLE Customers;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.46 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1033,8 +1961,18 @@ CREATE TABLE Orders (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE Orders
+```
+
+output
+
+```bash
 ```
 
 Inserir alguns dados fictícios
@@ -1049,6 +1987,11 @@ VALUES
     (5, 105, '2023-11-05', 'Product E');
 ```
 
+output
+
+```bash
+```
+
 Selecionar os três pedidos mais recentes
 
 ```sql
@@ -1056,8 +1999,18 @@ SELECT TOP 3 * FROM Orders
 ORDER BY OrderDate DESC;
 ```
 
+output
+
+```bash
+```
+
 ```SQL
 DROP TABLE Orders;
+```
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1075,8 +2028,18 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE Customers
+```
+
+output
+
+```bash
 ```
 
 Inserir alguns dados fictícios
@@ -1091,6 +2054,11 @@ VALUES
     (5, 'Charlie', 'Brown', 'charlie.brown@example.com');
 ```
 
+output
+
+```bash
+```
+
 Selecionar os três primeiros clientes
 
 ```SQL
@@ -1098,8 +2066,19 @@ SELECT * FROM Customers
 LIMIT 3;
 ```
 
+output
+
+```bash
+```
+
 ```SQL
 DROP TABLE Customers;
+```
+
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1118,8 +2097,18 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE Customers
+```
+
+output
+
+```bash
 ```
 
 Inserir alguns dados fictícios
@@ -1134,6 +2123,11 @@ VALUES
     (5, 'Matthias', 'Koch', 'matthias.koch@example.com', 'Switzerland');
 ```
 
+output
+
+```bash
+```
+
 Selecionar os três primeiros clientes da Alemanha
 
 ```SQL
@@ -1142,8 +2136,18 @@ WHERE Country = 'Germany'
 LIMIT 3;
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DROP TABLE Customers;
+```
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1161,8 +2165,18 @@ CREATE TABLE Customers (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE Customers
+```
+
+output
+
+```bash
 ```
 
 Inserir alguns dados fictícios
@@ -1177,6 +2191,11 @@ VALUES
     (5, 'Charlie Brown', 'charlie.brown@example.com', 'Germany');
 ```
 
+output
+
+```bash
+```
+
 Selecionar os três clientes mais recentes
 
 ```SQL
@@ -1185,8 +2204,18 @@ ORDER BY CustomerID DESC
 LIMIT 3;
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DROP TABLE Customers;
+```
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1206,8 +2235,18 @@ CREATE TABLE Products (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE Products
+```
+
+output
+
+```bash
 ```
 
 Inserir alguns dados fictícios
@@ -1222,11 +2261,21 @@ VALUES
     (5, 'Product E', 24.99);
 ```
 
+output
+
+```bash
+```
+
 Encontrar o menor preço
 
 ```SQL
 SELECT MIN(Price) AS LowestPrice
 FROM Products;
+```
+
+output
+
+```bash
 ```
 
 Encontrar o maior preço
@@ -1236,8 +2285,18 @@ SELECT MAX(Price) AS HighestPrice
 FROM Products;
 ```
 
+output
+
+```bash
+```
+
 ```SQL
 DROP TABLE Products
+```
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1256,8 +2315,18 @@ CREATE TABLE Produtos (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE Produtos;
+```
+
+output
+
+```bash
 ```
 
 Insira alguns dados de exemplo
@@ -1272,11 +2341,21 @@ VALUES
     (5, 'Produto E', 30.00);
 ```
 
+output
+
+```bash
+```
+
 Encontre o número total de produtos na tabela Produtos
 
 ```sql
 SELECT COUNT(*) AS TotalProdutos
 FROM Produtos;
+```
+
+output
+
+```bash
 ```
 
 Encontre o número de produtos onde o preço é maior que 20
@@ -1287,6 +2366,11 @@ FROM Produtos
 WHERE Preco > 20;
 ```
 
+output
+
+```bash
+```
+
 Quantos preços diferentes existem na tabela Produtos
 
 ```sql
@@ -1294,8 +2378,18 @@ SELECT COUNT(DISTINCT Preco) AS PrecosUnicos
 FROM Produtos;
 ```
 
+output
+
+```bash
+```
+
 ```SQL
 DROP TABLE Produtos;
+```
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -1306,7 +2400,6 @@ A função SUM() retorna a soma total de uma coluna numérica.
 Tabela de preços dos OrderDetails
 
 ```sql
-
 CREATE TABLE OrderDetails (
     OrderID INT,
     ProductName VARCHAR(50),
@@ -1314,8 +2407,18 @@ CREATE TABLE OrderDetails (
 );
 ```
 
+output
+
+```bash
+```
+
 ```sql
 DESCRIBE OrderDetails;
+```
+
+output
+
+```bash
 ```
 
 Inserir alguns dados de exemplo
@@ -1330,6 +2433,11 @@ VALUES
     (3, 'ProductB', 7);
 ```
 
+output
+
+```bash
+```
+
 Retornar a soma de todas as quantidades na tabela OrderDetails
 
 ```sql
@@ -1337,8 +2445,18 @@ SELECT SUM(Quantity) AS TotalQuantity
 FROM OrderDetails;
 ```
 
+output
+
+```bash
+```
+
 ```sql
 drop table OrderDetails;
+```
+
+output
+
+```bash
 ```
 
 **[:arrow_up: back to top](#índice)**
