@@ -1964,15 +1964,25 @@ CREATE TABLE Orders (
 output
 
 ```bash
+Query OK, 0 rows affected (0.60 sec)
 ```
 
 ```sql
-DESCRIBE Orders
+DESCRIBE Orders;
 ```
 
 output
 
 ```bash
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| OrderID     | int         | NO   | PRI | NULL    |       |
+| CustomerID  | int         | YES  |     | NULL    |       |
+| OrderDate   | date        | YES  |     | NULL    |       |
+| ProductName | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados fictícios
@@ -1990,18 +2000,29 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Selecionar os três pedidos mais recentes
 
 ```sql
-SELECT TOP 3 * FROM Orders
-ORDER BY OrderDate DESC;
+SELECT * FROM Orders
+ORDER BY OrderDate DESC
+LIMIT 3;
 ```
 
 output
 
 ```bash
++---------+------------+------------+-------------+
+| OrderID | CustomerID | OrderDate  | ProductName |
++---------+------------+------------+-------------+
+|       5 |        105 | 2023-11-05 | Product E   |
+|       4 |        104 | 2023-11-04 | Product D   |
+|       3 |        103 | 2023-11-03 | Product C   |
++---------+------------+------------+-------------+
+3 rows in set (0.00 sec)
 ```
 
 ```SQL
@@ -2011,6 +2032,7 @@ DROP TABLE Orders;
 output
 
 ```bash
+Query OK, 0 rows affected (0.46 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2031,15 +2053,25 @@ CREATE TABLE Customers (
 output
 
 ```bash
+Query OK, 0 rows affected (0.60 sec)
 ```
 
 ```sql
-DESCRIBE Customers
+DESCRIBE Customers;
 ```
 
 output
 
 ```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| CustomerID | int          | NO   | PRI | NULL    |       |
+| FirstName  | varchar(50)  | YES  |     | NULL    |       |
+| LastName   | varchar(50)  | YES  |     | NULL    |       |
+| Email      | varchar(100) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados fictícios
@@ -2057,6 +2089,8 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.12 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Selecionar os três primeiros clientes
@@ -2069,16 +2103,24 @@ LIMIT 3;
 output
 
 ```bash
++------------+-----------+----------+-------------------------+
+| CustomerID | FirstName | LastName | Email                   |
++------------+-----------+----------+-------------------------+
+|          1 | John      | Doe      | john.doe@example.com    |
+|          2 | Jane      | Smith    | jane.smith@example.com  |
+|          3 | Bob       | Johnson  | bob.johnson@example.com |
++------------+-----------+----------+-------------------------+
+3 rows in set (0.00 sec)
 ```
 
 ```SQL
 DROP TABLE Customers;
 ```
 
-
 output
 
 ```bash
+Query OK, 0 rows affected (0.42 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2100,15 +2142,26 @@ CREATE TABLE Customers (
 output
 
 ```bash
+Query OK, 0 rows affected (1.45 sec)
 ```
 
 ```sql
-DESCRIBE Customers
+DESCRIBE Customers;
 ```
 
 output
 
 ```bash
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| CustomerID | int          | NO   | PRI | NULL    |       |
+| FirstName  | varchar(50)  | YES  |     | NULL    |       |
+| LastName   | varchar(50)  | YES  |     | NULL    |       |
+| Email      | varchar(100) | YES  |     | NULL    |       |
+| Country    | varchar(50)  | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados fictícios
@@ -2126,6 +2179,8 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.11 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Selecionar os três primeiros clientes da Alemanha
@@ -2139,6 +2194,14 @@ LIMIT 3;
 output
 
 ```bash
++------------+-----------+----------+------------------------------+---------+
+| CustomerID | FirstName | LastName | Email                        | Country |
++------------+-----------+----------+------------------------------+---------+
+|          1 | Hans      | Mller    | hans.mueller@example.com     | Germany |
+|          3 | Gnther    | Fischer  | guenther.fischer@example.com | Germany |
+|          4 | Sophie    | Weber    | sophie.weber@example.com     | Germany |
++------------+-----------+----------+------------------------------+---------+
+3 rows in set (0.00 sec)
 ```
 
 ```sql
@@ -2148,6 +2211,7 @@ DROP TABLE Customers;
 output
 
 ```bash
+Query OK, 0 rows affected (0.41 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2168,15 +2232,25 @@ CREATE TABLE Customers (
 output
 
 ```bash
+Query OK, 0 rows affected (0.58 sec)
 ```
 
 ```sql
-DESCRIBE Customers
+DESCRIBE Customers;
 ```
 
 output
 
 ```bash
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| CustomerID   | int          | NO   | PRI | NULL    |       |
+| CustomerName | varchar(100) | YES  |     | NULL    |       |
+| Email        | varchar(100) | YES  |     | NULL    |       |
+| Country      | varchar(50)  | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados fictícios
@@ -2194,6 +2268,8 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.15 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Selecionar os três clientes mais recentes
@@ -2207,6 +2283,14 @@ LIMIT 3;
 output
 
 ```bash
++------------+----------------+----------------------------+-----------+
+| CustomerID | CustomerName   | Email                      | Country   |
++------------+----------------+----------------------------+-----------+
+|          5 | Charlie Brown  | charlie.brown@example.com  | Germany   |
+|          4 | Alice Williams | alice.williams@example.com | Australia |
+|          3 | Bob Johnson    | bob.johnson@example.com    | UK        |
++------------+----------------+----------------------------+-----------+
+3 rows in set (0.00 sec)
 ```
 
 ```sql
@@ -2216,6 +2300,7 @@ DROP TABLE Customers;
 output
 
 ```bash
+Query OK, 0 rows affected (0.42 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2238,15 +2323,24 @@ CREATE TABLE Products (
 output
 
 ```bash
+Query OK, 0 rows affected (1.03 sec)
 ```
 
 ```sql
-DESCRIBE Products
+DESCRIBE Products;
 ```
 
 output
 
 ```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| ProductID   | int           | NO   | PRI | NULL    |       |
+| ProductName | varchar(50)   | YES  |     | NULL    |       |
+| Price       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados fictícios
@@ -2264,6 +2358,8 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.20 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Encontrar o menor preço
@@ -2276,6 +2372,12 @@ FROM Products;
 output
 
 ```bash
++-------------+
+| LowestPrice |
++-------------+
+|       14.99 |
++-------------+
+1 row in set (0.01 sec)
 ```
 
 Encontrar o maior preço
@@ -2288,15 +2390,22 @@ FROM Products;
 output
 
 ```bash
++--------------+
+| HighestPrice |
++--------------+
+|        39.99 |
++--------------+
+1 row in set (0.00 sec)
 ```
 
 ```SQL
-DROP TABLE Products
+DROP TABLE Products;
 ```
 
 output
 
 ```bash
+Query OK, 0 rows affected (0.56 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2318,6 +2427,7 @@ CREATE TABLE Produtos (
 output
 
 ```bash
+Query OK, 0 rows affected (0.59 sec)
 ```
 
 ```sql
@@ -2327,6 +2437,14 @@ DESCRIBE Produtos;
 output
 
 ```bash
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| IDProduto   | int           | NO   | PRI | NULL    |       |
+| NomeProduto | varchar(255)  | YES  |     | NULL    |       |
+| Preco       | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
 ```
 
 Insira alguns dados de exemplo
@@ -2344,6 +2462,8 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.11 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Encontre o número total de produtos na tabela Produtos
@@ -2356,6 +2476,12 @@ FROM Produtos;
 output
 
 ```bash
++---------------+
+| TotalProdutos |
++---------------+
+|             5 |
++---------------+
+1 row in set (0.00 sec)
 ```
 
 Encontre o número de produtos onde o preço é maior que 20
@@ -2369,6 +2495,12 @@ WHERE Preco > 20;
 output
 
 ```bash
++---------------+
+| ProdutosCaros |
++---------------+
+|             3 |
++---------------+
+1 row in set (0.00 sec)
 ```
 
 Quantos preços diferentes existem na tabela Produtos
@@ -2381,6 +2513,12 @@ FROM Produtos;
 output
 
 ```bash
++--------------+
+| PrecosUnicos |
++--------------+
+|            4 |
++--------------+
+1 row in set (0.00 sec)
 ```
 
 ```SQL
@@ -2390,6 +2528,7 @@ DROP TABLE Produtos;
 output
 
 ```bash
+Query OK, 0 rows affected (0.52 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
@@ -2410,6 +2549,7 @@ CREATE TABLE OrderDetails (
 output
 
 ```bash
+Query OK, 0 rows affected (0.68 sec)
 ```
 
 ```sql
@@ -2419,6 +2559,14 @@ DESCRIBE OrderDetails;
 output
 
 ```bash
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| OrderID     | int         | YES  |     | NULL    |       |
+| ProductName | varchar(50) | YES  |     | NULL    |       |
+| Quantity    | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 ```
 
 Inserir alguns dados de exemplo
@@ -2436,6 +2584,8 @@ VALUES
 output
 
 ```bash
+Query OK, 5 rows affected (0.15 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 ```
 
 Retornar a soma de todas as quantidades na tabela OrderDetails
@@ -2448,6 +2598,12 @@ FROM OrderDetails;
 output
 
 ```bash
++---------------+
+| TotalQuantity |
++---------------+
+|            42 |
++---------------+
+1 row in set (0.00 sec)
 ```
 
 ```sql
@@ -2457,6 +2613,7 @@ drop table OrderDetails;
 output
 
 ```bash
+Query OK, 0 rows affected (0.66 sec)
 ```
 
 **[:arrow_up: back to top](#índice)**
