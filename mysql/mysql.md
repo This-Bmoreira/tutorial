@@ -2620,9 +2620,289 @@ Query OK, 0 rows affected (0.66 sec)
 
 ### SQL AVG() Function
 
+A função AVG() retorna o valor médio de uma coluna numérica.
+
+Criar uma tabela Products
+
+```sql
+CREATE TABLE Products (
+    ProductID INT,
+    ProductName VARCHAR(255),
+    SupplierID INT,
+    CategoryID INT,
+    Unit VARCHAR(255),
+    Price DECIMAL(10, 2)
+);
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.63 sec)
+```
+
+Inserir dados de exemplo na tabela Products
+
+```sql
+INSERT INTO Products (ProductID, ProductName, SupplierID, CategoryID, Unit, Price)
+VALUES
+    (1, 'Chais', 1, 1, '10 caixas x 20 sacos', 18),
+    (2, 'Chang', 1, 1, '24 - garrafas de 12 oz', 19),
+    (3, 'Aniseed Syrup', 1, 2, '12 - garrafas de 550 ml', 10),
+    (4, 'Chef Anton\'s Cajun Seasoning', 2, 2, '48 - frascos de 6 oz', 22),
+    (5, 'Chef Anton\'s Gumbo Mix', 2, 2, '36 caixas', 21.35);
+```
+
+output
+
+```bash
+Query OK, 5 rows affected (0.15 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+```
+
+Exemplo: Encontrar o preço médio de todos os produtos
+
+```sql
+SELECT AVG(Price) AS preco_medio
+FROM Products;
+```
+
+output
+
+```bash
++-------------+
+| preco_medio |
++-------------+
+|   18.070000 |
++-------------+
+1 row in set (0.00 sec)
+```
+
+Exemplo: Retornar o preço médio dos produtos na categoria 1
+
+```sql
+SELECT AVG(Price) AS preco_medio
+FROM Products
+WHERE CategoryID = 1;
+```
+
+output
+
+```bash
++-------------+
+| preco_medio |
++-------------+
+|   18.500000 |
++-------------+
+1 row in set (0.00 sec)
+```
+
+Retornar todos os produtos com preço superior ao preço médio
+
+```sql
+SELECT *
+FROM Products
+WHERE Price > (SELECT AVG(Price) FROM Products);
+```
+
+output
+
+```bash
++-----------+------------------------------+------------+------------+------------------------+-------+
+| ProductID | ProductName                  | SupplierID | CategoryID | Unit                   | Price |
++-----------+------------------------------+------------+------------+------------------------+-------+
+|         2 | Chang                        |          1 |          1 | 24 - garrafas de 12 oz | 19.00 |
+|         4 | Chef Anton's Cajun Seasoning |          2 |          2 | 48 - frascos de 6 oz   | 22.00 |
+|         5 | Chef Anton's Gumbo Mix       |          2 |          2 | 36 caixas              | 21.35 |
++-----------+------------------------------+------------+------------+------------------------+-------+
+3 rows in set (0.01 sec)
+```
+
+```sql
+DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.94 sec)
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ## Operadores de Comparação
+
+Criação de uma tabela de exemplo chamada Products
+
+```sql
+CREATE TABLE Products (
+    ProductID INT,
+    ProductName VARCHAR(255),
+    SupplierID INT,
+    CategoryID INT,
+    Unit VARCHAR(255),
+    Price DECIMAL(10, 2)
+);
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.78 sec)
+```
+
+Inserção de dados de exemplo na tabela Products
+
+```sql
+INSERT INTO Products VALUES
+    (1, 'Chais', 1, 1, '10 caixas x 20 sacos', 18),
+    (2, 'Chang', 1, 1, '24 garrafas de 12 oz', 19),
+    (3, 'Aniseed Syrup', 1, 2, '12 garrafas de 550 ml', 10),
+    (4, 'Chef Anton''s Cajun Seasoning', 2, 2, '48 frascos de 6 oz', 22),
+    (5, 'Chef Anton''s Gumbo Mix', 2, 2, '36 caixas', 21.35);
+```
+
+output
+
+```bash
+Query OK, 5 rows affected (0.15 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
+Selecionar produtos com preço entre 10 e 20
+
+```sql
+SELECT * FROM Products
+WHERE Price BETWEEN 10 AND 20;
+```
+
+output
+
+```bash
++-----------+---------------+------------+------------+-----------------------+-------+
+| ProductID | ProductName   | SupplierID | CategoryID | Unit                  | Price |
++-----------+---------------+------------+------------+-----------------------+-------+
+|         1 | Chais         |          1 |          1 | 10 caixas x 20 sacos  | 18.00 |
+|         2 | Chang         |          1 |          1 | 24 garrafas de 12 oz  | 19.00 |
+|         3 | Aniseed Syrup |          1 |          2 | 12 garrafas de 550 ml | 10.00 |
++-----------+---------------+------------+------------+-----------------------+-------+
+3 rows in set (0.00 sec)
+```
+
+Selecionar produtos com preço NÃO entre 10 e 20
+
+```sql
+SELECT * FROM Products
+WHERE Price NOT BETWEEN 10 AND 20;
+```
+
+output
+
+```bash
++-----------+------------------------------+------------+------------+--------------------+-------+
+| ProductID | ProductName                  | SupplierID | CategoryID | Unit               | Price |
++-----------+------------------------------+------------+------------+--------------------+-------+
+|         4 | Chef Anton's Cajun Seasoning |          2 |          2 | 48 frascos de 6 oz | 22.00 |
+|         5 | Chef Anton's Gumbo Mix       |          2 |          2 | 36 caixas          | 21.35 |
++-----------+------------------------------+------------+------------+--------------------+-------+
+2 rows in set (0.00 sec)
+```
+
+Selecionar produtos com preço entre 10 e 20 e CategoryID em (1, 2, 3)
+
+```sql
+SELECT * FROM Products
+WHERE Price BETWEEN 10 AND 20
+AND CategoryID IN (1, 2, 3);
+```
+
+output
+
+```bash
++-----------+---------------+------------+------------+-----------------------+-------+
+| ProductID | ProductName   | SupplierID | CategoryID | Unit                  | Price |
++-----------+---------------+------------+------------+-----------------------+-------+
+|         1 | Chais         |          1 |          1 | 10 caixas x 20 sacos  | 18.00 |
+|         2 | Chang         |          1 |          1 | 24 garrafas de 12 oz  | 19.00 |
+|         3 | Aniseed Syrup |          1 |          2 | 12 garrafas de 550 ml | 10.00 |
++-----------+---------------+------------+------------+-----------------------+-------+
+3 rows in set (0.00 sec)
+```
+
+Selecionar produtos com ProductName entre 'Carnarvon Tigers' e 'Mozzarella di Giovanni'
+
+```sql
+-- (Ordenar por ProductName)
+SELECT * FROM Products
+WHERE ProductName BETWEEN 'Carnarvon Tigers' AND 'Mozzarella di Giovanni'
+ORDER BY ProductName;
+```
+
+output
+
+```bash
++-----------+------------------------------+------------+------------+----------------------+-------+
+| ProductID | ProductName                  | SupplierID | CategoryID | Unit                 | Price |
++-----------+------------------------------+------------+------------+----------------------+-------+
+|         1 | Chais                        |          1 |          1 | 10 caixas x 20 sacos | 18.00 |
+|         2 | Chang                        |          1 |          1 | 24 garrafas de 12 oz | 19.00 |
+|         4 | Chef Anton's Cajun Seasoning |          2 |          2 | 48 frascos de 6 oz   | 22.00 |
+|         5 | Chef Anton's Gumbo Mix       |          2 |          2 | 36 caixas            | 21.35 |
++-----------+------------------------------+------------+------------+----------------------+-------+
+4 rows in set (0.00 sec)
+```
+
+Selecionar produtos com ProductName entre 'Carnarvon Tigers' e 'Chef Anton''s Cajun Seasoning'
+
+```sql
+SELECT * FROM Products
+WHERE ProductName BETWEEN 'Carnarvon Tigers' AND 'Chef Anton''s Cajun Seasoning'
+ORDER BY ProductName;
+```
+
+output
+
+```bash
++-----------+------------------------------+------------+------------+----------------------+-------+
+| ProductID | ProductName                  | SupplierID | CategoryID | Unit                 | Price |
++-----------+------------------------------+------------+------------+----------------------+-------+
+|         1 | Chais                        |          1 |          1 | 10 caixas x 20 sacos | 18.00 |
+|         2 | Chang                        |          1 |          1 | 24 garrafas de 12 oz | 19.00 |
+|         4 | Chef Anton's Cajun Seasoning |          2 |          2 | 48 frascos de 6 oz   | 22.00 |
++-----------+------------------------------+------------+------------+----------------------+-------+
+```
+
+Selecionar produtos com ProductName NÃO entre 'Carnarvon Tigers' e 'Mozzarella di Giovanni'
+
+```sql
+SELECT * FROM Products
+WHERE ProductName NOT BETWEEN 'Carnarvon Tigers' AND 'Mozzarella di Giovanni'
+ORDER BY ProductName;
+```
+
+output
+
+```bash
++-----------+---------------+------------+------------+-----------------------+-------+
+| ProductID | ProductName   | SupplierID | CategoryID | Unit                  | Price |
++-----------+---------------+------------+------------+-----------------------+-------+
+|         3 | Aniseed Syrup |          1 |          2 | 12 garrafas de 550 ml | 10.00 |
++-----------+---------------+------------+------------+-----------------------+-------+
+1 row in set (0.00 sec)
+```
+
+Remova a tabela de exemplo quando terminar
+
+```sql
+DROP TABLE Products;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.90 sec)
+```
 
 **[:arrow_up: back to top](#índice)**
 
