@@ -2733,6 +2733,10 @@ Query OK, 0 rows affected (0.94 sec)
 
 ## Operadores de Comparação
 
+### SQL BETWEEN Operator
+
+O operador BETWEEN seleciona valores dentro de um determinado intervalo. Os valores podem ser números, texto ou datas.
+
 Criação de uma tabela de exemplo chamada Products
 
 ```sql
@@ -2906,19 +2910,466 @@ Query OK, 0 rows affected (0.90 sec)
 
 **[:arrow_up: back to top](#índice)**
 
-### SQL BETWEEN Operator
-
-**[:arrow_up: back to top](#índice)**
-
 ### SQL LIKE Operator
+
+O operador LIKE é usado em uma cláusula WHERE para procurar um padrão especificado em uma coluna.
+
+Existem dois curingas frequentemente usados em conjunto com o operador LIKE:
+
+O sinal de porcentagem% representa zero, um ou vários caracteres
+O sinal de sublinhado _ representa um único caractere
+
+```sql
+CREATE TABLE Produtos (
+    ProdutoID INT PRIMARY KEY,
+    NomeProduto VARCHAR(100),
+    Categoria VARCHAR(50),
+    Preco DECIMAL(10, 2)
+);
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.57 sec)
+```
+
+```sql
+INSERT INTO Produtos VALUES
+(1, 'Abacaxi', 'Frutas', 2.50),
+(2, 'Banana', 'Frutas', 1.75),
+(3, 'Maçã', 'Frutas', 3.00),
+(4, 'Laranja', 'Frutas', 2.80),
+(5, 'Leite', 'Laticínios', 3.50),
+(6, 'Queijo', 'Laticínios', 5.75),
+(7, 'Arroz', 'Grãos', 4.20),
+(8, 'Feijão', 'Grãos', 3.80),
+(9, 'Chocolate', 'Doces', 6.50),
+(10, 'Bolacha', 'Doces', 2.25);
+```
+
+output
+
+```bash
+Query OK, 10 rows affected (0.16 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+```
+
+Produtos que começam com 'A':
+
+```sql
+SELECT * FROM Produtos
+WHERE NomeProduto LIKE 'A%';
+```
+
+output
+
+```bash
++-----------+-------------+-----------+-------+
+| ProdutoID | NomeProduto | Categoria | Preco |
++-----------+-------------+-----------+-------+
+|         1 | Abacaxi     | Frutas    |  2.50 |
+|         7 | Arroz       | Gros      |  4.20 |
++-----------+-------------+-----------+-------+
+2 rows in set (0.00 sec)
+```
+
+Produtos que terminam com 'o':
+
+```sql
+SELECT * FROM Produtos
+WHERE NomeProduto LIKE '%o';
+```
+
+output
+
+```bash
++-----------+-------------+-----------+-------+
+| ProdutoID | NomeProduto | Categoria | Preco |
++-----------+-------------+-----------+-------+
+|         6 | Queijo      | Laticnios |  5.75 |
+|         8 | Feijo       | Gros      |  3.80 |
++-----------+-------------+-----------+-------+
+2 rows in set (0.00 sec)
+```
+
+Produtos que contêm a letra 'e':
+
+```sql
+SELECT * FROM Produtos
+WHERE NomeProduto LIKE '%e%';
+```
+
+output
+
+```bash
++-----------+-------------+-----------+-------+
+| ProdutoID | NomeProduto | Categoria | Preco |
++-----------+-------------+-----------+-------+
+|         5 | Leite       | Laticnios |  3.50 |
+|         6 | Queijo      | Laticnios |  5.75 |
+|         8 | Feijo       | Gros      |  3.80 |
+|         9 | Chocolate   | Doces     |  6.50 |
++-----------+-------------+-----------+-------+
+4 rows in set (0.00 sec)
+```
+
+Produtos na categoria 'Doces':
+
+```sql
+SELECT * FROM Produtos
+WHERE Categoria LIKE 'Doces';
+```
+
+output
+
+```bash
++-----------+-------------+-----------+-------+
+| ProdutoID | NomeProduto | Categoria | Preco |
++-----------+-------------+-----------+-------+
+|         9 | Chocolate   | Doces     |  6.50 |
+|        10 | Bolacha     | Doces     |  2.25 |
++-----------+-------------+-----------+-------+
+2 rows in set (0.00 sec)
+```
+
+Produtos que começam com 'Fr' e têm pelo menos 4 caracteres:
+
+```sql
+SELECT * FROM Produtos
+WHERE Categoria LIKE 'Fr%' AND LENGTH(NomeProduto) >= 4;
+```
+
+output
+
+```bash
++-----------+-------------+-----------+-------+
+| ProdutoID | NomeProduto | Categoria | Preco |
++-----------+-------------+-----------+-------+
+|         1 | Abacaxi     | Frutas    |  2.50 |
+|         2 | Banana      | Frutas    |  1.75 |
+|         4 | Laranja     | Frutas    |  2.80 |
++-----------+-------------+-----------+-------+
+3 rows in set (0.01 sec)
+```
+
+Produtos que têm 'a' como segunda letra no nome:
+
+```sql
+SELECT * FROM Produtos
+WHERE NomeProduto LIKE '_a%';
+```
+
+output
+
+```bash
++-----------+-------------+-----------+-------+
+| ProdutoID | NomeProduto | Categoria | Preco |
++-----------+-------------+-----------+-------+
+|         2 | Banana      | Frutas    |  1.75 |
+|         3 | Ma          | Frutas    |  3.00 |
+|         4 | Laranja     | Frutas    |  2.80 |
++-----------+-------------+-----------+-------+
+3 rows in set (0.00 sec)
+```
+
+```sql
+DROP TABLE Produtos;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.46 sec)
+```
 
 **[:arrow_up: back to top](#índice)**
 
 ### SQL Wildcard Characters
 
+Um caractere curinga é usado para substituir um ou mais caracteres em uma string.
+
+Caracteres curinga são usados com o operador LIKE.
+O operador LIKE é usado em uma cláusula WHERE para procurar um padrão especificado em uma coluna.
+
+```sql
+CREATE TABLE Produtos (
+    ProdutoID INT PRIMARY KEY,
+    NomeProduto VARCHAR(100),
+    Categoria VARCHAR(50),
+    Preco DECIMAL(10, 2)
+);
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.52 sec)
+```
+
+Inserindo dados na tabela Produtos
+
+```sql
+INSERT INTO Produtos VALUES
+(1, 'Notebook', 'Eletrônicos', 1200.00),
+(2, 'Fone de Ouvido', 'Acessórios', 50.00),
+(3, 'Mesa de Jantar', 'Móveis', 300.00),
+(4, 'Tênis Esportivo', 'Calçados', 80.00),
+(5, 'Panela de Pressão', 'Utensílios de Cozinha', 40.00),
+(6, 'Câmera Digital', 'Eletrônicos', 800.00),
+(7, 'Cadeira de Escritório', 'Móveis', 150.00),
+(8, 'Camiseta Casual', 'Vestuário', 25.00),
+(9, 'Liquidificador', 'Utensílios de Cozinha', 60.00),
+(10, 'Sapato Social', 'Calçados', 70.00);
+```
+
+output
+
+```bash
+Query OK, 10 rows affected (0.19 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+```
+
+Selecionando produtos cujo NomeProduto termina com 'o'
+
+```sql
+SELECT * FROM Produtos
+WHERE NomeProduto LIKE '%o';
+```
+
+output
+
+```bash
++-----------+----------------------+----------------------+--------+
+| ProdutoID | NomeProduto          | Categoria            | Preco  |
++-----------+----------------------+----------------------+--------+
+|         2 | Fone de Ouvido       | Acessrios            |  50.00 |
+|         4 | Tnis Esportivo       | Calados              |  80.00 |
+|         5 | Panela de Presso     | Utenslios de Cozinha |  40.00 |
+|         7 | Cadeira de Escritrio | Mveis                | 150.00 |
++-----------+----------------------+----------------------+--------+
+4 rows in set (0.00 sec)
+```
+
+Selecionando produtos cujo NomeProduto contém 'ca'
+
+```sql
+SELECT * FROM Produtos
+WHERE NomeProduto LIKE '%ca%';
+```
+
+output
+
+```bash
++-----------+----------------------+----------------------+--------+
+| ProdutoID | NomeProduto          | Categoria            | Preco  |
++-----------+----------------------+----------------------+--------+
+|         7 | Cadeira de Escritrio | Mveis                | 150.00 |
+|         8 | Camiseta Casual      | Vesturio             |  25.00 |
+|         9 | Liquidificador       | Utenslios de Cozinha |  60.00 |
++-----------+----------------------+----------------------+--------+
+3 rows in set (0.00 sec)
+```
+
+Selecionando produtos cuja Categoria começa com 'E' e tem mais de 8 caracteres
+
+```sql
+SELECT * FROM Produtos
+WHERE Categoria LIKE 'E%' AND LENGTH(NomeProduto) > 8;
+```
+
+output
+
+```bash
++-----------+---------------+------------+--------+
+| ProdutoID | NomeProduto   | Categoria  | Preco  |
++-----------+---------------+------------+--------+
+|         6 | Cmera Digital | Eletrnicos | 800.00 |
++-----------+---------------+------------+--------+
+1 row in set (0.00 sec)
+```
+
+Selecionando produtos cuja Categoria é 'Móveis' ou 'Vestuário'
+
+```sql
+SELECT * FROM Produtos
+WHERE Categoria IN ('Móveis', 'Vestuário');
+```
+
+output
+
+```bash
++-----------+----------------------+-----------+--------+
+| ProdutoID | NomeProduto          | Categoria | Preco  |
++-----------+----------------------+-----------+--------+
+|         3 | Mesa de Jantar       | Mveis     | 300.00 |
+|         7 | Cadeira de Escritrio | Mveis     | 150.00 |
+|         8 | Camiseta Casual      | Vesturio  |  25.00 |
++-----------+----------------------+-----------+--------+
+3 rows in set (0.00 sec)
+```
+
+```sql
+DROP TABLE Produtos;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.85 sec)
+```
+
 **[:arrow_up: back to top](#índice)**
 
 ### SQL IN Operator
+
+O operador IN permite especificar vários valores em uma cláusula WHERE.
+
+```sql
+CREATE TABLE Clientes (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    ContactName VARCHAR(50),
+    Address VARCHAR(150),
+    City VARCHAR(50),
+    PostalCode VARCHAR(10),
+    Country VARCHAR(50)
+);
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.57 sec)
+```
+
+```sql
+CREATE TABLE Pedidos (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Clientes(CustomerID)
+);
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (1.48 sec)
+```
+
+```sql
+INSERT INTO Clientes VALUES
+(1, 'Alfreds Futterkiste', 'Maria Anders', 'Obere Str. 57', 'Berlin', '12209', 'Germany'),
+(2, 'Ana Trujillo Emparedados y helados', 'Ana Trujillo', 'Avda. de la Constitución 2222', 'México D.F.', '05021', 'Mexico'),
+(3, 'Antonio Moreno Taquería', 'Antonio Moreno', 'Mataderos 2312', 'México D.F.', '05023', 'Mexico'),
+(4, 'Around the Horn', 'Thomas Hardy', '120 Hanover Sq.', 'London', 'WA1 1DP', 'UK'),
+(5, 'Berglunds snabbköp', 'Christina Berglund', 'Berguvsvägen 8', 'Luleå', 'S-958 22', 'Sweden');
+```
+
+output
+
+```bash
+Query OK, 5 rows affected (0.13 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
+```sql
+INSERT INTO Pedidos VALUES
+(1, 1, '2023-01-10', 150.00),
+(2, 2, '2023-02-15', 200.50),
+(3, 3, '2023-03-20', 75.80),
+(4, 4, '2023-04-25', 300.25);
+```
+
+output
+
+```bash
+Query OK, 4 rows affected (0.10 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+```
+
+```sql
+SELECT * FROM Clientes
+WHERE Country IN ('Germany', 'France', 'UK');
+```
+
+output
+
+```bash
++------------+---------------------+--------------+-----------------+--------+------------+---------+
+| CustomerID | CustomerName        | ContactName  | Address         | City   | PostalCode | Country |
++------------+---------------------+--------------+-----------------+--------+------------+---------+
+|          1 | Alfreds Futterkiste | Maria Anders | Obere Str. 57   | Berlin | 12209      | Germany |
+|          4 | Around the Horn     | Thomas Hardy | 120 Hanover Sq. | London | WA1 1DP    | UK      |
++------------+---------------------+--------------+-----------------+--------+------------+---------+
+2 rows in set (0.00 sec)
+```
+
+```sql
+SELECT * FROM Clientes
+WHERE Country NOT IN ('Germany', 'France', 'UK');
+```
+
+output
+
+```bash
++------------+------------------------------------+--------------------+------------------------------+------------+------------+---------+
+| CustomerID | CustomerName                       | ContactName        | Address                      | City       | PostalCode | Country |
++------------+------------------------------------+--------------------+------------------------------+------------+------------+---------+
+|          2 | Ana Trujillo Emparedados y helados | Ana Trujillo       | Avda. de la Constitucin 2222 | Mxico D.F. | 05021      | Mexico  |
+|          3 | Antonio Moreno Taquera             | Antonio Moreno     | Mataderos 2312               | Mxico D.F. | 05023      | Mexico  |
+|          5 | Berglunds snabbkp                  | Christina Berglund | Berguvsvgen 8                | Lule       | S-958 22   | Sweden  |
++------------+------------------------------------+--------------------+------------------------------+------------+------------+---------+
+3 rows in set (0.00 sec)
+```
+
+```sql
+SELECT * FROM Clientes
+WHERE CustomerID IN (SELECT CustomerID FROM Pedidos);
+```
+
+output
+
+```bash
++------------+------------------------------------+----------------+------------------------------+------------+------------+---------+
+| CustomerID | CustomerName                       | ContactName    | Address                      | City       | PostalCode | Country |
++------------+------------------------------------+----------------+------------------------------+------------+------------+---------+
+|          1 | Alfreds Futterkiste                | Maria Anders   | Obere Str. 57                | Berlin     | 12209      | Germany |
+|          2 | Ana Trujillo Emparedados y helados | Ana Trujillo   | Avda. de la Constitucin 2222 | Mxico D.F. | 05021      | Mexico  |
+|          3 | Antonio Moreno Taquera             | Antonio Moreno | Mataderos 2312               | Mxico D.F. | 05023      | Mexico  |
+|          4 | Around the Horn                    | Thomas Hardy   | 120 Hanover Sq.              | London     | WA1 1DP    | UK      |
++------------+------------------------------------+----------------+------------------------------+------------+------------+---------+
+4 rows in set (0.01 sec)
+```
+
+```sql
+SELECT * FROM Clientes
+WHERE CustomerID NOT IN (SELECT CustomerID FROM Pedidos);
+```
+
+output
+
+```bash
++------------+-------------------+--------------------+---------------+------+------------+---------+
+| CustomerID | CustomerName      | ContactName        | Address       | City | PostalCode | Country |
++------------+-------------------+--------------------+---------------+------+------------+---------+
+|          5 | Berglunds snabbkp | Christina Berglund | Berguvsvgen 8 | Lule | S-958 22   | Sweden  |
++------------+-------------------+--------------------+---------------+------+------------+---------+
+1 row in set (0.00 sec)
+```
+
+```sql
+DROP TABLE Pedidos;
+DROP TABLE Clientes;
+```
+
+output
+
+```bash
+Query OK, 0 rows affected (0.49 sec)
+```
 
 **[:arrow_up: back to top](#índice)**
 
